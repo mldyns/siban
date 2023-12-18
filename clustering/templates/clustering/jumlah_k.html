@@ -1,0 +1,213 @@
+{% extends 'base.html' %} 
+{% load static %} 
+{% block head %}
+{% endblock head %} {% block body %}
+<div class="content-body" style="min-height: 788px">
+  <div class="row page-titles mx-0">
+    <div class="col p-md-0">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a href="#">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item active">
+          <a href="#">List DTKS</a>
+        </li>
+      </ol>
+    </div>
+  </div>
+  <!-- row -->
+
+  <div class="container-fluid">
+    <div class="row">
+
+      <div class="col-12">
+        <div class="card">
+          <div class="card-body">
+              <h4 class="card-title mb-4">Perhitungan Clustering</h4>
+              <form method="POST">
+                {% csrf_token %}
+              <div class="table-responsive input-cluster" style="height:300px;overflow:auto;">
+                <table class="table" style="border:1px solid #252e4b">
+                  <thead style="background-color:white;position:sticky;top:0;">
+                    <tr>
+                      <th style="width:0%">#</th>
+                      <th style="width:5%">No</th>
+                      <th>Nama Atribut</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for atr in atribut %}
+                    <tr id="{{atr}}">
+                          <th><input class="{{atr}} checkbox" type="checkbox" name="{{atr}}"></th>
+                          <th>{{forloop.counter}}</th>
+                          <td>{{atr}}</td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+                <button type="submit" class="btn mb-1" style="width:100%;background-color:#252e4b;color:white;">Proses Analisis</button>
+              </form>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Davies Bouldin Index</h4>
+                <div class="row">
+                  <div class="col-6">
+                <canvas id="dbi_chart" width="600" height="400"></canvas>
+              </div>
+              <div class="col-6">
+                  <table class="table" style="border:2px solid #eeeee4">
+                    <thead style="background-color:#eeeee4;">
+                      <tr>
+                        <th style="width:5%">No</th>
+                        <th>Nilai DBI</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for dbi_ in dbi %}
+                      <tr>
+                            <th>{{dbi_.index}}</th>
+                            <td>{{dbi_.dbi}}</td>
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+            </div>
+      </div>
+    </div>
+    <div class="col-12">
+      <div class="card">
+          <div class="card-body">
+              <h4 class="card-title">Silhouette Coefficient</h4>
+              <div class="row">
+                <div class="col-6">
+              <canvas id="silhouette_chart" width="600" height="400"></canvas>
+            </div>
+            <div class="col-6">
+                <table class="table" style="border:2px solid #eeeee4">
+                  <thead style="background-color:#eeeee4;">
+                    <tr>
+                      <th style="width:5%">No</th>
+                      <th>Nilai Silhouette Coefficient</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for silhouette_ in silhouette %}
+                    <tr>
+                          <th>{{silhouette_.index}}</th>
+                          <td>{{silhouette_.silhouette}}</td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+          </div>
+    </div>
+  </div>
+    </div>
+  </div>
+  <!-- #/ container -->
+</div>
+{% endblock body %}
+
+{% block footer %}
+<script>
+  $(".js-example-basic-single").select2({
+    tags: true
+  });
+  
+  {% if dbi %}
+  $('button[type="submit"]').prop("hidden",true);
+  $('.input-cluster').css("height", "");
+
+  {% for atr in atribut %}
+    {% if atr in value %}
+    $('.{{atr}}').prop("checked", true).prop("disabled",true);
+    {% else %}
+    $('#{{atr}}').prop("hidden",true);
+    {% endif %}
+    {% endfor %}
+  
+  {% endif %}
+  
+  var data_dbi = [];
+      {% for dbi_ in dbi %}
+        data_dbi.push({{dbi_.dbi}});
+      {% endfor %}
+  
+  var data_silhouette = [];
+      {% for silhouette_ in silhouette %}
+        data_silhouette.push({{silhouette_.silhouette}});
+      {% endfor %}
+
+  var data_index = [];
+      {% for dbi_ in dbi %}
+        data_index.push(String({{dbi_.index}}));
+      {% endfor %}
+  
+  console.log(data_index)
+  var ctx = document.getElementById("dbi_chart");
+  var ctx1 = document.getElementById("silhouette_chart");
+
+  new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: data_index,
+        datasets: [{
+            data: data_dbi,
+            lineTension: 0,
+            fill: false,
+            borderColor: "#06254f",
+        }]
+    },
+    options: {
+        legend:{
+          display : false
+        },
+        responsive: true,
+        scales: {
+        y: {
+            beginAtZero: true,
+            max: 1
+            }
+        }
+    }
+});
+
+new Chart(ctx1, {
+  type: 'line',
+  data: {
+      labels: data_index,
+      datasets: [{
+          data: data_silhouette,
+          lineTension: 0,
+          fill: false,
+          borderColor: "#06254f",
+      }]
+  },
+  options: {
+      legend:{
+        display : false
+      },
+      responsive: true,
+      scales: {
+      y: {
+          beginAtZero: true,
+          max: 1
+          }
+      }
+  }
+});
+
+</script>
+
+
+{% endblock footer %}

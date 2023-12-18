@@ -1,0 +1,153 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block head %}
+
+{% endblock head %}
+
+
+{% block body %}
+<!--**********************************
+            Content body start
+        ***********************************-->
+        <div class="content-body" style="min-height: 788px">
+            <div class="row page-titles mx-0">
+              <div class="col p-md-0">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item">
+                    <a href="{% url 'dashboard' %}">Dashboard</a>
+                  </li>
+                  <li class="breadcrumb-item active">
+                    <a href="{% url 'account:user' %}">{{title}}</a>
+                  </li>
+                </ol>
+              </div>
+            </div>
+            <!-- row -->
+          
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-12">
+                    {% if messages %}
+                        {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }} alert-dismissible fade show">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span>
+                        </button>{{message}}</div>
+                        {% endfor %}
+                    {% endif %}
+                    {% comment %} {% for field, error in form.errors.items %} {% endcomment %}
+                    {% comment %} <div class="alert alert- my-3 p-1" role="alert"> {% endcomment %}
+                    {% comment %} <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span>
+                        </button>{{ error|striptags }}</div>
+                    </div>
+                    {% endfor %} {% endcomment %}
+                    {% comment %} {% if messages %}
+                    <ul class="messages">
+                        {% for message in messages %}
+                        <li  {% if message.tags %} class=" {{ message.tags }} " {% endif %}> {{ message }} </li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %} {% endcomment %}
+                  <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Tambah User</h4>
+                        <div class="basic-form">
+                            <form method="POST">
+                                {% csrf_token %}
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="recipient-name" class="col-form-label">Nama<span class="text-danger">*</span></label>
+                                        {{form.name}}
+                                        <strong class="text-danger">{{form.name.errors}}</strong>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="recipient-name" class="col-form-label">Username<span class="text-danger">*</span></label>
+                                        {{form.username}}
+                                        <strong class="text-danger">{{form.username.errors}}</strong>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="recipient-name" class="col-form-label">Password<span class="text-danger">*</span></label>
+                                        {{form.password1}}
+                                        <span id="eye-pass" toggle="#password" class="fa fa-fw fa-eye field-icon toggle-password" onclick="showPass()"></span>
+                                        <strong class="text-danger">{{form.password1.errors}}</strong>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="recipient-name" class="col-form-label">Password Confirmation<span class="text-danger">*</span></label>
+                                        {{form.password2}}
+                                        <span id="eye-pass" toggle="#password" class="fa fa-fw fa-eye field-icon toggle-password" onclick="showPass2()"></span>
+                                        <strong class="text-danger mb-0">{{form.password2.errors}}</strong>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="recipient-name" class="col-form-label">Lokasi<span class="text-danger">*</span></label>
+                                                {{form.location}}
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="recipient-name" class="col-form-label">Role<span class="text-danger">*</span></label>
+                                            <select class="form-control" id="role" name="role" required>
+                                                <option  selected="true" value="">--Pilih Role--</option>
+                                                <option value="Admin">Admin</option>
+                                                <option value="TKSK">TKSK</option>
+                                            </select>
+                                    </div>
+                                </div>
+                                <button type="submit" name="add" value="add" class="btn btn-primary float-right ml-2">Add</button>
+                                <button type="submit" name="add_another" value="add_another" class="btn btn-success float-right">Add another</button>
+                            </form>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- #/ container -->
+          </div>
+    <!--**********************************
+            Content body end
+        ***********************************-->
+
+{% endblock body %}
+
+{% block footer %}
+<script>
+  function showPass() {
+    var x = document.getElementById("password1");
+    if (x.type === "password") {
+      x.type = "text";   
+      document.getElementById("eye-pass").classList.add("fa-eye-slash");
+      document.getElementById("eye-pass").classList.remove("fa-eye");
+    } else {
+      x.type = "password";
+      document.getElementById("eye-pass").classList.add("fa-eye");
+      document.getElementById("eye-pass").classList.remove("fa-eye-slash");
+    }
+  }
+  function showPass2() {
+    var y = document.getElementById("password2");
+    if (y.type === "password") {
+      y.type = "text";   
+      document.getElementById("eye-pass").classList.add("fa-eye-slash");
+      document.getElementById("eye-pass").classList.remove("fa-eye");
+    } else {
+      y.type = "password";
+      document.getElementById("eye-pass").classList.add("fa-eye");
+      document.getElementById("eye-pass").classList.remove("fa-eye-slash");
+    }
+  }
+  {% comment %} function showPass1(id) {
+    var x = document.getElementById(id);
+    if (x.type === "password") {
+      x.type = "text";   
+      document.getElementById("eye-pass"+id).classList.add("fa-eye-slash");
+      document.getElementById("eye-pass"+id).classList.remove("fa-eye");
+    } else {
+      x.type = "password";
+      document.getElementById("eye-pass"+id).classList.add("fa-eye");
+      document.getElementById("eye-pass"+id).classList.remove("fa-eye-slash");
+    }
+  } {% endcomment %}
+</script>
+{% endblock footer %}

@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block head %}{% endblock head %}
+
+{% block body %}
+<div class="content-body">
+
+    <div class="container-fluid mt-3">
+        
+        <div class="row">
+            
+            <div class="col-xl-6 col-lg-12 col-sm-12 col-xxl-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-12">
+                                <h4 class="card-title mb-3">Export Data Penerima</h4>
+                                <form action="{% url 'exportdata:export' %}" method="POST">
+                                  {% csrf_token %}
+                                  <div class="form-group">
+                                  {{form.as_p}}
+                                  </div>
+                                  <button type="submit" class="mb-4 btn btn-success text-white">Download Excel</button>
+                                </form>
+                                {% comment %} <form class="row g-3">
+                                    <div class="col-md-3 form-group">
+                                      <label for="inputState" class="form-label">Bantuan Sosial</label>
+                                      <select id="inputState" class="form-control">
+                                        <option value="">Sembako Disabilitas</option>
+                                        <option value="">Sembako Lansia</option>
+                                      </select>
+                                    </div>
+                                    <div class="col-md-3 form-group">
+                                      <label for="inputState" class="form-label">Tahun</label>
+                                      <select id="inputState" class="form-control">
+                                        <option value="">2021</option>
+                                        <option value="">2022</option>
+                                      </select>
+                                    </div>
+                                    <div class="col-md-3 form-group">
+                                      <label for="inputState" class="form-label">Kecamatan</label>
+                                      <select id="inputState" class="form-control">
+                                        <option value="">Kalimanah</option>
+                                        <option value="">Bobotsari</option>
+                                      </select>
+                                    </div>
+                                    <div class="col-md-3 mt-3 form-group">
+                                      <label for="inputState" class="form-label"></label>
+                                      <a href="{% url 'exportdata:export' %}" class=" btn btn-primary" style="margin-top: 16px;">Filter</a>
+                                    </div>
+                                </form> {% endcomment %}
+                            </div>
+                        </div>
+                    </div>        
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <!-- #/ container -->
+{% endblock body %}
+
+{% block footer %}{% endblock footer %}

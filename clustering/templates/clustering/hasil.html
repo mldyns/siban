@@ -1,0 +1,153 @@
+{% extends base %} 
+{% load static %} 
+{% block head %}
+{% endblock head %} 
+
+{% block body %}
+
+<div class="content-body" style="min-height: 788px">
+  <div class="row page-titles mx-0">
+    <div class="col p-md-0">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a href="#">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item active">
+          <a href="#">List DTKS</a>
+        </li>
+      </ol>
+    </div>
+  </div>
+  <!-- row -->
+  
+  <div class="container-fluid">
+    <div class="row">
+
+      <!-- Analisis Data -->
+      <div class="col-12">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title mb-4">Deskripsi Atribut</h4>
+            <div class="table-responsive" style="border:1px solid #252e4b;">
+              <table class="table">
+                  <thead style="background-color:#252e4b;color:white;position:sticky;top:0;">
+                      <tr>
+                          <th>#</th>
+                          <th>Nama Cluster</th>
+                          <th>Jumlah K</th>
+                          <th>Ket. Atribut</th>
+                          <th>Aksi</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                    {% for cl in cluster %}
+                      <tr>
+                          <th>{{forloop.counter}}</th>
+                          <td>{{cl.nama_cluster}}</td>
+                          <td>{{cl.jumlah_k}}</td>
+                          <td>{{cl.atribut}}</td>
+                          <td class="color-primary">
+                            <div class="btn-group" role="group">
+                              <button type="button" class="btn mb-1 btn-info  dropdown-toggle" style="padding:3px 20px" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Aksi</button>
+                              <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 37px, 0px);">
+                                <a class="dropdown-item " href="{% url 'clustering:c' cl.nama_cluster %}"><i class="fa fa-eye font-18 align-middle mr-2"></i>Detail Data</a>
+                                {% comment %} <a class="dropdown-item" href="{% url 'clustering:c' cl.nama_cluster %}"><i class="fa fa-pencil font-18 align-middle mr-2"></i>Edit Data</a>  {% endcomment %}
+                                <form class="{{no_edit}}" method="POST" action="{% url 'clustering:delete' cl.nama_cluster %}">
+                                  {% csrf_token %}
+                                  <input  name="_method" type="hidden" value="DELETE">
+                                  <a href="#" class="sweet-confirm show_confirm dropdown-item" data-toggle="tooltip" title='Delete'><i class="fa fa-trash font-18 align-middle mr-2"></i>Delete Data</a>
+                                </form>
+                              </div>
+                          </td>
+                      </tr>
+                      {% endfor %}
+                  </tbody>
+              </table>
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- #/ container -->
+</div>
+{% endblock body %}
+
+{% block footer %}
+
+<script>
+  $(".js-example-basic-single").select2({
+    tags: true
+  });
+
+
+  const ctx = document.getElementById('pieChart');
+  const bar = document.getElementById('barchart');
+  new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      datasets: [{
+          data: [45, 25, 20, 10],
+          backgroundColor: [
+              "rgba(117, 113, 249,0.9)",
+              "rgba(117, 113, 249,0.7)",
+              "rgba(117, 113, 249,0.5)",
+              "rgba(144,	104,	190,0.7)"
+          ],
+          hoverBackgroundColor: [
+              "rgba(117, 113, 249,0.9)",
+              "rgba(117, 113, 249,0.7)",
+              "rgba(117, 113, 249,0.5)",
+              "rgba(144,	104,	190,0.7)"
+          ]
+
+      }],
+      labels: [
+          "green",
+          "green",
+          "green"
+      ]
+  },
+  options: {
+      responsive: true
+  }
+  });
+  new Chart(bar, {
+    type: 'bar',
+    data: {
+    datasets: [{
+      label: 'My First Dataset',
+      data: [65, 59, 80, 81, 56, 55, 40],
+      backgroundColor: [
+        'rgba(255, 99, 132, 0.2)',
+        'rgba(255, 159, 64, 0.2)',
+        'rgba(255, 205, 86, 0.2)',
+        'rgba(75, 192, 192, 0.2)',
+        'rgba(54, 162, 235, 0.2)',
+        'rgba(153, 102, 255, 0.2)',
+        'rgba(201, 203, 207, 0.2)'
+      ],
+      borderColor: [
+        'rgb(255, 99, 132)',
+        'rgb(255, 159, 64)',
+        'rgb(255, 205, 86)',
+        'rgb(75, 192, 192)',
+        'rgb(54, 162, 235)',
+        'rgb(153, 102, 255)',
+        'rgb(201, 203, 207)'
+      ],
+      borderWidth: 1
+    }],
+    labels: [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+      ]
+  }
+  });
+</script>
+
+{% endblock footer %}

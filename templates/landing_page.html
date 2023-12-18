@@ -1,0 +1,650 @@
+{% load static %} 
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Sistem Bantuan Sosial Purbalingga</title>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta name="author" content="" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'landing_page/css/bootstrap.min.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'landing_page/css/magnific-popup.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'landing_page/css/font-awesome.min.css' %}"
+    />
+
+    <!-- MAIN CSS -->
+    <link
+      rel="stylesheet"
+      href="{% static 'landing_page/css/templatemo-style.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'admin/plugins/owl.carousel/dist/css/owl.carousel.min.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'admin/plugins/owl.carousel/dist/css/owl.theme.default.min.css' %}"
+    />
+    <!--Leaflet-->
+    <link rel="stylesheet" href="{% static "mapping/leaflet/leaflet.css" %}"/>
+    <script src="{% static "mapping/leaflet/leaflet.js" %}"></script>
+
+    <style>
+        #map { height: 570px; width: 750px; }
+    </style>
+  </head>
+  <body>
+    <!-- PRE LOADER -->
+    <section class="preloader">
+      <div class="spinner">
+        <span class="spinner-rotate"></span>
+      </div>
+    </section>
+
+    <!-- MENU -->
+    <section class="navbar custom-navbar navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button
+            class="navbar-toggle"
+            data-toggle="collapse"
+            data-target=".navbar-collapse"
+          >
+            <span class="icon icon-bar"></span>
+            <span class="icon icon-bar"></span>
+            <span class="icon icon-bar"></span>
+          </button>
+
+          <!-- lOGO TEXT HERE -->
+          <a href="/" class="navbar-brand">DINSOSDALDUKKBP3A</a>
+        </div>
+
+        <!-- MENU LINKS -->
+        <div class="collapse navbar-collapse">
+          {% comment %} <ul class="nav navbar-nav navbar-nav-first">
+            <li><a href="" class="smoothScroll">Home</a></li>
+            <li><a href="#work" class="smoothScroll">Data</a></li>
+            <li><a href="#contact" class="smoothScroll">Kontak</a></li>
+          </ul> {% endcomment %}
+
+          <ul class="nav navbar-nav navbar-right">
+            <li class="section-btn">
+              <a href="{% url 'account:login' %}">Sign in / Join</a>
+              {% comment %} <a href="#" data-toggle="modal" data-target="#modal-form"
+                >Sign in / Join</a> {% endcomment %}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+<!-- HOME -->
+<section id="home" data-stellar-background-ratio="0.5">
+  <div class="overlay"></div>
+  <div class="container">
+    <div class="col-md-12 col-sm-12 text-center">
+      <div class="home-info">
+        <h1>Sistem Bantuan Sosial Kabupaten Purbalingga.</h1>
+      </div>
+      <div class="row carousel-row">
+        <div class="owl-carousel owl-theme" id="owl-carousel">
+          <div class="item">
+            <div class="media blog-thumb">
+              <div class="media-body blog-info">
+                <h3>
+                  <a href="bansos/lansia"
+                    >Data Penerima Bansos Disabilitas.</a
+                  >
+                </h3>
+                <p>
+                  Total penerima bansos lansia pada tahun ini sejumlah<span
+                    class="number"
+                  >
+                    100</span
+                  >
+                  penduduk.
+                </p>
+                <a href="bansos/lansia" class="btn section-btn">Selengkapnya</a>
+              </div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="media blog-thumb">
+              <div class="media-body blog-info">
+                <h3>
+                  <a href="bansos/disabilitas">Data Penerima Bansos Lansia.</a>
+                </h3>
+                <p>
+                  Total penerima bansos lansia pada tahun ini sejumlah<span
+                    class="number"
+                  >
+                    100</span
+                  >
+                  penduduk.
+                </p>
+                <a href="bansos/disabilitas" class="btn section-btn"
+                  >Selengkapnya</a
+                >
+              </div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="media blog-thumb">
+              <div class="media-body blog-info">
+                <h3>
+                  <a href="bansos/yatim-piatu">Data Penerima Bansos Lansia.</a>
+                </h3>
+                <p>
+                  Total penerima bansos lansia pada tahun ini sejumlah<span
+                    class="number"
+                  >
+                    100</span
+                  >
+                  penduduk.
+                </p>
+                <a href="bansos/yatim-piatu" class="btn section-btn"
+                  >Selengkapnya</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PERSEBARAN -->
+<section id="work" data-stellar-background-ratio="0.5">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 col-sm-12">
+        <div class="section-title">
+          <h2>Data Persebaran</h2>
+        </div>
+      </div>
+      <div class="col-md-8 col-sm-8">
+        <div id="map"></div>
+      </div>
+      <div class="col-md-4 col-sm-4">
+        <div class="maps blog-thumb">
+          <div class="media-body blog-info">
+            <h3>
+              <a href="blog-detail.html">Keterangan.</a>
+            </h3>
+            <div class="ket-peta">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 384 512"
+                class="icon-loc"
+              >
+                <path
+                  d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"
+                />
+              </svg>
+              <p>Sembako Lansia.</p>
+            </div>
+            <div class="ket-peta">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 384 512"
+                class="icon-loc"
+              >
+                <path
+                  d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"
+                />
+              </svg>
+              <p>Sembako Lansia.</p>
+            </div>
+            <div class="ket-peta">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 384 512"
+                class="icon-loc"
+              >
+                <path
+                  d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"
+                />
+              </svg>
+              <p>Sembako Lansia.</p>
+            </div>
+            <div class="ket-peta">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 384 512"
+                class="icon-loc"
+              >
+                <path
+                  d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"
+                />
+              </svg>
+              <p>Sembako Lansia.</p>
+            </div>
+            <div class="ket-peta">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 384 512"
+                class="icon-loc"
+              >
+                <path
+                  d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"
+                />
+              </svg>
+              <p>Sembako Lansia.</p>
+            </div>
+            <div class="ket-peta">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 384 512"
+                class="icon-loc"
+              >
+                <path
+                  d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"
+                />
+              </svg>
+              <p>Sembako Lansia.</p>
+            </div>
+            <div class="ket-peta">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 384 512"
+                class="icon-loc"
+              >
+                <path
+                  d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"
+                />
+              </svg>
+              <p>Sembako Lansia.</p>
+            </div>
+            <div class="ket-peta">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 384 512"
+                class="icon-loc"
+              >
+                <path
+                  d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"
+                />
+              </svg>
+              <p>Sembako Lansia.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- CONTACT -->
+<section id="contact" data-stellar-background-ratio="0.5">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 col-sm-12">
+        <div class="section-title">
+          <h2>Hubungi Kami</h2>
+        </div>
+      </div>
+
+      <div class="col-md-8 col-sm-8">
+        <!-- CONTACT FORM HERE -->
+        <form id="contact-form" role="form" action="#" method="post">
+          <div class="col-md-6 col-sm-6">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Full Name"
+              id="cf-name"
+              name="cf-name"
+              required=""
+            />
+          </div>
+          <div class="col-md-6 col-sm-6">
+            <input
+              type="tel"
+              class="form-control"
+              placeholder="Your Phone"
+              id="cf-number"
+              name="cf-number"
+              required=""
+            />
+          </div>
+
+          <div class="col-md-12 col-sm-12">
+            <textarea
+              class="form-control"
+              rows="6"
+              placeholder="Your requirements"
+              id="cf-message"
+              name="cf-message"
+              required=""
+            ></textarea>
+          </div>
+
+          <div class="col-md-4 col-sm-12">
+            <input
+              type="submit"
+              class="form-control"
+              name="submit"
+              value="Send Message"
+            />
+          </div>
+        </form>
+      </div>
+
+      <div class="col-md-4 col-sm-4">
+        <div class="google-map">
+          <!-- How to change your own map point
+            1. Go to Google Maps
+            2. Click on your location point
+            3. Click "Share" and choose "Embed map" tab
+            4. Copy only URL and paste it within the src="" field below
+	-->
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3647.3030413476204!2d100.5641230193719!3d13.757206847615207!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xf51ce6427b7918fc!2sG+Tower!5e0!3m2!1sen!2sth!4v1510722015945"
+            allowfullscreen
+          ></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer data-stellar-background-ratio="0.5">
+  <div class="container">
+    {% comment %}
+    <div class="row">
+      {% endcomment %} {% comment %}
+      <div class="col-md-5 col-sm-12">
+        <div class="footer-thumb footer-info">
+          <h2>Hydro Company</h2>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          </p>
+        </div>
+      </div>
+
+      <div class="col-md-2 col-sm-4">
+        <div class="footer-thumb">
+          <h2>Company</h2>
+          <ul class="footer-link">
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">Join our team</a></li>
+            <li><a href="#">Read Blog</a></li>
+            <li><a href="#">Press</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="col-md-2 col-sm-4">
+        <div class="footer-thumb">
+          <h2>Services</h2>
+          <ul class="footer-link">
+            <li><a href="#">Pricing</a></li>
+            <li><a href="#">Documentation</a></li>
+            <li><a href="#">Support</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="col-md-3 col-sm-4">
+        <div class="footer-thumb">
+          <h2>Find us</h2>
+          <p>
+            123 Grand Rama IX, <br />
+            Krung Thep Maha Nakhon 10400
+          </p>
+        </div>
+      </div>
+      {% endcomment %}
+
+      <div class="col-md-12 col-sm-12">
+        {% comment %}
+        <div class="footer-bottom">
+          {% endcomment %}
+          <div class="col-md-6 col-sm-5">
+            <div class="copyright-text">
+              <p>Copyright &copy; 2023 Shingibanggi Company</p>
+            </div>
+          </div>
+          <div class="col-md-6 col-sm-7">
+            <ul class="social-icon">
+              <li>
+                <a
+                  href="https://www.facebook.com/templatemo"
+                  class="fa fa-facebook-square"
+                  attr="facebook icon"
+                ></a>
+              </li>
+              <li><a href="#" class="fa fa-twitter"></a></li>
+              <li><a href="#" class="fa fa-instagram"></a></li>
+            </ul>
+          </div>
+          {% comment %}
+        </div>
+        {% endcomment %}
+      </div>
+      {% comment %}
+    </div>
+    {% endcomment %}
+  </div>
+</footer>
+
+<!-- MODAL -->
+<section
+  class="modal fade"
+  id="modal-form"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="myModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content modal-popup">
+      <div class="modal-header">
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-12 col-sm-12">
+              <div class="modal-title">
+                <h2>Hydro Co</h2>
+              </div>
+
+              <!-- NAV TABS -->
+              <ul class="nav nav-tabs" role="tablist">
+                <li class="active">
+                  <a
+                    href="#sign_up"
+                    aria-controls="sign_up"
+                    role="tab"
+                    data-toggle="tab"
+                    >Create an account</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="#sign_in"
+                    aria-controls="sign_in"
+                    role="tab"
+                    data-toggle="tab"
+                    >Sign In</a
+                  >
+                </li>
+              </ul>
+
+              <!-- TAB PANES -->
+              <div class="tab-content">
+                <div
+                  role="tabpanel"
+                  class="tab-pane fade in active"
+                  id="sign_up"
+                >
+                  <form action="#" method="post">
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="name"
+                      placeholder="Name"
+                      required
+                    />
+                    <input
+                      type="telephone"
+                      class="form-control"
+                      name="telephone"
+                      placeholder="Telephone"
+                      required
+                    />
+                    <input
+                      type="email"
+                      class="form-control"
+                      name="email"
+                      placeholder="Email"
+                      required
+                    />
+                    <input
+                      type="password"
+                      class="form-control"
+                      name="password"
+                      placeholder="Password"
+                      required
+                    />
+                    <input
+                      type="submit"
+                      class="form-control"
+                      name="submit"
+                      value="Submit Button"
+                    />
+                  </form>
+                </div>
+
+                <div role="tabpanel" class="tab-pane fade in" id="sign_in">
+                  <form action="#" method="post">
+                    <input
+                      type="email"
+                      class="form-control"
+                      name="email"
+                      placeholder="Email"
+                      required
+                    />
+                    <input
+                      type="password"
+                      class="form-control"
+                      name="password"
+                      placeholder="Password"
+                      required
+                    />
+                    <input
+                      type="submit"
+                      class="form-control"
+                      name="submit"
+                      value="Submit Button"
+                    />
+                    <a href="https://www.facebook.com/templatemo"
+                      >Forgot your password?</a
+                    >
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SCRIPTS -->
+<script src="{% static 'landing_page/' %}js/jquery.js"></script>
+<script src="{% static 'landing_page/' %}js/bootstrap.min.js"></script>
+<script src="{% static 'landing_page/' %}js/jquery.stellar.min.js"></script>
+<script src="{% static 'landing_page/' %}js/jquery.magnific-popup.min.js"></script>
+<script src="{% static 'landing_page/' %}js/smoothscroll.js"></script>
+<script src="{% static 'landing_page/' %}js/custom.js"></script>
+<script src="{% static 'admin/' %}plugins/owl.carousel/dist/js/owl.carousel.min.js"></script>
+{% comment %} navText: ["
+<div class="owl-carousel prev-slide">
+  <img src='<?= base_url('assets/sociolla/'); ?>assets/img/arrow-left-solid.svg'
+  />
+</div>
+", "
+<div class="owl-carousel next-slide">
+  <img src='<?= base_url('assets/sociolla/'); ?>assets/img/arrow-right-solid.svg'
+  />
+</div>
+"], {% endcomment %}
+
+<script>
+  $(document).ready(function () {
+    var owl = $("#owl-carousel");
+    owl.owlCarousel({
+      margin: 25,
+      loop: true,
+      autoplay: false,
+      nav: true,
+      autoplayTimeout: 3000,
+      responsive: {
+        0: {
+          items: 1,
+        },
+        600: {
+          items: 1,
+        },
+        1000: {
+          items: 3,
+        },
+      },
+    });
+  });
+</script>
+<script>
+  var photoImg = '<img src="{% static "mapping/leaflet/images/bansos.jpg" %}" height="150px""/>';
+  var locations = [
+      ["<b>Elon</b><br> Menerima sebanyak 3 kali<br> Tanggal terakhir menerima : 27 Oktober 2022<br> "+photoImg, -7.385735, 109.36043],
+      ["<b>Ariana</b><br> Menerima sebanyak 2 kali<br> Tanggal terakhir menerima : 27 Oktober 2022<br> "+photoImg, -7.3110, 109.3486],
+      ["<b>Justin</b><br> Menerima sebanyak 1 kali<br> Tanggal terakhir menerima : 27 Oktober 2022<br> "+photoImg, -7.2986, 109.3637],
+      ["<b>Mendes</b><br> Menerima sebanyak 2 kali<br> Tanggal terakhir menerima : 27 Oktober 2022<br> "+photoImg, -7.3053, 109.3571],
+      ["<b>Camilla</b><br> Menerima sebanyak 1 kali<br> Tanggal terakhir menerima : 27 Oktober 2022<br> "+photoImg, -7.3277, 109.3585],
+      ["<b>Bruno</b><br> Menerima sebanyak 1 kali<br> Tanggal terakhir menerima : 27 Oktober 2022<br> "+photoImg, -7.4277, 109.3369],
+      ["<b>Nicki</b><br> Menerima sebanyak 3 kali<br> Tanggal terakhir menerima : 27 Oktober 2022<br> "+photoImg, -7.4058, 109.3413],
+  ];
+  var map = L.map('map').setView([-7.3653, 109.3707], 12);
+
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+  }).addTo(map);
+
+  
+  for (var i = 0; i < locations.length; i++) {
+      marker = new L.marker([locations[i][1], locations[i][2]])
+        .bindPopup(locations[i][0])
+        .addTo(map);
+  }
+
+  {% comment %} L.marker([-7.385735, 109.36043]).addTo(map)
+      .bindPopup('Elon Musk<br> Menerima sebanyak 3 kali<br> Tanggal terakhir menerima : 27 Oktober 2022')
+      .openPopup(); {% endcomment %}
+</script>
+</body>
+</html>

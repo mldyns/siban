@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% block head %}{% endblock head %}
+
+{% block body %}
+<div class="content-body">
+
+    <div class="container-fluid mt-3">
+        
+        <div class="row">
+            
+            <div class="col-xl-6 col-lg-12 col-sm-12 col-xxl-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-title">
+                            <h4 style="color:#063970; font-weight:bold;">Daftar Penerima Bantuan Sosial</h4>
+                        </div>
+                        <div class="table-responsive" >
+                            <table class="table table-striped zero-configuration" id="table-penerima">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Nama</th>
+                                        <th>NIK</th>
+                                        <th>Kecamatan</th>
+                                        <th>Bansos</th>
+                                        <th>Tahun</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for penerima in penerima %}
+                                    <tr>
+                                        <th>{{forloop.counter}}</th>
+                                        <td>{{penerima.anggota.nama_art}}</td>
+                                        <td>{{penerima.anggota.nik}}</td>
+                                        <td>{{penerima.anggota.rumah.kecamatan.nama_kecamatan}}</td>
+                                        <td>{{penerima.bansos.nama_bansos}}</td>
+                                        <td>{{penerima.tahun}}</td>
+                                        <td>
+                                            {% if penerima.status == 'Dalam Proses' %}
+                                            <a href="{% url 'mapping:detail' id=penerima.id %}" class="badge badge-pill badge-warning px-2">{{penerima.status}}</a>
+                                            {% endif %}
+                                            {% if penerima.status == 'Diterima' %}
+                                            <a href="{% url 'mapping:detail' id=penerima.id %}" class="badge badge-pill badge-success px-2">{{penerima.status}}</a>
+                                            {% comment %} <a href="{% url 'mapping:detail' id_penerima=penerima.id %}" class="badge badge-pill badge-success px-2">{{penerima.status}}</a> {% endcomment %}
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- #/ container -->
+</div>
+{% endblock body %}
+
+{% block footer %}
+<script>
+    $(document).ready( function () {
+      $('#table-penerima').DataTable();
+      
+  } );
+  
+</script>
+{% endblock footer %}

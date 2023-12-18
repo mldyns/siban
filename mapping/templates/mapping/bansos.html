@@ -1,0 +1,204 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+<!--select2-->
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+{% endblock head %}
+
+
+{% block body %}
+<!--**********************************
+            Content body start
+        ***********************************-->
+        <div class="content-body" style="min-height: 788px">
+            <div class="row page-titles mx-0">
+              <div class="col p-md-0">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item">
+                    <a href="{% url 'dashboard' %}">Dashboard</a>
+                  </li>
+                  <li class="breadcrumb-item active">
+                    <a href="{% url 'mapping:bansos' %}">Bansos</a>
+                  </li>
+                </ol>
+              </div>
+            </div>
+            <!-- row -->
+          
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-12">
+                  <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Tabel Data Bantuan Sosial</h4>
+                     <button type="button" class="btn mb-1 btn-info float-right" data-toggle="modal" data-target="#exampleModal" data-backdrop="static">
+                        Tambah Data<span class="btn-icon-right"><i class="fa fa-plus"></i></span>
+                          </button>
+                            <!--Modal Tambah Data-->
+                          <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                              <div class="modal-dialog" role="document">
+                                  <div class="modal-content">
+                                      <div class="modal-header">
+                                          <h5 class="modal-title" id="exampleModalLabel">Tambah Data Bansos</h5>
+                                          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
+                                          </button>
+                                      </div>
+                                      <div class="modal-body">
+                                          <form method="POST" action="{% url 'mapping:bansos' %}">
+                                              {% csrf_token %}
+                                              <div class="form-group">
+                                                  <label for="recipient-name" class="col-form-label">Nama Bansos<span class="text-danger">*</span></label>
+                                                  <input type="text" class="form-control" id="nama" name="nama" required>
+                                              </div>
+                                              <div class="form-group">
+                                                  <label for="recipient-name" class="col-form-label">Kuota Penerima<span class="text-danger">*</span></label>
+                                                  <input type="number" class="form-control" id="kuota" name="kuota" required>
+                                              </div>
+                                              <div class="form-group">
+                                                <label for="recipient-name" class="col-form-label">Warna Marker<span class="text-danger">*</span></label>
+                                                <select name="warna" id="warna" class="form-control">
+                                                  <option value="beige">Beige</option>
+                                                  <option value="lightgreen">Light Green</option>
+                                                  <option value="gray">Gray</option>
+                                                  <option value="lightgray">Light Gray</option>
+                                                  <option value="white">White</option>
+                                                  <option value="black">Black</option>
+                                                  <option value="orange">Orange</option>
+                                                  <option value="red">Red</option>
+                                                  <option value="lightred">Light Red</option>
+                                                  <option value="green">Green</option>
+                                                  <option value="pink">Pink</option>
+                                                  <option value="purple">Purple</option>
+                                                  <option value="cadetblue">Cadet Blue</option>
+                                                  <option value="darkred">Dark Red</option>
+                                                  <option value="darkgreen">Dark Green</option>
+                                                  <option value="lightblue">Light Blue</option>
+                                                  <option value="darkblue">Dark Blue</option>
+                                                  <option value="blue">Blue</option>
+                                                  <option value="darkpurple">Dark Purple</option>
+                                                </select>
+                                            </div>
+                                          </div>
+                                          <div class="modal-footer">
+                                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                                              <button type="submit" class="btn btn-primary">Tambah</button>
+                                          </div>
+                                      </form>
+                                  </div>
+                              </div>
+                          </div>
+          
+                      <table class="table" id="table-bansos">
+                        <thead>
+                          <tr>
+                            <th>#</th>
+                            <th>Nama Bansos</th>
+                            <th>Kuota</th>
+                            <th>Warna Marker</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {% for bansos in bansos  %}
+                          <tr>
+                            <th>{{forloop.counter}}</th>
+                            <td>{{bansos.nama_bansos}}</td>
+                            <td>{{bansos.kuota}}</td>
+                            <td>
+                                <svg width="15" height="15">
+                                    <rect width="15" height="15" r="40" stroke="#063970" stroke-width="2" fill="{{bansos.color}}" />
+                                </svg>
+                                {{bansos.color}}
+                            </td>
+                            <td class="color-primary d-flex">
+                              <form method="POST" action="{% url 'mapping:delete_bansos' id=bansos.id %}">
+                                {% csrf_token %}
+                                <input name="_method" type="hidden" value="DELETE">
+                                <button type="submit" class="sweet-confirm btn mb-1 mx-1 btn-rounded btn-danger show_confirm" data-toggle="tooltip" title='Delete'>
+                                  <i class="fa fa-trash font-18 align-middle"></i>
+                                </button>
+                            </form>
+                              <button type="button" class="btn mb-1 mx-1 btn-rounded btn-warning" data-target="#modalUpdate-{{bansos.id}}" data-toggle="modal" data-backdrop="static"><i class="fa fa-pencil font-18 align-middle"></i></button>
+                            </td>
+                          </tr>
+                          <!--Modal update Data-->
+                            <div class="modal fade" id="modalUpdate-{{bansos.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Update Data Bansos</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form method="POST" action="{% url 'mapping:update_bansos' bansos.id %}">
+                                                {% csrf_token %}
+                                                <div class="form-group">
+                                                    <label for="recipient-name" class="col-form-label">Nama<span class="text-danger">*</span></label>
+                                                    <input type="text" class="form-control" id="newnama" name="newnama" value="{{bansos.nama_bansos}}" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="recipient-name" class="col-form-label">Kuota Penerima<span class="text-danger">*</span></label>
+                                                    <input type="number" class="form-control" id="newkuota" name="newkuota" value="{{bansos.kuota}}" required>
+                                                </div>
+                                                <div class="form-group">
+                                                <label for="recipient-name" class="col-form-label">Warna Marker<span class="text-danger">*</span></label>
+                                                <select name="newwarna" id="newwarna" class="form-control">
+                                                  <option value="{{bansos.color}}" selected>{{bansos.color}}</option>
+                                                  <option value="beige">Beige</option>
+                                                  <option value="lightgreen">Light Green</option>
+                                                  <option value="gray">Gray</option>
+                                                  <option value="lightgray">Light Gray</option>
+                                                  <option value="white">White</option>
+                                                  <option value="black">Black</option>
+                                                  <option value="orange">Orange</option>
+                                                  <option value="red">Red</option>
+                                                  <option value="lightred">Light Red</option>
+                                                  <option value="green">Green</option>
+                                                  <option value="pink">Pink</option>
+                                                  <option value="purple">Purple</option>
+                                                  <option value="cadetblue">Cadet Blue</option>
+                                                  <option value="darkred">Dark Red</option>
+                                                  <option value="darkgreen">Dark Green</option>
+                                                  <option value="lightblue">Light Blue</option>
+                                                  <option value="darkblue">Dark Blue</option>
+                                                  <option value="blue">Blue</option>
+                                                  <option value="darkpurple">Dark Purple</option>
+                                                </select>
+                                            </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                                                <button type="submit" class="btn btn-success">Submit</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                          {% empty %}
+                          {% endfor %}
+                        </tbody>
+                      </table>
+                      
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- #/ container -->
+          </div>
+    <!--**********************************
+            Content body end
+        ***********************************-->
+
+{% endblock body %}
+
+{% block footer %}
+<script>
+  $(document).ready(function() {
+    $('.js-example-basic-single').select2();
+  });
+</script>
+{% endblock footer %}

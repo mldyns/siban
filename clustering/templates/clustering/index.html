@@ -1,0 +1,178 @@
+{% extends 'base.html' %} 
+{% load static %} 
+{% block head %}
+{% endblock head %} 
+
+{% block body %}
+
+<div class="content-body" style="min-height: 788px">
+  <div class="row page-titles mx-0">
+    <div class="col p-md-0">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a href="#">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item active">
+          <a href="#">List DTKS</a>
+        </li>
+      </ol>
+    </div>
+  </div>
+  <!-- row -->
+  
+  <div class="container-fluid">
+    <div class="row">
+
+      <!-- Analisis Data -->
+      <div class="col-12">
+        <div class="card">
+          <div class="card-body">
+              <h4 class="card-title mb-4">Dataset</h4>
+              <div class="media border-bottom-1 p-t-15" style="background-color: #f3f3f9;padding: 1rem;">
+                <div class="media-body">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <h5>Nama Data</h5>
+                            <p class="mb-0">Data Terpadu Kesejahteraan Penduduk (DTKS)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="media border-bottom-1 p-t-15 mt-2" style="background-color: #f3f3f9;padding: 1rem;">
+              <div class="media-body">
+                  <div class="row">
+                      <div class="col-lg-5">
+                        <h5>Jumlah Baris</h5>
+                          <p class="mb-0">{{row_count}} Baris</p>
+                      </div>
+                      <div class="col-lg-6">
+                        <h5>Jumlah Atribut</h5>
+                        <p class="mb-0">{{atribut_count}} Atribut</p>
+                    </div>
+                  </div>
+              </div>
+          </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12">
+        <div class="card">
+          <div class="card-body">
+              <h4 class="card-title mb-4">Deskripsi Atribut</h4>
+              <div class="table-responsive" style="border:1px solid #252e4b;height:410px;overflow:auto;">
+                <table class="table">
+                    <thead style="background-color:#252e4b;color:white;position:sticky;top:0;">
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Maximum</th>
+                            <th>Minimum</th>
+                            <th>Mean</th>
+                            <th>Std</th>
+                            <th>Count</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                      {% for describe in desc %}
+                        <tr>
+                            <th>{{forloop.counter}}</th>
+                            <td>{{describe.nama}}</td>
+                            <td class="color-danger">{{describe.max}}</td>
+                            <td class="color-danger">{{describe.min}}</td>
+                            <td class="color-danger">{{describe.mean}}</td>
+                            <td class="color-danger">{{describe.std}}</td>
+                            <td class="color-danger">{{describe.count}}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- #/ container -->
+</div>
+{% endblock body %}
+
+{% block footer %}
+
+<script>
+  $(".js-example-basic-single").select2({
+    tags: true
+  });
+
+
+  const ctx = document.getElementById('pieChart');
+  const bar = document.getElementById('barchart');
+  new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      datasets: [{
+          data: [45, 25, 20, 10],
+          backgroundColor: [
+              "rgba(117, 113, 249,0.9)",
+              "rgba(117, 113, 249,0.7)",
+              "rgba(117, 113, 249,0.5)",
+              "rgba(144,	104,	190,0.7)"
+          ],
+          hoverBackgroundColor: [
+              "rgba(117, 113, 249,0.9)",
+              "rgba(117, 113, 249,0.7)",
+              "rgba(117, 113, 249,0.5)",
+              "rgba(144,	104,	190,0.7)"
+          ]
+
+      }],
+      labels: [
+          "green",
+          "green",
+          "green"
+      ]
+  },
+  options: {
+      responsive: true
+  }
+  });
+  new Chart(bar, {
+    type: 'bar',
+    data: {
+    datasets: [{
+      label: 'My First Dataset',
+      data: [65, 59, 80, 81, 56, 55, 40],
+      backgroundColor: [
+        'rgba(255, 99, 132, 0.2)',
+        'rgba(255, 159, 64, 0.2)',
+        'rgba(255, 205, 86, 0.2)',
+        'rgba(75, 192, 192, 0.2)',
+        'rgba(54, 162, 235, 0.2)',
+        'rgba(153, 102, 255, 0.2)',
+        'rgba(201, 203, 207, 0.2)'
+      ],
+      borderColor: [
+        'rgb(255, 99, 132)',
+        'rgb(255, 159, 64)',
+        'rgb(255, 205, 86)',
+        'rgb(75, 192, 192)',
+        'rgb(54, 162, 235)',
+        'rgb(153, 102, 255)',
+        'rgb(201, 203, 207)'
+      ],
+      borderWidth: 1
+    }],
+    labels: [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+      ]
+  }
+  });
+</script>
+
+{% endblock footer %}

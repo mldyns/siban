@@ -1,0 +1,151 @@
+{% load static %}
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label class="inputdata-label">IDJTG<span class="text-danger">*</span></label>
+      <input type="number" class="form-control" name="IDJTG" id="IDJTG" required value="" minlength="14" maxlength="20"/>
+      {% comment %} <small class="text-danger" id="IDJTG_check"></small> {% endcomment %}
+    </div>
+    <div class="form-group col-md-6">
+      <label class="inputdata-label">Nama KRT<span class="text-danger">*</span></label>
+      <input type="text" class="form-control" name="nama_krt" id="nama_krt" required value="" style="text-transform:uppercase"/>
+    </div>
+    <div class="form-group col-md-4">
+      <label class="inputdata-label">Kabupaten/Kota<span class="text-danger">*</span></label>
+      <input type="text" class="form-control" name="kabupaten" id="kabupaten" required value="" style="text-transform:uppercase"/>
+    </div>
+    <div class="form-group col-md-4">
+      <label class="inputdata-label">Kecamatan<span class="text-danger">*</span></label>
+    <select class="form-control" id="kecamatan" name="kecamatan" required>
+        <option value="">--- pilih data kecamatan ---</option>
+        {% for kecamatan in data_kecamatan  %}
+        <option value="{{kecamatan.id}}">{{kecamatan.nama_kecamatan}}</option>
+        {% endfor %}
+    </select>
+    </div>
+    <div class="form-group col-md-4">
+      <label class="inputdata-label">Desa/Kelurahan<span class="text-danger">*</span></label>
+      <input type="text" class="form-control" name="desa" id="desa" required style="text-transform:uppercase" value=""/>
+    </div>
+    <div class="form-group col-md-4">
+      <label class="inputdata-label">Dusun<span class="text-danger">*</span></label>
+      <input type="number" class="form-control" name="dusun" id="dusun" required value=""/>
+    </div>
+    <div class="form-group col-md-4">
+      <label class="inputdata-label">RT<span class="text-danger">*</span></label>
+      <input type="number" class="form-control" name="rt" id="rt" required value=""/>
+    </div>
+    <div class="form-group col-md-4">
+      <label class="inputdata-label">RW<span class="text-danger">*</span></label>
+      <input type="number" class="form-control" name="rw" id="rw" required value=""/>
+    </div>
+  <div class="form-group col-md-4">
+    <label class="inputdata-label">Alamat<span class="text-danger">*</span></label>
+    <input type="text" class="form-control" name="alamat" id="alamat" required style="text-transform:uppercase" value=""/>
+  </div>
+  <div class="form-group col-md-4">
+    <label class="inputdata-label">Koordinat<span class="text-danger">*</span></label>
+    <div class="d-flex">
+      <input type="number" class="form-control col-5 mr-3" name="koordinat_lat" id="koordinat_lat" placeholder="Latitude"/>
+      <input type="number" class="form-control col-5" name="koordinat_long" id="koordinat_long" placeholder="Longtitude"/>
+    </div>
+  </div>
+  <div class="form-group col-md-3">
+    <label class="inputdata-label"></label>
+    <div class="button-group mt-3">
+      <div class="btn-group">
+        <input type="button" class="btn btn-dark" value="Generate" onClick="updateLatLng(document.getElementById('koordinat_lat').value,document.getElementById('koordinat_long').value,1)">
+        <input type="button" class="btn btn-dark" value="Get Coordinate" onclick="getlocation()">
+      </div>
+    </div>
+  </div>
+  <div class="form-group col-md-12">
+    <label class="inputdata-label"></label>
+    <div id="map" style="width:100%; height:350px"></div>
+  </div>
+</div>
+  <script>
+    {% if data_rumah %}
+    $('#IDJTG').val("{{data_rumah.IDJTG}}");
+    $('#nama_krt').val("{{data_rumah.nama_krt}}");
+    $('#kabupaten').val("{{data_rumah.kabupaten}}");
+    $("#kecamatan option[value='{{data_rumah.kecamatan.id}}']").prop('selected', true);
+    $('#desa').val("{{data_rumah.desa}}");
+    $('#dusun').val("{{data_rumah.dusun}}");
+    $('#koordinat_lat').val("{{data_rumah.koordinat_lat}}");
+    $('#koordinat_long').val("{{data_rumah.koordinat_long}}");
+    $('#rt').val("{{data_rumah.rt}}");
+    $('#rw').val("{{data_rumah.rw}}");
+    $('#alamat').val("{{data_rumah.alamat}}");
+    {% endif %}
+  </script>
+  <script>
+    {% comment %} $(document).ready(function () {
+      $("#IDJTG_check").hide();
+    let IDJTGerror = true;
+    $("#IDJTG").keyup(function () {
+        validateIDJTG();
+    });
+ 
+    function validateIDJTG() {
+        let IDJTGValue = $("#IDJTG").val();
+        if (IDJTGValue.length == "") {
+            $("#IDJTG_check").show();
+            IDJTGerror = false;
+            return false;
+        } else if (IDJTGValue.length < 14 || IDJTGValue.length > 15) {
+            $("#IDJTG_check").show();
+            $("#IDJTG_check").html("**length of IDJTG must be between 14 and 15");
+            IDJTGerror = false;
+            return false;
+        } else {
+            $("#IDJTG_check").hide();
+        }
+    }
+    }); {% endcomment %}
+
+    var tileLayer = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> Contributors'
+                    });
+                    
+    var rememberLat = document.getElementById('koordinat_lat').value;
+    var rememberLong = document.getElementById('koordinat_long').value;
+    if( !rememberLat || !rememberLong ) { rememberLat = -7.3653; rememberLong = 109.3707;}
+    var map = new L.Map('map', {
+        'center': [rememberLat, rememberLong],
+        'zoom': 12,
+        'layers': [tileLayer]
+    });
+    var marker = L.marker([rememberLat, rememberLong],{
+                draggable: true
+                }).addTo(map);
+    marker.on('dragend', function (e) {
+        updateLatLng(marker.getLatLng().lat, marker.getLatLng().lng);
+    });
+    map.on('click', function (e) {
+        marker.setLatLng(e.latlng);
+        updateLatLng(marker.getLatLng().lat, marker.getLatLng().lng);
+    });
+    function getlocation(){
+        if(navigator.geolocation){
+            navigator.geolocation.getCurrentPosition(showPosition);
+        }
+    }
+    function showPosition(position){
+        var latitude=position.coords.latitude
+        var longitude=position.coords.longitude
+        rememberLat.value=latitude;
+        rememberLong.value=longitude;
+        marker.setLatLng([latitude,longitude]);
+        updateLatLng(latitude,longitude);
+    }
+    function updateLatLng(lat,lng,reverse) {
+        if(reverse) {
+            marker.setLatLng([lat,lng]);
+            map.panTo([lat,lng]);
+        } else {
+            document.getElementById('koordinat_lat').value = marker.getLatLng().lat;
+            document.getElementById('koordinat_long').value = marker.getLatLng().lng;
+            map.panTo([lat,lng]);
+        }
+    }
+  </script>

@@ -1,0 +1,140 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+<!--select2-->
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+{% endblock head %}
+
+
+{% block body %}
+<!--**********************************
+            Content body start
+        ***********************************-->
+        <div class="content-body" style="min-height: 788px">
+            <div class="row page-titles mx-0">
+              <div class="col p-md-0">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item">
+                    <a href="{% url 'dashboard' %}">Dashboard</a>
+                  </li>
+                  <li class="breadcrumb-item active">
+                    <a href="{% url 'mapping:kecamatan' %}">Kecamatan</a>
+                  </li>
+                </ol>
+              </div>
+            </div>
+            <!-- row -->
+          
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-12">
+                  <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Tabel Data Kecamatan</h4>
+                     <button type="button" class="btn mb-1 btn-info float-right" data-toggle="modal" data-target="#exampleModal" data-backdrop="static">
+                        Tambah Data<span class="btn-icon-right"><i class="fa fa-plus"></i></span>
+                          </button>
+                            <!--Modal Tambah Data-->
+                          <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                              <div class="modal-dialog" role="document">
+                                  <div class="modal-content">
+                                      <div class="modal-header">
+                                          <h5 class="modal-title" id="exampleModalLabel">Tambah Data Kecamatan</h5>
+                                          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
+                                          </button>
+                                      </div>
+                                      <div class="modal-body">
+                                          <form method="POST" action="{% url 'mapping:kecamatan' %}">
+                                              {% csrf_token %}
+                                              <div class="form-group">
+                                                  <label for="recipient-name" class="col-form-label">Nama Kecamatan<span class="text-danger">*</span></label>
+                                                  <input type="text" class="form-control" id="nama" name="nama" required>
+                                              </div>
+                                          </div>
+                                          <div class="modal-footer">
+                                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                                              <button type="submit" class="btn btn-primary">Tambah</button>
+                                          </div>
+                                      </form>
+                                  </div>
+                              </div>
+                          </div>
+          
+                      <table class="table" id="table-kecamatan">
+                        <thead>
+                          <tr>
+                            <th>#</th>
+                            <th>Nama Kecamatan</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {% for kecamatan in kecamatan  %}
+                          <tr>
+                            <th>{{forloop.counter}}</th>
+                            <td>{{kecamatan.nama_kecamatan}}</td>
+                            <td class="color-primary d-flex">
+                              <form method="POST" action="{% url 'mapping:delete_kecamatan' id=kecamatan.id %}">
+                                {% csrf_token %}
+                                <input name="_method" type="hidden" value="DELETE">
+                                <button type="submit" class="sweet-confirm btn mb-1 mx-1 btn-rounded btn-danger show_confirm" data-toggle="tooltip" title='Delete'>
+                                  <i class="fa fa-trash font-18 align-middle"></i>
+                                </button>
+                            </form>
+                              <button type="button" class="btn mb-1 mx-1 btn-rounded btn-warning" data-target="#modalUpdate-{{kecamatan.id}}" data-toggle="modal" data-backdrop="static" title='Update'>
+                                <i class="fa fa-pencil font-18 align-middle"></i>
+                              </button>
+                            </td>
+                          </tr>
+                          <!--Modal update Data-->
+                            <div class="modal fade" id="modalUpdate-{{kecamatan.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Update Data User</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form method="POST" action="{% url 'mapping:update_kecamatan' kecamatan.id %}">
+                                                {% csrf_token %}
+                                                <div class="form-group">
+                                                    <label for="recipient-name" class="col-form-label">Nama<span class="text-danger">*</span></label>
+                                                    <input type="text" class="form-control" id="nama" name="nama" value="{{kecamatan.nama_kecamatan}}" required>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                                                <button type="submit" class="btn btn-primary">Kirim</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                          {% empty %}
+                          {% endfor %}
+                        </tbody>
+                      </table>
+                      
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- #/ container -->
+          </div>
+    <!--**********************************
+            Content body end
+        ***********************************-->
+
+{% endblock body %}
+
+{% block footer %}
+<script>
+  $(document).ready(function() {
+    $('.js-example-basic-single').select2();
+  });
+</script>
+{% endblock footer %}

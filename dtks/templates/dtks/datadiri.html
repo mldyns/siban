@@ -1,0 +1,52 @@
+{% load static %}
+
+<a  {% if kondisi %}
+    href="{% url 'inputdata:add_art' rumah.id %}"
+    {% endif %} 
+    class="btn btn-primary float-right" 
+    name="form_data_aset">
+    Tambah Data</a>
+
+
+<div class="table-responsive"> 
+  <table class="table table-bordered table-striped verticle-middle">
+      <thead>
+          <tr>
+              <th scope="col">No</th>
+              <th scope="col">Nama</th>
+              <th scope="col">Hub KRT</th>
+              <th scope="col">NIK</th>
+              <th scope="col">NO KK</th>
+              <th scope="col">Aksi</th>
+          </tr>
+      </thead>
+      <tbody>
+        {% for data_anggota in anggota %}
+          <tr>
+              <td>{{forloop.counter}}</td>
+              <td>
+                  {{data_anggota.nama_art}}
+              </td>
+              <td>{{data_anggota.hubungan_krt}}</td>
+              <td>{{data_anggota.nik}}</td>
+              <td>{{data_anggota.no_kk}}</td>
+              <td>
+              <button type="button" class="btn mb-1 mx-1 btn-rounded btn-info" data-target="#modalUpdate-" data-toggle="modal" data-backdrop="static"><i class="fa fa-pencil font-18 align-middle"></i></button>
+              <button type="button" class="btn mb-1 mx-1 btn-rounded btn-info" data-target="#modalUpdate-" data-toggle="modal" data-backdrop="static"><i class="fa fa-pencil font-18 align-middle"></i></button>
+            </td>
+          </tr>
+          {%empty%}
+          {%endfor%}
+      </tbody>
+  </table>
+</div>
+<script>
+  {% if rumah != null %}
+  $(document).ready(function(){
+    $('#DataAnggota').addClass('active show');
+    $('#tab-anggota').addClass('active show');
+    $('#DataKondisi').removeClass('active show');
+    $('#tab-kondisi').removeClass('active show');
+  });
+  {% endif %}
+</script>

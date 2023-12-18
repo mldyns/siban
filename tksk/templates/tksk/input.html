@@ -1,0 +1,161 @@
+{% extends 'base_tksk.html' %}
+{% load static %}
+{% block head %}
+
+{% endblock head %}
+
+
+{% block body %}
+<!--**********************************
+            Content body start
+        ***********************************-->
+        <div class="content-body" style="min-height: 788px">
+          <div class="row page-titles mx-0">
+            <div class="col p-md-0">
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                  <a href="{% url 'tksk:dashboard' %}">Dashboard</a>
+                </li>
+                <li class="breadcrumb-item active">
+                  <a href="{% url 'tksk:input' %}">Input Data</a>
+                </li>
+              </ol>
+            </div>
+          </div>
+          <!-- row -->
+        
+          <div class="container-fluid">
+            <div class="row">
+             
+              <div class="col-12">
+                <div class="card">
+                  <div class="card-body">
+                      <h4 class="card-title mb-4">TABEL KRT KECAMATAN {{user.location}}</h4>
+                      
+                        <a href="{% url 'dtks:input_form' %}" type="button" class="btn btn-info ">
+                          Tambah Data<span class="btn-icon-right"
+                            ><i class="fa fa-plus"></i
+                          ></span>
+                            </a>
+                    <table class="table" id="tabel-dtks">
+                      <thead>
+                        <tr>
+                          <th>#</th>
+                          <th>Aksi</th>
+                          <th>IDJTG</th>
+                          <th>Nama KRT</th>
+                          <th>Kecamatan</th>
+                          <th>Desa</th>
+                          <th>Dusun</th>
+                          <th>RT/RW</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for rumah in data_rumah  %}
+                        <tr>
+                          <th>{{forloop.counter}}</th>
+                          <td class="color-primary d-flex">
+                            <div class="btn-group" role="group">
+                              <button type="button" class="btn mb-1 btn-primary btn-info dropdown-toggle" style="padding:3px 20px" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Aksi</button>
+                              <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 37px, 0px);">
+                                <a class="dropdown-item" href="{% url 'dtks:detail' rumah.id %}"><i class="fa fa-eye font-18 align-middle mr-2"></i>Detail Data</a>
+                                <a class="dropdown-item" href="{% url 'dtks:edit_krt' rumah.id %}"><i class="fa fa-pencil font-18 align-middle mr-2"></i>Edit Data</a> 
+                                <form method="POST" action="{% url 'dtks:delete_krt' rumah.id %}">
+                                  {% csrf_token %}
+                                  <input name="_method" type="hidden" value="DELETE">
+                                  <a href="#" class="sweet-confirm show_confirm dropdown-item" data-toggle="tooltip" title='Delete'><i class="fa fa-trash font-18 align-middle mr-2"></i>Delete Data</a>
+                                </form>
+                              </div>
+                          </td>
+                          <td>{{rumah.IDJTG}}</td>
+                          <td>{{rumah.nama_krt}}</td>
+                          <td>{{rumah.kecamatan}}</td>
+                          <td>{{rumah.desa}}</td>
+                          <td>{{rumah.dusun}}</td>
+                          <td>{{rumah.rt}}/{{rumah.rw}}</td>
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+        
+                    <div class="modal fade" id="modal-excel-krt" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                      <div class="modal-dialog" role="document">
+                          <div class="modal-content" style="width:130%;border-radius:15px;">
+                              <div class="modal-header">
+                                  <h5 class="modal-title" id="exampleModalLabel">Tambah Data User</h5>
+                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
+                                  </button>
+                              </div>
+                              <div class="modal-body">
+                                <div class="input-excel krt">
+                                  <i class="fas fa-cloud-upload-alt"></i>
+                                  <p>Browse File to Upload</p>
+                                </div>
+                                <form method="POST" enctype="multipart/form-data">
+                                  {% csrf_token %}
+                                  <input class="file-input" type="file" id="file-excel" name="file-excel-rt" style="height:200px" hidden>
+                                    <div class="float-right" style="margin-top:10px">
+                                      <button class="btn btn-outline-info mr-2">Batal</button>
+                                      <button type="submit" class="btn btn-info" >Kirim</button>   
+                                    </div>
+                                </form>
+                              </div>
+                          </div>
+                      </div>
+                    </div>
+        
+                    <div class="modal fade" id="modal-excel-art" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                      <div class="modal-dialog" role="document">
+                          <div class="modal-content" style="width:130%;border-radius:15px;">
+                              <div class="modal-header">
+                                  <h5 class="modal-title" id="exampleModalLabel">Tambah Data User</h5>
+                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
+                                  </button>
+                              </div>
+                              <div class="modal-body">
+                                <div class="input-excel art">
+                                  <i class="fas fa-cloud-upload-alt"></i>
+                                  <p>Browse File to Upload</p>
+                                </div>
+                                <form method="POST" enctype="multipart/form-data" action="{% url 'dtks:input_excel_art' %}">
+                                  {% csrf_token %}
+                                  <input class="file-input" type="file" id="file-excel-art" name="file-excel-art" style="height:200px" hidden>
+                                    <div class="float-right" style="margin-top:10px">
+                                      <button class="btn btn-outline-info mr-2">Batal</button>
+                                      <button type="submit" class="btn btn-info" >Kirim</button>   
+                                    </div>
+                                </form>
+                              </div>
+                          </div>
+                      </div>
+                    </div>
+        
+        
+        
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- #/ container -->
+        </div>
+    <!--**********************************
+            Content body end
+        ***********************************-->
+
+{% endblock body %}
+
+{% block footer %}
+<script>
+  $(document).ready( function () {
+    $('#tabel-dtks').DataTable();
+    $('.krt').click( function() {
+      $('#file-excel').trigger('click');
+    });
+    $('.art').click( function() {
+      $('#file-excel-art').trigger('click');
+    });
+} );
+
+</script>
+{% endblock footer %}

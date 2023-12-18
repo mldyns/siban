@@ -1,0 +1,100 @@
+{% load static %}
+<!DOCTYPE html>
+<html class="h-100" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Login</title>
+    <!-- Favicon icon -->
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static "auth/images/logo_pbg.png" %}">
+    <!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous"> -->
+    <link href="{% static "admin/css/style.css" %}" rel="stylesheet">
+    
+</head>
+
+<body class="h-100">
+    
+    <!--*******************
+        Preloader start
+    ********************-->
+    <div id="preloader">
+        <div class="loader">
+            <svg class="circular" viewBox="25 25 50 50">
+                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="3" stroke-miterlimit="10" />
+            </svg>
+        </div>
+    </div>
+    <!--*******************
+        Preloader end
+    ********************-->
+
+    <div class="login-form-bg h-100" style="background: #252e4b;">
+        <div class="container h-100" style="background: #252e4b;">
+            <div class="row justify-content-center h-100">
+                <div class="col-xl-6 ms-auto" style="align-self: center;">
+                    <img src="{% static "img/logo_pbg.png" %}" alt="" class="mb-3" width="25%">
+                    <h1 class="text-white"><b>Sistem Penerimaan <br>Bantuan Sosial</b></h1>
+                    <hr style="height:2px !important; background-color: white; width: 80%;">
+                    <h2 class="text-white">DINSOSDALDUKKBP3A<br> Kabupaten Purbalingga</h2>
+                </div>
+                <div class="col-xl-5 ms-auto">
+                    <div class="form-input-content">
+                        <div class="card login-form mb-0" style="border-radius: 1rem;">
+                            <div class="card-body pt-5">
+                                <h3 class="text-center" style="color:#063970;">User Login</h3>
+                                {% if messages %}
+                                    {% for message in messages %}
+                                    <div class="alert alert-danger alert-dismissible fade show mt-3" style="margin-bottom:-20px;">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span>
+                                    </button>{{message}}</div>
+                                    {% endfor %}
+                                {% endif %}
+                                <form class="mt-5 mb-5 login-input" method="POST">
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                        <input type="text" id="username" name="username" class="form-control" placeholder="Username" style="background:#eeeee4; border-radius: 1rem; padding-left:30px;">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="password" id="password" name="password" class="form-control" placeholder="Password" style="background:#eeeee4; border-radius: 1rem; padding-left:30px;">
+                                        <span id="eye-pass{{data_user.id}}" toggle="#newpassword" class="fa fa-fw fa-eye field-icon toggle-password" onclick="showPass()"></span>
+                                    </div>
+                                    <button type="submit" class="btn login-form__btn submit w-100" style="background:#252e4b; border-radius: 1rem;">Sign In</button>
+                                </form>
+                                {% comment %} <p class="mt-5 login-form__footer text-center">Dont have account? <a href="#" class="text-primary">Sign Up</a> now</p> {% endcomment %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+     
+
+    
+
+    <!--**********************************
+        Scripts
+    ***********************************-->
+    <script src="{% static "admin/plugins/common/common.min.js" %}"></script>
+    <script src="{% static "admin/js/custom.min.js" %}"></script>
+    <script src="{% static "admin/js/settings.js" %}"></script>
+    <script src="{% static "admin/js/gleek.js" %}"></script>
+    <script src="{% static "admin/js/styleSwitcher.js" %}"></script>
+    <script>
+        function showPass() {
+            var x = document.getElementById("password");
+            if (x.type === "password") {
+              x.type = "text";   
+              document.getElementById("eye-pass").classList.add("fa-eye-slash");
+              document.getElementById("eye-pass").classList.remove("fa-eye");
+            } else {
+              x.type = "password";
+              document.getElementById("eye-pass").classList.add("fa-eye");
+              document.getElementById("eye-pass").classList.remove("fa-eye-slash");
+            }
+          }
+    </script>
+</body>
+</html>
