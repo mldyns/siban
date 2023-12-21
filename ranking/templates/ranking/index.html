@@ -1,0 +1,381 @@
+{% extends 'base.html' %} 
+{% load static %} 
+{% block head %}
+{% endblock head %} 
+
+{% block body %}
+
+<div class="content-body" style="min-height: 788px">
+  <div class="row page-titles mx-0">
+    <div class="col p-md-0">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a href="#">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item active">
+          <a href="#">List DTKS</a>
+        </li>
+      </ol>
+    </div>
+  </div>
+  <!-- row -->
+  
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-12" id="detail-dtks-rt">
+        <div class="dropdown-button mb-3">
+              <button type="button" class="btn mt-2 btn-outline-dark dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Tahun</button>
+              <div class="dropdown-menu">
+                  {% for t in t %}
+                  <a class="dropdown-item" href="{% url 'ranking:index' slug=slug tahun=t %}">{{t}}</a>
+                  {% endfor %}
+              </div>
+        </div>
+        <div class="card">
+          <div class="card-body">
+            
+            <ul class="nav nav-pills mb-3">
+              {% if diranking %}
+              <li class="nav-item">
+                <a
+                  href="#navpills-1"
+                  class="nav-link active"
+                  data-toggle="tab"
+                  aria-expanded="false"
+                  >Kriteria</a
+                >
+              </li>
+              <li class="nav-item">
+                <a
+                  href="#navpills-2"
+                  class="nav-link"
+                  data-toggle="tab"
+                  aria-expanded="false"
+                  >Sub Kriteria</a
+                >
+              </li>
+              <li class="nav-item">
+                <a
+                  href="#navpills-3"
+                  class="nav-link"
+                  data-toggle="tab"
+                  aria-expanded="true"
+                  >Normalisasi</a
+                >
+              </li>
+              {% endif %}
+              <li class="nav-item">
+                <a
+                  href="#navpills-4"
+                  class="nav-link"
+                  data-toggle="tab"
+                  aria-expanded="true"
+                  >Perhitungan</a
+                >
+              </li>
+              <li>
+                {% if dihitung and diranking %}
+                <a href="{% url "ranking:simpan_ranking" slug=slug tahun=tahun %}" class="btn btn-warning">Simpan Ranking</a>
+                {% elif dihitung and diranking == 0 %}
+                <a href="{% url "ranking:delete_ranking" slug=slug tahun=tahun %}" class="btn btn-danger">Hapus Ranking</a>
+                {% endif %}
+              </li>
+            </ul>
+            {% if diranking %}
+            <div class="tab-content br-n pn mt-4">
+              <div id="navpills-1" class="tab-pane active">
+                <div class="row">
+                  <div class="col-12">
+                    <button type="button" class="btn mb-1 btn-info" data-toggle="modal" data-target="#exampleModal" data-backdrop="static">
+                      Tambah Data Kriteria<span class="btn-icon-right"><i class="fa fa-plus"></i></span>
+                        </button>
+                          <!--Modal Tambah Data-->
+                        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Tambah Data Kriteria</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form method="POST" action="{% url 'ranking:index' slug=slug tahun=tahun %}">
+                                            {% csrf_token %}
+                                            <div class="form-group">
+                                                <label for="recipient-name" class="col-form-label">Nama Kriteria<span class="text-danger">*</span></label>
+                                                <select name="nama_kriteria" id="nama_kriteria" class="form-control">
+                                                  {% for k in nama_kriteria %}
+                                                  <option value="{{k}}">{{k}}</option>
+                                                  {% endfor %}
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="recipient-name" class="col-form-label">Bobot<span class="text-danger">*</span></label>
+                                                <input type="number" class="form-control" id="{{bobot}}" name="bobot" required>
+                                            </div>
+                                            <div class="form-group">
+                                              <label for="recipient-name" class="col-form-label">Atribut<span class="text-danger">*</span></label>
+                                              <select name="atribut" id="atribut" class="form-control">
+                                                <option value="Benefit">Benefit</option>
+                                                <option value="Cost">Cost</option>
+                                              </select>
+                                          </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                                            <button type="submit" class="btn btn-primary">Tambah</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <table class="table">
+                          <thead>
+                            <tr>
+                              <th>#</th>
+                              <th>Kode Kriteria</th>
+                              <th>Nama Kriteria</th>
+                              <th>Bobot</th>
+                              <th>Atribut</th>
+                              <th>Aksi</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                         
+                            {% for kriteria in kriteria  %}
+                            
+                            <tr>
+                              <th>{{forloop.counter}}</th>
+                              <td>C{{forloop.counter}}</td>
+                              <td>{{kriteria.nama_kriteria}}</td>
+                              <td>{{kriteria.bobot}}</td>
+                              <td>{{kriteria.atribut}}</td>
+                              <td class="color-primary d-flex">
+                                <form method="POST" action="{% url 'ranking:delete_kriteria' slug=kriteria.bansos.slug id=kriteria.id tahun=kriteria.tahun %}">
+                                  {% csrf_token %}
+                                  <input name="_method" type="hidden" value="DELETE">
+                                  <button type="submit" class="sweet-confirm btn mb-1 mx-1 btn-rounded btn-danger show_confirm" data-toggle="tooltip" title='Delete'>
+                                    <i class="fa fa-trash font-18 align-middle"></i>
+                                  </button>
+                              </form>
+                                <button type="button" class="btn mb-1 mx-1 btn-rounded btn-info" data-target="#modalUpdate-{{kriteria.id}}" data-toggle="modal" data-backdrop="static"><i class="fa fa-pencil font-18 align-middle"></i></button></td>
+                                <!--Modal Update Data-->
+                                  <div class="modal fade" id="modalUpdate-{{kriteria.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Update Data Kriteria</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                             
+                                                <form method="POST" action="{% url 'ranking:update_kriteria' slug=kriteria.bansos.slug id=kriteria.id tahun=kriteria.tahun %}">
+                                                    {% csrf_token %}
+                                                    <div class="form-group">
+                                                        <label for="recipient-name" class="col-form-label">Nama Kriteria<span class="text-danger">*</span></label>
+                                                        <input type="text" class="form-control" id="nama_kriteria" name="nama_kriteria" value="{{kriteria.nama_kriteria}}" disabled>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="recipient-name" class="col-form-label">Bobot<span class="text-danger">*</span></label>
+                                                        <input type="number" class="form-control" id="bobot" name="bobot" value="{{kriteria.bobot}}" required>
+                                                    </div>
+                                                    <div class="form-group">
+                                                      <label for="recipient-name" class="col-form-label">Atribut<span class="text-danger">*</span></label>
+                                                      <select name="atribut" id="atribut" class="form-control">
+                                                        {% if kriteria.atribut == 'Benefit' %}
+                                                        <option value="Benefit" selected>Benefit</option>
+                                                        <option value="Cost">Cost</option>
+                                                        {%endif%}
+                                                        {% if kriteria.atribut == 'Cost' %}
+                                                        <option value="Cost" selected>Cost</option>
+                                                        <option value="Benefit">Benefit</option>
+                                                        {%endif%}
+                                                      </select>
+                                                  </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                                                    <button type="submit" class="btn btn-primary">Update</button>
+                                                </div>
+                                            </form>
+                                            
+                                        </div>
+                                    </div>
+                               </div>
+                            </tr>
+                            {% endfor %}
+                          </tbody>
+                        </table>
+                  </div>
+                </div>
+              </div>
+              <div id="navpills-2" class="tab-pane">
+                <div class="row">
+                  {% for k in kriteria %}
+                  <div class="col-12">
+                    <table class="table table-bordered ">
+                      <form method="POST" action="{% url 'ranking:edit_bobot' slug=slug id=k.id tahun=k.tahun %}">
+                              {% csrf_token %}
+                      <thead>
+                        <tr style="background-color:#f3f1fa">
+                         <th>C{{forloop.counter}}  ({{k.nama_kriteria}})</th>
+                         <th><button id="bobot_{{k.nama_kriteria}}" type="button" class="btn btn-warning float-right">Isi Bobot<span class="btn-icon-right"><i class="fa fa-pencil"></i></span></button>
+                         <button hidden id="simpan_{{k.nama_kriteria}}" type="submit" class="btn btn-success float-right">Simpan<span class="btn-icon-right"><i class="fa fa-pencil"></i></span></button></th>
+                        </tr>
+                        <tr>
+                          <th>Keterangan Crips</th>
+                          <th>Bobot</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for c in data_crips  %}
+                          {% if c.kriteria == k %}
+                          <tr>
+                            <td>{{c.nama_crips}}</td>
+                            <td><input type="number" readonly="readonly" name="bobot_{{c.nama_crips}}" class="form-control-plaintext bobot_{{k.nama_kriteria}}" value="{{c.bobot_crips}}"></td>
+                          </tr>
+                          {% endif %}
+                        {% endfor %}
+                      </tbody>
+                    </form>
+                    </table>
+                  </div>
+                  {% endfor %}
+                </div>
+              </div>
+              <div id="navpills-3" class="tab-pane">
+                <div class="row">
+                  <div class="table-responsive">
+                    <table class="table table-striped zero-configuration" id="table-analisa">
+                      <thead>
+                        <tr style="background-color:#f3f1fa">
+                        <th colspan="100%">Hasil Analisa</th>
+                        <tr style="background-color:#f3f1fa">
+                        <tr>
+                          <th>#</th>
+                          <th>ID</th>
+                          <th>Nama Anggota</th>
+                          {% for k in kriteria %}
+                          <th>{{k.nama_kriteria}}</th>
+                          {% endfor %}
+                          
+                        </tr>
+                      </thead>
+                      <tbody>
+                        
+                        {% for norm in data_normalisasi  %}
+                        <tr>
+                          <th>{{forloop.counter}}</th>
+                          {% for key,value in norm.items %}
+                          <td>{{value}}</td>
+                          {% endfor %}
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="table-responsive">
+                    <table class="table table-striped zero-configuration" id="table-normalisasi">
+                      <thead>
+                        <tr style="background-color:hsl(253, 47%, 96%)">
+                        <th colspan="100%">Matriks Normalisasi</th>
+                        <tr style="background-color:#f3f1fa">
+                        <tr>
+                          <th>#</th>
+                          <th>ID</th>
+                          <th>Nama Anggota</th>
+                          {% for k in kriteria %}
+                          <th>{{k.nama_kriteria}}</th>
+                          {% endfor %}
+                          
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for norm in data_normalisasi1  %}
+                        <tr>
+                          <th>{{forloop.counter}}</th>
+                          {% for key,value in norm.items %}
+                          <td>{{value}}</td>
+                          {% endfor %}
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              {% endif %}
+              <div id="navpills-4" class="tab-pane">
+                <div class="row">
+                  <div class="table-responsive">
+                    <table class="table table-striped zero-configuration" id="table-hasil">
+                      <thead>
+                        <tr style="background-color:#f3f1fa">
+                        <th colspan="100%">Hasil Perhitungan</th>
+                        <tr style="background-color:#f3f1fa">
+                        <tr>
+                          <th>#</th>
+                          <th>ID</th>
+                          <th>Nama Anggota</th>
+                          {% for k in kriteria %}
+                          <th>{{k.nama_kriteria}}</th>
+                          {% endfor %}
+                          <th>Hasil Akhir</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        
+                        {% for norm in data_hasil  %}
+                        <tr>
+                          <th>{{forloop.counter}}</th>
+                          {% for key,value in norm.items %}
+                          <td>{{value}}</td>
+                          {% endfor %}
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- #/ container -->
+</div>
+{% endblock body %}
+
+{% block footer %}
+<script>
+$.fn.dataTable.ext.errMode = 'none';
+$(document).ready( function () {
+  $('#table-analisa').DataTable();
+} );
+$(document).ready( function () {
+  $('#table-normalisasi').DataTable();
+} );
+$(document).ready( function () {
+  $('#table-hasil').DataTable();
+} );
+{% for k in kriteria %}
+  $('#bobot_{{k.nama_kriteria}}').click(function() {
+    $(".bobot_{{k.nama_kriteria}}").removeClass('form-control-plaintext').addClass('form-control').removeAttr('readonly');
+    $('#bobot_{{k.nama_kriteria}}').hide();
+    $('#simpan_{{k.nama_kriteria}}').removeAttr('hidden');
+});
+$('#simpan_{{k.nama_kriteria}}').click(function() {
+  $(".bobot_{{k.nama_kriteria}}").addClass('form-control-plaintext').removeClass('form-control').addAttr('readonly');
+  $('#bobot_{{k.nama_kriteria}}').show();
+  $('#simpan_{{k.nama_kriteria}}').hide();
+ 
+});
+{% endfor %}
+
+</script>
+
+{% endblock footer %}

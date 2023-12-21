@@ -1,0 +1,131 @@
+{% extends base %}
+{% load static %}
+
+{% block head %}{% endblock head %}
+
+{% block body %}
+<div class="content-body">
+
+    <div class="container-fluid mt-3">
+        
+        <div class="row">
+            
+            <div class="col-xl-6 col-lg-12 col-sm-12 col-xxl-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-12">
+                                <h4 class="card-title mb-4" style="color:#252e4b; font-weight:bold;">Pemetaan PMKS dan Penerima Bansos</h4>
+                                <div class="basic-form">
+                                    <form action="{% url 'mapping:index' %}" method="POST">
+                                        {% csrf_token %}
+                                        <div class="form-row">
+                                            <div class="form-group col-md-3">
+                                            {{form.tahun}}
+                                            </div>
+                                            <div class="form-group col-md-3">
+                                            {{form.bansos}}
+                                            </div>
+                                            <div class="form-group col-md-3">
+                                            {{form.anggota__rumah__kecamatan}}
+                                            </div>
+                                            <span>
+                                                <div class="form-group col-md-3">
+                                                    <button type="submit" class="btn mt-1 text-white" style="background-color:#252e4b;border-color:#252e4b;">Filter</button>
+                                                </div>
+                                            </span>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row ">
+                            <div class="col-sm-10 mb-3">
+                                {{m|safe}}
+                            </div>
+                            <div class="col ">
+                                {% comment %} <form action="{% url 'mapping:index' %}" method="POST">
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                    {{form.as_p}}
+                                    </div>
+                                    <button type="submit" class="mb-4 btn text-white" style="background-color:#063970;border-color:#063970;">Filter</button>
+                                </form> {% endcomment %}
+                                <div class="row">
+                                    <div class="col">
+                                        <h5 class="card-title mb-3" style="color:#252e4b; font-weight:bold;">Keterangan</h5>
+                                        {% comment %} <h6 class="text-black mb-2"><b>Warna Peta</b></h6> {% endcomment %}
+                                        <p><b>Warna peta menunjukkan populasi PMKS</b></p>
+                                        <div class="row mt-1">
+                                            <div class="col-1 text-center">
+                                                <svg width="30" height="30">
+                                                    <circle cx="9" cy="9" r="8" stroke="#252e4b" stroke-width="1" fill="lightblue" />
+                                                </svg>
+                                                {% comment %} <img src="{% static "mapping/leaflet/images/marker-icon.png" %}" width="15px" alt=""> {% endcomment %}
+                                            </div>
+                                            <div class="col">
+                                                <h6>Sangat Rendah</h6>
+                                            </div>
+                                        </div>
+                                        <div class="row mt-1">
+                                            <div class="col-1 text-center">
+                                                <svg width="30" height="30">
+                                                    <circle cx="9" cy="9" r="8" stroke="#252e4b" stroke-width="1" fill="lightgreen" />
+                                                </svg>
+                                                {% comment %} <img src="{% static "mapping/leaflet/images/marker-icon.png" %}" width="15px" alt=""> {% endcomment %}
+                                            </div>
+                                            <div class="col">
+                                                <h6>Rendah</h6>
+                                            </div>
+                                        </div>
+                                        <div class="row mt-1">
+                                            <div class="col-1 text-center">
+                                                <svg width="30" height="30">
+                                                    <circle cx="9" cy="9" r="8" stroke="#252e4b" stroke-width="1" fill="yellow" />
+                                                </svg>
+                                                {% comment %} <img src="{% static "mapping/leaflet/images/marker-icon.png" %}" width="15px" alt=""> {% endcomment %}
+                                            </div>
+                                            <div class="col">
+                                                <h6>Tinggi</h6>
+                                            </div>
+                                        </div>
+                                        <div class="row mt-1">
+                                            <div class="col-1 text-center">
+                                                <svg width="30" height="30">
+                                                    <circle cx="9" cy="9" r="8" stroke="#252e4b" stroke-width="1" fill="red" />
+                                                </svg>
+                                                {% comment %} <img src="{% static "mapping/leaflet/images/marker-icon.png" %}" width="15px" alt=""> {% endcomment %}
+                                            </div>
+                                            <div class="col">
+                                                <h6>Sangat Tinggi</h6>
+                                            </div>
+                                        </div>
+                                        {% comment %} <h6 class="text-black mb-2 mt-3"><b>Warna Marker</b></h6> {% endcomment %}
+                                        <p><b>Warna marker menunjukkan jenis bansos</b></p>
+                                        {% for bansos in bansos %}
+                                        <div class="row mt-1">
+                                            <div class="col-1 text-center">
+                                                <svg width="17" height="17">
+                                                    <rect width="17" height="17" stroke="#252e4b" stroke-width="2" fill="{{bansos.color}}" />
+                                                </svg>
+                                                {% comment %} <img src="{% static "mapping/leaflet/images/marker-icon.png" %}" width="15px" alt=""> {% endcomment %}
+                                            </div>
+                                            <div class="col">
+                                                <h6>{{bansos.nama_bansos}}</h6>
+                                            </div>
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>        
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- #/ container -->
+</div>
+{% endblock body %}
+
+{% block footer %}{% endblock footer %}

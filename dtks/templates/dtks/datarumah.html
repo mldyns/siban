@@ -1,0 +1,741 @@
+{% load static %}
+  <div class="form-row">
+    <div class="form-group col-md-4">
+      <label class="inputdata-label">1a. Status Bangunan</label>
+      <select class="form-control" id="status_bangunan" name="status_bangunan">
+        <option value="">--- pilih status bangunan ---</option>
+        <option value="Milik sendiri">1. Milik Sendiri</option>
+        <option value="Kontrak/sewa">2. Kontrak/sewa</option>
+        <option value="Bebas sewa">3. Bebas Sewa</option>
+        <option value="Dinas">4. Dinas</option>
+        <option value="Lainnya">5. Lainnya</option>
+      </select>
+    </div>
+    <div class="form-group col-md-4">
+      <label class="inputdata-label">1b. Luas bangunan</label>
+      <input
+        type="number"
+        class="form-control"
+        name="luas_bangunan"
+        id="luas_bangunan"
+        required
+      />
+    </div>
+    <div class="form-group col-md-4">
+      <label class="inputdata-label">1c. Status Lahan</label>
+      <select class="form-control" id="status_lahan" name="status_lahan">
+        <option value="">--- pilih status lahan ---</option>
+        <option value="Milik sendiri">1. Milik Sendiri</option>
+        <option value="Kontrak/sewa">2. Kontrak/sewa</option>
+        <option value="Bebas sewa">3. Bebas Sewa</option>
+        <option value="Dinas">4. Dinas</option>
+        <option value="Lainnya">5. Lainnya</option>
+      </select>
+    </div>
+    <div class="form-group col-md-4">
+      <label class="inputdata-label">1d. Jika status lahan berkode 1, Luas:</label>
+      <input
+        type="number"
+        class="form-control"
+        name="luas_lahan"
+        id="luas_lahan"
+        required
+      />
+    </div>
+    <div class="form-group col-md-4">
+      <label class="inputdata-label">2. Luas Lantai</label>
+      <input
+        type="number"
+        class="form-control"
+        name="luas_lantai"
+        id="luas_lantai"
+        required
+      />
+    </div>
+    <div class="form-group col-md-4">
+      <label class="inputdata-label">3. Jenis lantai terluas</label>
+      <select class="form-control" id="jenis_lantai" name="jenis_lantai">
+        <option value="">--- pilih jenis lantai ---</option>
+        <option value="Marmer/Granit">1. Marmer/Granit</option>
+        <option value="Kramik">2. Keramik</option>
+        <option value="Parkel/vinil/karpet">3. Parket/Vinil/Permadani</option>
+        <option value="Ubin/tegel/teraso">4. Ubin/Tegel/Teraso</option>
+        <option value="Kayu/papan kualitas tinggi">5. Kayu/Papan kualitas tinggi</option>
+        <option value="Semen/bata merah">6. Semen/Bata Merah</option>
+        <option value="Bambu">7. Bambu</option>
+        <option value="Kayu/papan berkualitas rendah">8. Kayu/Papan berkualitas rendah</option>
+        <option value="Tanah">9. Tanah</option>
+        <option value="Lainnya">10. Lainnya</option>
+      </select>
+    </div>
+    <div class="form-group col-md-4">
+      <label class="inputdata-label">4a. Jenis dinding terluas</label>
+      <select class="form-control" id="jenis_dinding" name="jenis_dinding">
+        <option value="">--- pilih jenis dinding ---</option>
+        <option value="Tembok">1. Tembok</option>
+        <option value="Plesteran anyaman bambu/kawat">2. Plesteran anyaman bambu/kawat</option>
+        <option value="Kayu/papan/gipsum/grc/kalcibot">3. Kayu</option>
+        <option value="Plesteran anyaman bambu">4. Anyaman Bambu</option>
+        <option value="Batang kayu">5. Batang Kayu</option>
+        <option value="Bambu">6. Bambu</option>
+        <option value="Lainnya">7. Lainnya</option>
+      </select>
+    </div>
+    <div class="form-group col-md-4">
+      <label class="inputdata-label">4b. jika 4a berkode 1,2,3</label>
+      <select class="form-control" id="kondisi_dinding" name="kondisi_dinding">
+        <option value="">--- pilih kualitas dinding ---</option>
+        <option value="Bagus / Kualitas Tinggi">1. Bagus/Kualitas Tinggi</option>
+        <option value="Jelek / Kualitas rendah">2. Jelek/Kualitas Rendah</option>
+      </select>
+    </div>
+    <div class="form-group col-md-4">
+      <label class="inputdata-label">5a. Jenis Atap</label>
+      <select class="form-control" id="jenis_atap" name="jenis_atap">
+        <option value="">--- pilih jenis atap ---</option>
+        <option value="Beton/genteng beton">1. Beton/genteng beton</option>
+        <option value="Genteng keramik">2. Genteng Keramik</option>
+        <option value="Genteng metal">3. Genteng Metal</option>
+        <option value="Genteng tanah liat">4. Gentang Tanah Liat</option>
+        <option value="Asbes">5. Asbes</option>
+        <option value="Seng">6. Seng</option>
+        <option value="Sirap">7. Sirap</option>
+        <option value="Bambu">8. Bambu</option>
+        <option value="Jerami/ijuk/daun/rumbia">9. Jerami/Ijuk/Daun /Rimba</option>
+        <option value="Lainnya">10. Lainnya</option>
+      </select>
+    </div>
+    <div class="form-group col-md-4">
+      <label class="inputdata-label">5b. jika 5a berkode 1,2,3,4,5,6,7</label>
+      <select class="form-control" id="kondisi_atap" name="kondisi_atap">
+        <option value="">--- pilih kualitas atap ---</option>
+        <option value="Bagus / Kualitas Tinggi">1. Bagus/Kualitas Tinggi</option>
+        <option value="Jelek / Kualitas rendah">2. Jelek/Kualitas Rendah</option>
+      </select>
+    </div>
+    <div class="form-group col-md-4">
+      <label class="inputdata-label">6. Jumlah Kamar Tidur</label>
+      <input
+        type="number"
+        class="form-control"
+        name="jum_kamar"
+        id="jum_kamar"
+        required
+      />
+    </div>
+    <div class="form-group col-md-4">
+      <label class="inputdata-label">7a. Sumber air minum</label>
+      <select class="form-control" id="sumber_air" name="sumber_air">
+        <option value="">--- pilih sumber air minum ---</option>
+        <option value="Air kemasan bermerk">1. Air Kemasan</option>
+        <option value="Air isi ulang">2. Air Isi Ulang</option>
+        <option value="ledeng meteran">3. Leding Meteran</option>
+        <option value="ledeng eceran">4. Leding Eceran</option>
+        <option value="Sumur bor/pompa">5. Sumur Bor/Pompa</option>
+        <option value="Sumur terlindung">6. Sumur Terlindung</option>
+        <option value="Sumur tak terlindung">7. Sumur Tak Terlindung</option>
+        <option value="Mata air  terlindung">8. Mata Air Terlindung</option>
+        <option value="Mata air tak terlindung">9. Mata Air Tak Terlindung</option>
+        <option value="Air sungai/danau/waduk">10. Air Sungai/Danau/Waduk</option>
+        <option value="Air Hujan">11. Air Hujan</option>
+        <option value="Lainnya">12. Lainnya</option>
+      </select>
+    </div>
+    <div class="form-group col-md-4">
+      <label class="inputdata-label">7b. Cara memperoleh air minum</label>
+      <select class="form-control" id="cara_air" name="cara_air">
+        <option value="">--- pilih cara memperoleh air minum ---</option>
+        <option value="Membeli eceran">1. Membeli eceran</option>
+        <option value="Langganan">2. Langganan</option>
+        <option value="Tidak membeli">3. Tidak membeli</option>
+      </select>
+    </div>
+    <div class="form-group col-md-4">
+      <label class="inputdata-label">8a. Sumber Penerangan Utama</label>
+      <select class="form-control" id="sumber_penerangan" name="sumber_penerangan">
+        <option value="">--- pilih sumber penerangan ---</option>
+        <option value="Listrik PLN">1. Listrik PLN</option>
+        <option value="Listrik NON PLN">2. Listrik Non PLN</option>
+        <option value="Bukan Listrik">3. Bukan Listrik</option>
+      </select>
+    </div>
+    <div class="form-group col-md-4">
+      <label class="inputdata-label">8b. Jika 8a berkode 1, daya tampung</label>
+      <select class="form-control" id="daya" name="daya">
+        <option value="">--- pilih daya tampung ---</option>
+        <option value="450 watt">1. 450 watt</option>
+        <option value="900 watt">2. 900 watt</option>
+        <option value="1300 watt">3. 1.300 watt</option>
+        <option value="2200 watt">4. 2.200 watt</option>
+        <option value=">2200 watt">5. >2.200 watt</option>
+        <option value="Tanpa Meteran">6. tanpa meteran</option>
+      </select>
+    </div>
+    <div class="form-group col-md-4">
+      <label class="inputdata-label">8c. jika 8a berkode 1, ID Pelanggan</label>
+      <input
+        type="number"
+        class="form-control"
+        name="id_pel"
+        id="id_pel"
+        required
+      />
+    </div>
+
+    <div class="form-group col-md-4">
+      <label class="inputdata-label">8d. Status Kepemilikan Listik</label>
+      <select class="form-control" id="status_listrik" name="status_listrik">
+        <option value="">--- pilih status kepemilikan listrik ---</option>
+        <option value="Milik Sendiri">1. Milik Sendiri</option>
+        <option value="Menumpang tetangga">2. Menumpang Warga</option>
+      </select>
+    </div>
+    <div class="form-group col-md-4">
+      <label class="inputdata-label"
+        >9. Bahan Bakar/Energi utama untuk memasak</label
+      >
+      <select class="form-control" id="bahan_bakar" name="bahan_bakar">
+        <option value="">--- pilih bahan bakar untuk memasak ---</option>
+        <option value="Listrik">1. Listrik</option>
+        <option value="Gas > 3 kg">2. Gas > 3 kg</option>
+        <option value="Gas 3kg">3. Gas 3 kg</option>
+        <option value="Gas kota / bio gas">4. Gas Kota/biogas</option>
+        <option value="minyak tanah">5. Minyak Tanah</option>
+        <option value="Briket">6. Briket</option>
+        <option value="Arang">7. Arang</option>
+        <option value="kayu bakar">8. Kayu Bakar</option>
+        <option value="Lainnya">9. Lainnya</option>
+      </select>
+    </div>
+    <div class="form-group col-md-4">
+      <label class="inputdata-label"
+        >10a. Penggunaan Fasilitas Buang Air Besar (BAB)</label
+      >
+      <select class="form-control" id="fasilitas_bab" name="fasilitas_bab">
+        <option value="">--- pilih fasilitas BAB ---</option>
+        <option value="Sendiri">1. Sendiri</option>
+        <option value="Bersama">2. Bersama</option>
+        <option value="Umum">3. Umum</option>
+        <option value="Tidak">4. Tidak</option>
+      </select>
+    </div>
+    <div class="form-group col-md-4">
+      <label class="inputdata-label">10b. Jenis Kloset</label>
+      <select class="form-control" id="jenis_kloset" name="jenis_kloset">
+        <option value="">--- pilih jenis kloset ---</option>
+        <option value="Leher Angsa">1. Leher angsa</option>
+        <option value="Plengsengan">2. Plengsengan</option>
+        <option value="Cumplung / cubluk">3. Cempluk/cubluk</option>
+        <option value="Tidak Pakai">4. Tidak Pakai</option>
+      </select>
+    </div>
+    <div class="form-group col-md-4">
+      <label class="inputdata-label">10c. Tempat pembuangan akhir tinja</label>
+      <select class="form-control" id="buang_tinja" name="buang_tinja">
+        <option value="">--- pilih tempat pembuanagn akhir tinja ---</option>
+        <option value="Tangki">1. Tangki</option>
+        <option value="SPAR ( Saluran pembungan air limbah )">2. SPAL(Saluran Pembuangan Air Limbah)</option>
+        <option value="Lubang Tanah">3. Lubang Tanah</option>
+        <option value="Kolam/sawah / sungai/ danau / laut">4. Kolam/Sawah/Sungai/Danau/Laut</option>
+        <option value="Pantai / tanah lapang / kebun">5. Pantai/Tanah Lapang/Kebun</option>
+        <option value="lainnya">6. Lainnya</option>
+      </select>
+    </div>
+  </div>
+  <label class="inputdata-label">12. Keikutsertaan Bansos</label>
+  <div class="form-group col-lg-6">
+    <strong>
+      <label>Pusat</label>
+      <input type="hidden" name="bansos_pusat" id="bansos_pusat" value="" />
+    </strong>
+    <div class="form-group">
+      <div class="form-check form-check-inline">
+        <label class="form-check-label">
+          <input
+            type="checkbox"
+            class="form-check-input"
+            id="bansos_pusat_rtlh"
+            name="bansos_pus"
+            value='"RTLH"'
+          />RTLH</label
+        >
+      </div>
+      <div class="form-check form-check-inline">
+        <label class="form-check-label">
+          <input
+            type="checkbox"
+            class="form-check-input"
+            id="bansos_pusat_air"
+            name="bansos_pus"
+            value='"Air Bersih"'
+          />Air</label
+        >
+      </div>
+      <div class="form-check form-check-inline">
+        <label class="form-check-label">
+          <input
+            type="checkbox"
+            class="form-check-input"
+            id="bansos_pusat_listrik"
+            name="bansos_pus"
+            value='"Listrik"'
+          />Listrik</label
+        >
+      </div>
+      <div class="form-check form-check-inline">
+        <label class="form-check-label">
+          <input
+            type="checkbox"
+            class="form-check-input"
+            id="bansos_pusat_jamban"
+            name="bansos_pus"
+            value='"Jamban"'
+          />Jamban</label
+        >
+      </div>
+    </div>
+  </div>
+  <div class="form-group col-lg-6">
+    <strong>
+      <label>Provinsi</label>
+      <input type="hidden" name="bansos_provinsi" id="bansos_provinsi" value="" />          
+    </strong>
+    <div class="form-group">
+      <div class="form-check form-check-inline">
+        <label class="form-check-label">
+          <input
+            type="checkbox"
+            class="form-check-input"
+            id="bansos_provinsi_rtlh"
+            name="bansos_prov"
+            value='"RTLH"'
+          />RTLH</label
+        >
+      </div>
+      <div class="form-check form-check-inline">
+        <label class="form-check-label">
+          <input
+            type="checkbox"
+            class="form-check-input"
+            id="bansos_provinsi_air"
+            name="bansos_prov"
+            value='"Air Bersih"'
+          />Air</label
+        >
+      </div>
+      <div class="form-check form-check-inline">
+        <label class="form-check-label">
+          <input
+            type="checkbox"
+            class="form-check-input"
+            id="bansos_provinsi_listrik"
+            name="bansos_prov"
+            value='"Listrik"'
+          />Listrik</label
+        >
+      </div>
+      <div class="form-check form-check-inline">
+        <label class="form-check-label">
+          <input
+            type="checkbox"
+            class="form-check-input"
+            id="bansos_provinsi_jamban"
+            name="bansos_prov"
+            value='"Jamban"'
+          />Jamban</label
+        >
+      </div>
+    </div>
+  </div>
+  <div class="form-group col-lg-6">
+    <strong>
+      <label>Kabupaten/Kota</label>
+      <input type="hidden" name="bansos_kabupaten" id="bansos_kabupaten" value="" />
+    </strong>
+    <div class="form-group">
+      <div class="form-check form-check-inline">
+        <label class="form-check-label">
+          <input
+            type="checkbox"
+            class="form-check-input"
+            id="bansos_kota_rtlh"
+            name="bansos_kab"
+            value='"RTLH"'
+          />RTLH</label
+        >
+      </div>
+      <div class="form-check form-check-inline">
+        <label class="form-check-label">
+          <input
+            type="checkbox"
+            class="form-check-input"
+            id="bansos_kota_air"
+            name="bansos_kab"
+            value='"Air Bersih"'
+          />Air</label
+        >
+      </div>
+      <div class="form-check form-check-inline">
+        <label class="form-check-label">
+          <input
+            type="checkbox"
+            class="form-check-input"
+            id="bansos_kota_listrik"
+            name="bansos_kab"
+            value='"Listrik"'
+          />Listrik</label
+        >
+      </div>
+      <div class="form-check form-check-inline">
+        <label class="form-check-label">
+          <input
+            type="checkbox"
+            class="form-check-input"
+            id="bansos_kota_jamban"
+            name="bansos_kab"
+            value='"Jamban"'
+          />Jamban</label
+        >
+      </div>
+    </div>
+  </div>
+  <div class="form-group col-lg-6">
+    <strong>
+      <label>Desa</label>
+      <input type="hidden" name="bansos_desa" id="bansos_desa" value="" />
+    </strong>
+    <div class="form-group">
+      <div class="form-check form-check-inline">
+        <label class="form-check-label">
+          <input
+            type="checkbox"
+            class="form-check-input"
+            id="bansos_desa_rtlh"
+            name="bansos_des"
+            value='"RTLH"'
+          />RTLH</label
+        >
+      </div>
+      <div class="form-check form-check-inline">
+        <label class="form-check-label">
+          <input
+            type="checkbox"
+            class="form-check-input"
+            id="bansos_desa_air"
+            name="bansos_des"
+            value='"Air Bersih"'
+          />Air</label
+        >
+      </div>
+      <div class="form-check form-check-inline">
+        <label class="form-check-label">
+          <input
+            type="checkbox"
+            class="form-check-input"
+            id="bansos_desa_listrik"
+            name="bansos_des"
+            value='"Listrik"'
+          />Listrik</label
+        >
+      </div>
+      <div class="form-check form-check-inline">
+        <label class="form-check-label">
+          <input
+            type="checkbox"
+            class="form-check-input"
+            id="bansos_desa_jamban"
+            name="bansos_des"
+            value='"Jamban"'
+          />Jamban</label
+        >
+      </div>
+    </div>
+  </div>
+  <div class="form-group col-lg-12">
+    <strong>
+      <label>Lainnya</label>
+      <input type="hidden" name="bansos_lainnya" id="bansos_lainnya" value="" />
+      <input type="hidden" name="sumber_bansos" id="sumber_bansos" value="" />
+    </strong>
+    <div class="form-group">
+      <div class="form-check form-check-inline">
+        <label class="form-check-label" style="width:90px">
+          <input
+            type="checkbox"
+            class="form-check-input"
+            id="bansoslain_rtlh"
+            name="bansos_lain"
+            value='"RTLH"'
+          />RTLH</label><label class="form-check-label">Sumber :</label>
+      </div>
+
+      <label class="radio-inline mr-3">
+        <input type="radio" name="optradio1" class="radio-rtlh" value="CSR-rtlh" style="margin-right:0.5rem" id="rtlh_csr"/>1. CSR</label>
+      <label class="radio-inline mr-3">
+        <input type="radio" name="optradio1" class="radio-rtlh" value="BAZNAS-rtlh" style="margin-right:0.5rem" id="rtlh_baznas"/>2. BAZNAS</label>
+      <label class="radio-inline">
+        <input type="radio" name="optradio1" class="radio-rtlh" value="ORMAS-rtlh" style="margin-right:0.5rem" id="rtlh_ormas"/>3. ORMAS</label>
+    </div>
+    <div class="form-group">
+      
+      <div class="form-check form-check-inline">
+        <label class="form-check-label" style="width:90px">
+          <input
+            type="checkbox"
+            class="form-check-input"
+            id="bansoslain_air"
+            name="bansos_lain"
+            value='"Air Bersih"'/>
+            Air</label><label class="form-check-label">Sumber :</label>
+      </div>
+
+      <label class="radio-inline mr-3">
+        <input type="radio" name="optradio2" class="radio-air" value="CSR-air" style="margin-right:0.5rem"/>1. CSR</label>
+      <label class="radio-inline mr-3">
+        <input type="radio" name="optradio2" class="radio-air" value="BAZNAS-air" style="margin-right:0.5rem"/>2. BAZNAS</label>
+      <label class="radio-inline">
+        <input type="radio" name="optradio2" class="radio-air" value="ORMAS-air" style="margin-right:0.5rem"/>3. ORMAS</label>
+    </div>
+    <div class="form-group">
+      
+      <div class="form-check form-check-inline">
+        <label class="form-check-label" style="width:90px">
+          <input
+            type="checkbox"
+            class="form-check-input"
+            id="bansoslain_listrik"
+            name="bansos_lain"
+            value='"Listrik"'/>Listrik</label><label class="form-check-label">Sumber :</label>
+         </div>
+
+      <label class="radio-inline mr-3">
+        <input type="radio" name="optradio3" class="radio-listrik" value="CSR-listrik" style="margin-right:0.5rem"/>1. CSR</label>
+      <label class="radio-inline mr-3">
+        <input type="radio" name="optradio3" class="radio-listrik" value="BAZNAS-listrik" style="margin-right:0.5rem"/>2. BAZNAS</label>
+      <label class="radio-inline">
+        <input type="radio" name="optradio3" class="radio-listrik" value="ORMAS-listrik" style="margin-right:0.5rem"/>3. ORMAS</label>
+    </div>
+    <div class="form-group">
+      
+      <div class="form-check form-check-inline">
+        <label class="form-check-label" style="width: 90px;">
+          <input
+            type="checkbox"
+            class="form-check-input"
+            id="bansoslain_jamban"
+            name="bansos_lain"
+            value='"Jamban"'
+          />Jamban</label><label class="form-check-label">Sumber :</label>
+      </div>
+      <label class="radio-inline mr-3">
+        <input type="radio" name="optradio4" class="radio-jamban" value="CSR-jamban" style="margin-right:0.5rem" disabled/>1. CSR</label>
+      <label class="radio-inline mr-3">
+        <input type="radio" name="optradio4" class="radio-jamban" value="BAZNAS-jamban" style="margin-right:0.5rem" disabled/>2. BAZNAS</label>
+      <label class="radio-inline">
+        <input type="radio" name="optradio4" class="radio-jamban" value="ORMAS-jamban" style="margin-right:0.5rem" disabled/>3. ORMAS</label>
+    </div>
+  </div>
+<script>
+
+  $("input[name='bansos_pus']").click(function(){
+    var arr = [];
+    $.each($("input[name='bansos_pus']:checked"), function(){
+        arr.push($(this).val());
+    });
+    $("#bansos_pusat").val('['+arr.join(', ')+']');
+});
+$("input[name='bansos_prov']").click(function(){
+  var arr = [];
+  $.each($("input[name='bansos_prov']:checked"), function(){
+      arr.push($(this).val());
+  });
+  $("#bansos_provinsi").val('['+arr.join(', ')+']');
+});
+$("input[name='bansos_kab']").click(function(){
+  var arr = [];
+  $.each($("input[name='bansos_kab']:checked"), function(){
+      arr.push($(this).val());
+  });
+  $("#bansos_kabupaten").val('['+arr.join(', ')+']');
+});
+$("input[name='bansos_des']").click(function(){
+  var arr = [];
+  $.each($("input[name='bansos_des']:checked"), function(){
+      arr.push($(this).val());
+  });
+  $("#bansos_desa").val('['+arr.join(', ')+']');
+});
+$("input[name='bansos_lain']").click(function(){
+  var arr = [];
+  $.each($("input[name='bansos_lain']:checked"), function(){
+      arr.push($(this).val());
+  });
+  $("#bansos_lainnya").val('['+arr.join(', ')+']');
+});
+$( "#bansoslain_rtlh" ).change(function() {
+  var $check = $("#bansoslain_rtlh").is(":checked");
+  $('.radio-rtlh').prop('disabled',false);
+  if ($check == false ){
+    $('.radio-rtlh').prop('checked',false);
+    $('.radio-rtlh').prop('disabled',true);
+  }
+}).change();
+$( "#bansoslain_air" ).change(function() {
+  var $check = $("#bansoslain_air").is(":checked");
+    $('.radio-air').prop('disabled',false);
+    if ($check == false ){
+      $('.radio-air').prop('checked',false);
+      $('.radio-air').prop('disabled',true);
+    }
+  }).change();
+  $( "#bansoslain_listrik" ).change(function() {
+    var $check = $("#bansoslain_listrik").is(":checked");
+    $('.radio-listrik').prop('disabled',false);
+    if ($check == false ){
+      $('.radio-listrik').prop('checked',false);
+      $('.radio-listrik').prop('disabled',true);
+    }
+  }).change();
+  $( "#bansoslain_jamban" ).change(function() {
+    var $check = $("#bansoslain_jamban").is(":checked");
+    $('.radio-jamban').prop('disabled',false);
+    if ($check == false ){
+      $('.radio-jamban').prop('checked',false);
+      $('.radio-jamban').prop('disabled',true);
+    }
+  }).change();
+  $("input[type='radio']").click(function(){
+    var arr = [];
+    $.each($("input[type='radio']:checked"), function(){
+        arr.push($(this).val());
+    });
+    $("#sumber_bansos").val('['+arr.join(', ')+']');
+  });
+  
+  
+  {% if data_kondisi %}
+  $("#status_bangunan option[value='{{data_kondisi.status_bangunan}}']").prop('selected', true);
+  $('#luas_bangunan').val("{{data_kondisi.luas_bangunan}}");
+  $("#status_lahan option[value='{{data_kondisi.status_lahan}}']").prop('selected', true);
+  $('#luas_lahan').val("{{data_kondisi.luas_lahan}}");
+  $('#luas_lantai').val("{{data_kondisi.luas_lantai}}");
+  $("#jenis_lantai option[value='{{data_kondisi.jenis_lantai}}']").prop('selected', true);
+  $("#jenis_dinding option[value='{{data_kondisi.jenis_dinding}}']").prop('selected', true);
+  $("#kondisi_dinding option[value='{{data_kondisi.kondisi_dinding}}']").prop('selected', true);
+  $("#jenis_atap option[value='{{data_kondisi.jenis_atap}}']").prop('selected', true);
+  $("#kondisi_atap option[value='{{data_kondisi.kondisi_atap}}']").prop('selected', true);
+  $('#jum_kamar').val("{{data_kondisi.jum_kamar}}");
+  $("#sumber_air option[value='{{data_kondisi.sumber_air}}']").prop('selected', true);
+  $("#cara_air option[value='{{data_kondisi.cara_air}}']").prop('selected', true);
+  $("#sumber_penerangan option[value='{{data_kondisi.sumber_penerangan}}']").prop('selected', true);
+  $("#daya option[value='{{data_kondisi.daya}}']").prop('selected', true);
+  $('#id_pel').val("{{data_kondisi.id_pel}}");
+  $("#status_listrik option[value='{{data_kondisi.status_listrik}}']").prop('selected', true);
+  $("#bahan_bakar option[value='{{data_kondisi.bahan_bakar}}']").prop('selected', true);
+  $("#fasilitas_bab option[value='{{data_kondisi.fasilitas_bab}}']").prop('selected', true);
+  $("#jenis_kloset option[value='{{data_kondisi.jenis_kloset}}']").prop('selected', true);
+  $("#buang_tinja option[value='{{data_kondisi.buang_tinja}}']").prop('selected', true);
+  var bansos_pusat = "{{data_kondisi.bansos_pusat}}"
+  var bansos_provinsi = "{{data_kondisi.bansos_provinsi}}"
+  var bansos_kabupaten = "{{data_kondisi.bansos_kota}}"
+  var bansos_desa = "{{data_kondisi.bansos_desa}}"
+  var bansos_lainnya = "{{data_kondisi.bansos_lainnya}}"
+  var sumber_bansos = "{{data_kondisi.sumber_bansos}}"
+  $('#bansos_pusat').val(bansos_pusat.replace(/&quot;/g, '"'));
+  $('#bansos_provinsi').val(bansos_provinsi.replace(/&quot;/g, '"'));
+  $('#bansos_kabupaten').val(bansos_kabupaten.replace(/&quot;/g, '"'));
+  $('#bansos_desa').val(bansos_desa.replace(/&quot;/g, '"'));
+  $('#bansos_lainnya').val(bansos_lainnya.replace(/&quot;/g, '"'));
+  $('#sumber_bansos').val(sumber_bansos.replace(/&quot;/g, '"'));
+  if (bansos_pusat.indexOf("RTLH") >= 0){
+    $('#bansos_pusat_rtlh').prop('checked',true);
+  }
+  if (bansos_pusat.indexOf("Air Bersih") >= 0){
+
+    $('#bansos_pusat_air').prop('checked',true);
+  }
+  if (bansos_pusat.indexOf("Listrik") >= 0){
+    $('#bansos_pusat_listrik').prop('checked',true);
+  }
+  if (bansos_pusat.indexOf("Jamban") >= 0){
+    $('#bansos_pusat_jamban').prop('checked',true);
+  }
+  if (bansos_provinsi.indexOf("RTLH") >= 0){
+    $('#bansos_provinsi_rtlh').prop('checked',true);
+  }
+  if (bansos_provinsi.indexOf("Listrik") >= 0){
+    $('#bansos_provinsi_listrik').prop('checked',true);
+  }
+  if (bansos_provinsi.indexOf("Air Bersih") >= 0){
+    $('#bansos_provinsi_air').prop('checked',true);
+  }
+  if (bansos_provinsi.indexOf("Jamban") >= 0){
+    $('#bansos_provinsi_jamban').prop('checked',true);
+  }
+  if (bansos_kabupaten.indexOf("RTLH") >= 0){
+    $('#bansos_kota_rtlh').prop('checked',true);
+  }
+  if (bansos_kabupaten.indexOf("Listrik") >= 0){
+    $('#bansos_kota_listrik').prop('checked',true);
+  }
+  if (bansos_kabupaten.indexOf("Air Bersih") >= 0){
+    $('#bansos_kota_air').prop('checked',true);
+  }
+  if (bansos_kabupaten.indexOf("Jamban") >= 0){
+    $('#bansos_kota_jamban').prop('checked',true);
+  }
+  if (bansos_desa.indexOf("RTLH") >= 0){
+    $('#bansos_desa_rtlh').prop('checked',true);
+  }
+  if (bansos_desa.indexOf("Listrik") >= 0){
+    $('#bansos_desa_listrik').prop('checked',true);
+  }
+  if (bansos_desa.indexOf("Air Bersih") >= 0){
+    $('#bansos_desa_air').prop('checked',true);
+  }
+  if (bansos_desa.indexOf("Jamban") >= 0){
+    $('#bansos_desa_jamban').prop('checked',true);
+  }
+  if (bansos_lainnya.indexOf("RTLH") >= 0){
+    $('#bansoslain_rtlh').prop('checked',true);
+    if(sumber_bansos.indexOf("CSR-rtlh") >= 0){
+    $("input[value='CSR-rtlh'].radio-rtlh").prop('checked', true);
+    }else if (sumber_bansos.indexOf("ORMAS-rtlh") >= 0){
+    $("input[value='ORMAS-rtlh'].radio-rtlh").prop('checked', true);
+    }else{
+    $("input[value='BAZNAS-rtlh'].radio-rtlh").prop('checked', true);
+    }
+    $('.radio-rtlh').prop('disabled',false);
+  }
+  if (bansos_lainnya.indexOf("Air Bersih") >= 0){
+    $('#bansoslain_air').prop('checked',true);
+    if(sumber_bansos.indexOf("CSR-air") >= 0){
+      $("input[value='CSR-air'].radio-air").prop('checked', true);
+      }else if (sumber_bansos.indexOf("ORMAS-air") >= 0){
+      $("input[value='ORMAS-air'].radio-air").prop('checked', true);
+      }else{
+      $("input[value='BAZNAS-air'].radio-air").prop('checked', true);
+      }    $('.radio-air').prop('disabled',false);
+  }
+  if (bansos_lainnya.indexOf("Jamban") >= 0){
+    $('#bansoslain_jamban').prop('checked',true);
+    if(sumber_bansos.indexOf("CSR-jamban") >= 0){
+      $("input[value='CSR-jamban'].radio-jamban").prop('checked', true);
+      }else if (sumber_bansos.indexOf("ORMAS-jamban") >= 0){
+      $("input[value='ORMAS-jamban'].radio-jamban").prop('checked', true);
+      }else{
+      $("input[value='BAZNAS-jamban'].radio-jamban").prop('checked', true);
+      }    $('.radio-jamban').prop('disabled',false);
+  }
+  if (bansos_lainnya.indexOf("Listrik") >= 0){
+    $('#bansoslain_listrik').prop('checked',true);
+    if(sumber_bansos.indexOf("CSR-listrik") >= 0){
+      $("input[value='CSR-listrik'].radio-listrik").prop('checked', true);
+      }else if (sumber_bansos.indexOf("ORMAS-listrik") >= 0){
+      $("input[value='ORMAS-listrik'].radio-listrik").prop('checked', true);
+      }else{
+      $("input[value='BAZNAS-listrik'].radio-listrik").prop('checked', true);
+      }    $('.radio-listrik').prop('disabled',false);
+  }
+{% endif %}
+</script>

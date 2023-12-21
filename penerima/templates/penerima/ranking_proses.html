@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block head %}{% endblock head %}
+
+{% block body %}
+<div class="content-body">
+
+    <div class="container-fluid mt-3">
+        
+        <div class="row">
+            
+            <div class="col-xl-6 col-lg-12 col-sm-12 col-xxl-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-title">
+                            <h4>Proses Perankingan Bansos</h4>
+                            {% if sembako_lansia_tahun_ini == 0 %}
+                            <form method="POST" action="{% url 'penerima:ranking_proses' slug='sembako-lansia' %}">
+                                {% csrf_token %}
+                                <input name="_method" type="hidden" value="ranking_proses">
+                                <button type="submit" class="btn mt-2 ml-2 btn-info">Proses Ranking Sembako Lansia</button>
+                            </form>
+                            {% endif %}
+                            {% if sembako_disabilitas_tahun_ini == 0 %}
+                            <form method="POST" action="{% url 'penerima:ranking_proses' slug='sembako-disabilitas' %}">
+                                {% csrf_token %}
+                                <input name="_method" type="hidden" value="ranking_proses">
+                                <button type="submit" class="btn mt-2 ml-2 btn-info">Proses Ranking Sembako Disabilitas</button>
+                            </form>
+                            {% endif %}
+                            {% if alat_bantu_tahun_ini == 0 %}
+                            <form method="POST" action="{% url 'penerima:ranking_proses' slug='alat-bantu-disabilitas' %}">
+                                {% csrf_token %}
+                                <input name="_method" type="hidden" value="ranking_proses">
+                                <button type="submit" class="btn mt-2 ml-2 btn-info">Proses Ranking Alat Bantu Disabilitas</button>
+                            </form>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- #/ container -->
+</div>
+{% endblock body %}
+
+{% block footer %}
+{% endblock footer %}

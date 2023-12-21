@@ -1,0 +1,156 @@
+{% extends base %} 
+{% load static %} 
+{% block head %}
+{% endblock head %} {% block body %}
+<div class="content-body" style="min-height: 788px">
+  <div class="row page-titles mx-0">
+    <div class="col p-md-0">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a href="#">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item active">
+          <a href="#">List DTKS</a>
+        </li>
+      </ol>
+    </div>
+  </div>
+  <!-- row -->
+
+  <div class="container-fluid">
+    <form method="POST" id="data_awal">
+      {% csrf_token %}
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-body">
+              <h4 class="card-title mb-4">Perhitungan Clustering</h4>
+                <div class="form-group row">
+                  <div class="col-sm-6 d-flex">
+                    <label>Nama Clustering</label>
+                      <input type="text" class="form-control" placeholder="Isi nama clustering" id="nama_cl" name="nama_cl" required>
+                  </div>
+                  <div class="col-sm-6 d-flex">
+                    <label>Jumlah Klaster</label>
+                      <input type="number" class="form-control" name="klaster" id="klaster" required>
+                  </div>
+              </div>
+              <div class="table-responsive input-cluster" style="height:300px;overflow:auto;">
+                <table class="table" style="border:1px solid #252e4b;">
+                  <thead style="background-color:white;position:sticky;top:0;">
+                    <tr>
+                      <th style="width:0%">#</th>
+                      <th style="width:5%">No</th>
+                      <th>Nama Atribut</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for atr in atribut %}
+                    <tr id="{{atr}}">
+                          <th><input class="{{atr}} checkbox" type="checkbox" name="{{atr}}"></th>
+                          <th>{{forloop.counter}}</th>
+                          <td>{{atr}}</td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+                <button id="proses" name="proses" type="submit" class="btn mb-1" style="width:100%;background-color:#252e4b;color:white;">Proses Clustering</button>
+          </div>
+        </div>
+      </div>
+      <div class="col-12">
+        <div class="card">
+          <div class="card-body">
+              <h4 class="card-title mb-0">Output Clustering</h4>
+              <div class="table-responsive" style="border:1px solid #f3f3f9;">
+                <table class="table" id="table-output">
+                    <thead style="background-color:#f3f3f9;">
+                        <tr>
+                            <th>#</th>
+                            {% for c in cols %}
+                              <th>{{c}}</th>
+                            {% endfor %}
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                      {% for df in output %}
+                      <tr>
+                        <th>{{forloop.counter}}</th>
+                        {% for a in df  %}
+                        <td>{{a}}</td>
+                        {% endfor %}
+                        <td>
+                          <a href="{% url 'clustering:dtks' df.1 %}" target="_blank" class="badge badge-pill badge-dark px-2" style="font-size:12px;">Lihat Data</a>
+                        </td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <button id="simpan" name="simpan" type="submit" class="btn mb-1" style="width:100%;background-color:#252e4b;color:white;" hidden>Simpan Clustering</button>
+          </div>
+        </div>
+      </div>
+      <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Line Scatter Diagram</h4>
+                {% if data %}
+                        <img src="data:image/png;base64, {{data|safe}}">
+                  {% endif %}
+              </div>
+        </div>
+    </div>
+    </div>
+  </div>
+  <!-- #/ container -->
+  </form>
+</div>
+{% endblock body %}
+
+{% block footer %}
+<script>
+  $(document).ready( function () {
+    $('#table-output').DataTable();
+} );
+  $(".js-example-basic-single").select2({
+    tags: true
+  });
+  $("input#nama_cl").on({
+    keydown: function(e) {
+      if (e.which === 32)
+        return false;
+    },
+    change: function() {
+      this.value = this.value.replace(/\s/g, "");
+    }
+  });
+
+  {% if output %}
+    $('#proses').prop("hidden",true);
+    $('#simpan').prop("hidden",false);
+    $('.input-cluster').css("height", "");
+    $('#nama_cl').val("{{name_table}}").prop("disabled",true);
+    $('#klaster').val("{{jum_cluster}}").prop("disabled",true);
+
+  {% for atr in atribut %}
+    {% if atr in value %}
+    $('.{{atr}}').prop("checked", true).prop("disabled",true);
+    {% else %}
+    $('#{{atr}}').prop("hidden",true);
+    {% endif %}
+    {% endfor %}
+    
+  {% endif %}
+
+  {% if simpan  %}  
+  $('#simpan').prop("hidden",true);
+  {% endif %}
+
+
+</script>
+
+
+{% endblock footer %}

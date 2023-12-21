@@ -1,0 +1,255 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load account_extras %}
+{% block head %}
+
+{% endblock head %}
+
+
+{% block body %}
+<!--**********************************
+            Content body start
+        ***********************************-->
+        <div class="content-body" style="min-height: 788px">
+            <div class="row page-titles mx-0">
+              <div class="col p-md-0">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item">
+                    <a href="{% url 'dashboard' %}">Dashboard</a>
+                  </li>
+                  <li class="breadcrumb-item active">
+                    <a href="{% url 'account:user' %}">{{title}}</a>
+                  </li>
+                </ol>
+              </div>
+            </div>
+            <!-- row -->
+          
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-12">
+                  {% if messages %}
+                        {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }} alert-dismissible fade show">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span>
+                        </button>{{message}}</div>
+                        {% endfor %}
+                    {% endif %}
+                  <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Tabel User</h4>
+                     {% comment %} <button type="button" class="btn mb-1 btn-info float-right" data-toggle="modal" data-target="#exampleModal" data-backdrop="static">
+                        Tambah Data<span class="btn-icon-right"
+                          ><i class="fa fa-plus"></i
+                        ></span>
+                          </button> {% endcomment %}
+                          <a href="{% url 'account:registration' %}" type="button" class="btn mb-1 btn-info float-right">Tambah Data<span class="btn-icon-right"><i class="fa fa-plus"></i></span></a>
+          {% comment %} <!--Modal Tambah Data-->
+                          <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                              <div class="modal-dialog" role="document">
+                                  <div class="modal-content">
+                                      <div class="modal-header">
+                                          <h5 class="modal-title" id="exampleModalLabel">Tambah Data User</h5>
+                                          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
+                                          </button>
+                                      </div>
+                                      <div class="modal-body">
+                                          <form method="POST">
+                                              {% csrf_token %}
+                                              <div class="form-group">
+                                                  <label for="recipient-name" class="col-form-label">Nama<span class="text-danger">*</span></label>
+                                                  {{form.name}}
+                                              </div>
+                                              <div class="form-group">
+                                                  <label for="recipient-name" class="col-form-label">Username<span class="text-danger">*</span></label>
+                                                  {{form.username}}
+                                              </div>
+                                              <div class="form-group">
+                                                  <label for="recipient-name" class="col-form-label">Password<span class="text-danger">*</span></label>
+                                                  {{form.password1}}
+                                                  <span id="eye-pass" toggle="#password" class="fa fa-fw fa-eye field-icon toggle-password" onclick="showPass()"></span>
+                                              </div>
+                                              <div class="form-group">
+                                                  <label for="recipient-name" class="col-form-label">Password Confirmation<span class="text-danger">*</span></label>
+                                                  {{form.password2}}
+                                                  <span id="eye-pass" toggle="#password" class="fa fa-fw fa-eye field-icon toggle-password" onclick="showPass2()"></span>
+                                              </div>
+                                              <div class="form-group">
+                                                <label for="recipient-name" class="col-form-label">Lokasi<span class="text-danger">*</span></label>
+                                                {{form.location}}
+                                              </div>
+                                              
+                                              
+                                            {% for field in form %}
+                                            <p>
+                                              {% if field.errors %}
+                                              <ul class="errorlist">
+                                                {% for error in field.errors %}
+                                                <li>{{ error }}</li>
+                                                {% endfor %}
+                                              </ul>
+                                              {% endif %}
+                                               {{ field.label_tag }} {{ field }}
+                                            </p>
+                                            {% endfor %}
+                                              <div class="form-group">
+                                                  <label for="recipient-name" class="col-form-label">Role<span class="text-danger">*</span></label>
+                                                  <select class="form-control" id="role" name="role">
+                                                      <option disabled="disabled" selected="true">--Pilih Role--</option>
+                                                      <option value="Admin">Admin</option>
+                                                      <option value="TKSK">TKSK</option>
+                                                  </select>
+                                              </div>
+                                          </div>
+                                          <div class="modal-footer">
+                                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                                              <button type="submit" class="btn btn-primary">Kirim</button>
+                                          </div>
+                                      </form>
+                                  </div>
+                              </div>
+                          </div> {% endcomment %}
+          
+                      <table class="table">
+                        <thead>
+                          <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Username</th>
+                            <th>Lokasi</th>
+                            <th>Role</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {% for data_user in data_user %}
+                          <tr>
+                            <th>{{forloop.counter}}</th>
+                            <td>{{data_user.name}}</td>
+                            {% comment %} <td><span class="badge badge-{{badge}} px-2">{{data_user.role}}</span></td> {% endcomment %}
+                            <td>{{data_user.username}}</td>
+                            <td>{{data_user.location}}</td>
+                            <td>{{data_user.groups.all.0}}</td>
+                            <td class="color-primary d-flex">
+                              <form method="POST" action="{% url 'account:delete' data_user.id %}">
+                                {% csrf_token %}
+                                <input name="_method" type="hidden" value="DELETE">
+                                <button type="submit" class="sweet-confirm btn mb-1 mx-1 btn-rounded btn-danger show_confirm" data-toggle="tooltip" title='Delete'>
+                                  <i class="fa fa-trash font-18 align-middle"></i>
+                                </button>
+                            </form>
+                              <button type="button" class="btn mb-1 mx-1 btn-rounded btn-warning" data-target="#modalUpdate-{{data_user.id}}" data-toggle="modal" data-backdrop="static"><i class="fa fa-pencil font-18 align-middle"></i></button>
+                            </td>
+                          </tr>
+                          <!--Modal update Data-->
+                          <div class="modal fade" id="modalUpdate-{{data_user.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Tambah Data User</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form method="POST" action="{% url 'account:update' data_user.id %}">
+                                            {% csrf_token %}
+                                            <div class="form-group">
+                                                <label for="recipient-name" class="col-form-label">Nama<span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control" id="newnama" name="newnama" value="{{data_user.name}}" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="recipient-name" class="col-form-label">Username<span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control" id="newusername" name="newusername" value="{{data_user.username}}" required>
+                                            </div>
+                                            {% comment %} <div class="form-group">
+                                                <label for="recipient-name" class="col-form-label">Password<span class="text-danger">*</span></label>
+                                                <input type="password" class="form-control" id="newpassword{{data_user.id}}" name="newpassword" value="{{data_user.password}}" required>
+                                                <span id="eye-pass{{data_user.id}}" toggle="#newpassword" class="fa fa-fw fa-eye field-icon toggle-password" onclick="showPass1({{data_user.id}})"></span>
+                                            </div> {% endcomment %}
+                                            <div class="form-group">
+                                              <label for="recipient-name" class="col-form-label">Lokasi<span class="text-danger">*</span></label>
+                                              <select name="newlocation" id="newlocation" class="form-control" required>
+                                                {% comment %} <option value="{{data_user.location}}" selected>{{data_user.location}}</option> {% endcomment %}
+                                                {% for kecamatan in kecamatan %}
+                                                <option {% if data_user.location == kecamatan.nama_kecamatan %}selected{% endif %} value="{{kecamatan.nama_kecamatan}}">{{kecamatan.nama_kecamatan}}</option>
+                                                {% endfor %}
+                                              </select>
+                                          </div>
+                                            <div class="form-group">
+                                                <label for="recipient-name" class="col-form-label">Role<span class="text-danger">*</span></label>
+                                                <select class="form-control" id="newrole" name="newrole">
+                                                  <option value="Admin">Admin</option>
+                                                  <option value="TKSK"
+                                                  {% if data_user|has_group:'TKSK' %}
+                                                  selected="true"
+                                                  {% endif %}
+                                                  >TKSK</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                                            <button type="submit" class="btn btn-primary">Kirim</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                          </div>
+                          {% empty %}
+                          {% endfor %}
+                        </tbody>
+                      </table>
+                      
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- #/ container -->
+          </div>
+    <!--**********************************
+            Content body end
+        ***********************************-->
+
+{% endblock body %}
+
+{% block footer %}
+<script>
+  function showPass() {
+    var x = document.getElementById("password1");
+    if (x.type === "password") {
+      x.type = "text";   
+      document.getElementById("eye-pass").classList.add("fa-eye-slash");
+      document.getElementById("eye-pass").classList.remove("fa-eye");
+    } else {
+      x.type = "password";
+      document.getElementById("eye-pass").classList.add("fa-eye");
+      document.getElementById("eye-pass").classList.remove("fa-eye-slash");
+    }
+  }
+  function showPass2() {
+    var y = document.getElementById("password2");
+    if (y.type === "password") {
+      y.type = "text";   
+      document.getElementById("eye-pass").classList.add("fa-eye-slash");
+      document.getElementById("eye-pass").classList.remove("fa-eye");
+    } else {
+      y.type = "password";
+      document.getElementById("eye-pass").classList.add("fa-eye");
+      document.getElementById("eye-pass").classList.remove("fa-eye-slash");
+    }
+  }
+  {% comment %} function showPass1(id) {
+    var x = document.getElementById(id);
+    if (x.type === "password") {
+      x.type = "text";   
+      document.getElementById("eye-pass"+id).classList.add("fa-eye-slash");
+      document.getElementById("eye-pass"+id).classList.remove("fa-eye");
+    } else {
+      x.type = "password";
+      document.getElementById("eye-pass"+id).classList.add("fa-eye");
+      document.getElementById("eye-pass"+id).classList.remove("fa-eye-slash");
+    }
+  } {% endcomment %}
+</script>
+{% endblock footer %}

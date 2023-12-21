@@ -1,0 +1,76 @@
+{% extends base %}
+{% load static %}
+{% block head %}
+{% endblock head %}
+
+{% block body %}
+<div class="content-body">
+    <div class="row page-titles mx-0">
+        <div class="col p-md-0">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a href="{% url 'dtks:index' %}">List DTKS</a>
+            </li>
+            <li class="breadcrumb-item active">
+              <a href="{% url 'dtks:input_form' %}">Input DTKS KRT</a>
+            </li>
+          </ol>
+        </div>
+      </div>
+    <div class="container-fluid mt-3 mb-5">
+        <div class="row">
+            <div class="col-md-12" id="form-input-dtks-rt">
+                {% if messages %}
+                    {% for message in messages %}
+                    <div class="alert alert-danger alert-dismissible fade show">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span>
+                    </button>{{message}}</div>
+                    {% endfor %}
+                {% endif %}
+                <form method="POST" id="step-form-horizontal" class="step-form-horizontal">
+                    {% csrf_token %}
+                    <div>
+                        <h4>Data Keluarga</h4>
+                        <section>
+                            {% include 'dtks/dataalamat.html' %} 
+                            <hr>
+                        </section>
+                        <h4>Data Aset</h4>
+                        <section>
+                            {% include 'dtks/dataaset.html' %} 
+
+                        </section>
+                        <h4>Data Rumah</h4>
+                        <section>
+                            {% include 'dtks/datarumah.html' %} 
+                        </section>
+                        <h4>Konfirmasi</h4>
+                        <section>
+                            <div class="row h-100 mt-3">
+                                <div class="col-12 h-100 d-flex flex-column justify-content-center align-items-center mt-4 mb-5">
+                                    <img class="mb-3" style="width:100px" src="{% static "img/result.png" %}">
+                                    <h3 class="align-items-center text-center">Silahkan kirim data dengan menekan tombol 'Kirim' dibawah ini</h2>
+                                    {% comment %} <p>Tahap selanjutnya adalah menginput data anggota.</p> {% endcomment %}
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- #/ container -->
+</div>
+{% endblock body %}
+{% block footer %}
+<script>
+    $(document).ready(function(){
+        $("input[type=text]").keyup(function(){
+            $(this).val( $(this).val().toUpperCase() );
+            });
+        $("#finish").click(function(){
+            $("#step-form-horizontal").submit();
+      });
+    });
+</script>
+{% endblock footer %}

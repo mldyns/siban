@@ -1,0 +1,240 @@
+{% extends base %} 
+{% load static %} 
+{% block head %}
+{% endblock head %} {% block body %}
+<div class="content-body">
+  <div class="row page-titles mx-0">
+    <div class="col p-md-0">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a href="{% url 'dtks:detail' id_rumah %}">Detail DTKS RT</a>
+        </li>
+        <li class="breadcrumb-item active">
+          <a href="{% url 'dtks:detail' id_rumah %}">Detail DTKS ART</a>
+        </li>
+      </ol>
+    </div>
+  </div>
+
+
+  <div class="container-fluid mb-5">
+    <div class="row">
+      <div class="col-lg-12" id="detail-dtks-rt">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">Detail DTKS ART</h4>
+            <div class="row mt-4">
+              <div class="col-6 row">
+                <p class=" col-6">Nama</p>
+                <p class="inputdata-label col-6">{{data_anggota.nama_art}}</p>
+              </div>
+              <div class="col-6 row">
+                <p class=" col-6">NIK</p>
+                <p class="inputdata-label col-6">{{data_anggota.nik}}</p>
+              </div>
+              <div class="col-6 row">
+                <p class=" col-6">Tempat Lahir</p>
+                <p class="inputdata-label col-6">{{data_anggota.tempat_lahir}}</p>
+              </div>
+              <div class="col-6 row">
+                <p class=" col-6">IDJTG</p>
+                <p  class="inputdata-label col-6">{{data_anggota.IDJTG_ART}}</p>
+              </div>
+              <div class="col-6 row">
+                <p class=" col-6">Tanggal Lahir</p>
+                <p class="inputdata-label col-6">{{data_anggota.tanggal_lahir}}</p>
+              </div>
+              <div class="col-6 row">
+                <p class=" col-6">No KK</p>
+                <p class="inputdata-label col-6">{{data_anggota.no_kk}}</p>
+              </div>
+              <div class="col-6 row">
+                <p class=" col-6">Jenis Kelamin</p>
+                <p class="inputdata-label  col-6">{{data_anggota.jenis_kelamin}}</p>
+              </div>
+              <div class="col-6 row">
+                <p class=" col-6">Nama Ibu Kandung</p>
+                <p class="inputdata-label col-6">{{data_anggota.ibu_kandung}}</p>
+              </div>
+              <div class="col-6 row">
+                <p class=" col-6">Hubungan dengan kepala rumah tangga</p>
+                <p class="inputdata-label col-6">{{data_anggota.hubungan_krt}}</p>
+              </div>
+              <div class="col-6 row">
+                <p class=" col-6">Hubungan dengan kepala keluarga</p>
+                <p class="inputdata-label col-6">{{data_anggota.hubungan_kk}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">Keterangan Status Anggota</h4>
+            <div class="row mt-4">
+              <div class="col-6 row">
+                <p class="col-6">Tercantum dalam kartu/keluarga</p>
+                <p class="col-6 inputdata-label">{{data_anggota.tercantum_kk}}</p>
+              </div>
+              <div class="col-6 row">
+                <p class="col-6">Kepemilikan kartu identifikasi</p>
+                <p class="col-6 inputdata-label">{{data_anggota.kepemilikan_kartu}}</p>
+              </div>
+              <div class="col-6 row">
+                <p class="col-6">Status Perkawinan</p>
+                <p class="col-6 inputdata-label">{{data_anggota.status_perkawinan}}</p>
+              </div>
+              <div class="col-6 row">
+                <p class="col-6">Status kehamilan</p>
+                <p class="col-6 inputdata-label">{{data_anggota.status_kehamilan}}</p>
+              </div>
+              <div class="col-6 row">
+                <p class="col-6">Kepemilikan akta/buku nikah atau akta cerai</p>
+                <p class="col-6 inputdata-label">{{data_anggota.akta_nikah}}</p>
+              </div>
+              <div class="col-6 row">
+                <p class="col-6">Tanggal kehamilan & Usia kehamilan</p>
+                {% if data_anggota.tgl_kehamilan == "" %}
+                <p class="col-6 inputdata-label">-</p>
+                {% else %}                
+                <p class="col-6 inputdata-label">{{data_anggota.tgl_kehamilan}} {{data_anggota.usia_kehamilan}}</p>
+                {% endif %}
+
+              </div>
+              <div class="col-6 row">
+                <p class="col-6">Status bekerja</p>
+                <p class="col-6 inputdata-label">{{data_anggota.status_bekerja}}</p>
+              </div>
+              <div class="col-6 row">
+                <p class="col-6">Jenis Disabilitas</p>
+                <p class="col-6 inputdata-label">{{data_anggota.jenis_disabilitas}}</p>
+              </div>
+              <div class="col-6 row">
+                <p class="col-6">Status kedudukan dalam pekerjaan utama</p>
+                <p class="col-6 inputdata-label">{{data_anggota.status_kedudukan_kerja}}</p>
+              </div>
+              <div class="col-6 row">
+                <p class="col-6">Penyakit Kronis/menahun</p>
+                <p class="col-6 inputdata-label">{{data_anggota.penyakit}}</p>
+              </div>
+              <div class="col-6 row">
+                <p class="col-6">Partipasi Sekolah</p>
+                <p class="col-6 inputdata-label">{{data_anggota.sekolah}}</p>
+              </div>
+              <div class="col-6 row">
+                <p class="col-6">Lapangan usaha dari pekerjaan utama</p>
+                <p class="col-6 inputdata-label">{{data_anggota.lapangan_usaha}}</p>
+              </div>
+              <div class="col-6 row">
+                <p class="col-6">Ijazah tertingi yang pernah dimiliki</p>
+                <p class="col-6 inputdata-label">{{data_anggota.ijazah_tertinggi}}</p>
+              </div>
+              <div class="col-6 row">
+                <p class="col-6">Jenis ketrampilan yang dibutuhkan</p>
+                <p class="col-6 inputdata-label">{{data_anggota.jenis_ketrampilan}}</p>
+              </div>
+              <div class="col-6 row">
+                <p class="col-6">Jenjang pendidikan yang pernah/sedang diduduki</p>
+                <p class="col-6 inputdata-label">{{data_anggota.jenjang_pendidikan}}</p>
+              </div>
+              <div class="col-6 row">
+                <p class="col-6">Kelas tertinggi yang pernah atau sedang diduduki</p>
+                <p class="col-6 inputdata-label">{{data_anggota.kelas_tertinggi}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title mt-4">Keterangan Bansos Anggota</h4>
+            <div class="row mt-4">
+              <div class="col-3">
+                <p class="inputdata-label ">Bansos Provinsi</p>
+                <p class="array">{{data_anggota.bansos_provinsi}}</p>
+              </div>
+              <div class="col-3">
+                <p class="inputdata-label ">Bansos Kab/Kota</p>
+                <p class="array">{{data_anggota.bansos_kota}}</p>
+              </div>
+              <div class="col-3">
+                <p class="inputdata-label ">Bansos Desa</p>
+                <p class="array">{{data_anggota.bansos_desa}}</p>
+              </div>
+              <div class="col-3">
+                <p class="inputdata-label ">Bansos Lainnya</p>
+                <p class="array">{{data_anggota.bansos_lainnya}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title mt-4">Daftar Bansos yang Diterima</h4>
+            <div class="row">
+              <div class="col-12">
+                <div class="table-responsive mt-3">
+                  <table class="table table-responsive">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Bansos</th>
+                            <th>Tahun</th>
+                            <th>Status</th>
+                            <th>Bukti Penerimaan</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                      {% for bansos in bansos_list %}
+                      <tr>
+                        <td>{{forloop.counter}}</td>
+                        <td>{{bansos.bansos}}</td>
+                        <td>{{bansos.tahun}}</td>
+                        <td>
+                          {% if bansos.status == "Diterima" %}
+                          <span class="badge badge-success px-2">{{bansos.status}}</span>
+                          {% endif %}
+                          {% if bansos.status == "Dalam Proses" %}
+                          <span class="badge badge-warning px-2">{{bansos.status}}</span>
+                          {% endif %}
+                        </td>
+                        <td>
+                          {% if bansos.status == 'Diterima' %}
+                          <a href="/media/{{bansos.foto_bukti}}" target="_blank" >Lihat Bukti</a>
+                          {% else %}
+                          -
+                          {% endif %}
+                        </td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <!-- #/ container -->
+</div>
+{% endblock body %}
+{% block footer %}
+<script>
+  $(document).ready(function() {
+    console.log("{{data_anggota.tgl_kehamilan}}")
+$('.array').each(function() {
+  console.log($(this).text());
+  var text = $(this).text().replace(/"|"/gi, '').replace("[", '').replace("]", '');
+  $(this).text(text);
+});
+});
+</script>
+
+{% endblock footer %}

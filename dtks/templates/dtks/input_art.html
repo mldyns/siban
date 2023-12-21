@@ -1,0 +1,1147 @@
+{% extends base %} {% load static %} {% block head %}
+{% comment %} <link href="{% static 'dtks/css/mystyle.css' %}" rel="stylesheet" /> {% endcomment %}
+<style>
+label.error{
+  color: red;
+}
+</style>
+{% endblock head %} {% block body %}
+<div class="content-body">
+  <div class="row page-titles mx-0">
+    <div class="col p-md-0">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a href="{% url 'dtks:detail' data_rumah.id %}">Detail DTKS RT</a>
+        </li>
+        <li class="breadcrumb-item active">
+          <a href="{% url 'dtks:input_art' data_rumah.id %}">Input DTKS ART</a>
+        </li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="container-fluid mb-5">
+    <div class="row">
+      <div class="col-lg-12" id="input-dtks-art">
+        {% if messages %} {% for message in messages %}
+        <div class="alert alert-danger alert-dismissible fade show">
+          <button
+            type="button"
+            class="close"
+            data-dismiss="alert"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span></button
+          >{{message}}
+        </div>
+        {% endfor %} {% endif %}
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">Formulir Input DTKS ART</h4>
+            <div class="basic-form mt-4">
+              <form method="POST" id="formTambahAnggota">
+                {% csrf_token %}
+                <div class="form-row">
+                  <div class="form-group col-md-4">
+                    <label class="inputdata-label">IDJTG ART</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      name="idjtg_art"
+                      id="idjtg_art"
+                      required
+                      value=""
+                      minlength="14"
+                      maxlength="20"
+                    />
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label class="inputdata-label">Nama</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="nama_art"
+                      id="nama_art"
+                      required
+                      value=""
+                      style="text-transform: uppercase"
+                    />
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label class="inputdata-label">NIK</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      name="nik"
+                      id="nik"
+                      minlength="16"
+                      maxlength="16"
+                      required
+                    />
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label class="inputdata-label">No KK</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      name="no_kk"
+                      id="no_kk"
+                      minlength="16"
+                      maxlength="16"
+                      required
+                    />
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label class="inputdata-label">Nama Ibu Kandung</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="ibu_kandung"
+                      id="ibu_kandung"
+                      style="text-transform: uppercase"
+                      required
+                    />
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label class="inputdata-label"
+                      >Hubungan dengan kepala rumah tangga</label
+                    >
+                    <select
+                      class="form-control"
+                      id="hubungan_krt"
+                      name="hubungan_krt"
+                    >
+                      <option value="">
+                        --- pilih hubungan dengan kepala rumah tangga ---
+                      </option>
+                      <option value="Kepala Rumah Tangga">1. KRT</option>
+                      <option value="Istri / suami">2. Istri/Suami</option>
+                      <option value="Anak">3. Anak</option>
+                      <option value="Menantu">4. Menantu</option>
+                      <option value="Cucu">5. Cucu</option>
+                      <option value="Orang tua / mertua">
+                        6. Orangtua/mertua
+                      </option>
+                      <option value="Pembantu / sopir">
+                        7. Pembantu/sopir
+                      </option>
+                      <option value="Lainnya">8. Lainnya</option>
+                    </select>
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label class="inputdata-label"
+                      >Hubungan dengan kepala keluarga</label
+                    >
+                    <select
+                      class="form-control"
+                      id="hubungan_kk"
+                      name="hubungan_kk"
+                    >
+                      <option value="">
+                        --- pilih hubungan dengan kepala keluarga ---
+                      </option>
+                      <option value="Kepala keluarga">
+                        1. Kepala Keluarga
+                      </option>
+                      <option value="Istri / suami">2. Istri/Suami</option>
+                      <option value="Anak">3. Anak</option>
+                      <option value="Menantu">4. Menantu</option>
+                      <option value="Cucu">5. Cucu</option>
+                      <option value="Orang tua / mertua">
+                        6. Orangtua/mertua
+                      </option>
+                      <option value="Pembantu / sopir">
+                        7. Pembantu/Sopir
+                      </option>
+                      <option value="Lainnya">8. Lainnya</option>
+                    </select>
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label class="inputdata-label">Tempat Lahir</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="tempat_lahir"
+                      id="tempat_lahir"
+                      style="text-transform: uppercase"
+                      required
+                    />
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label class="inputdata-label">Tanggal Lahir</label>
+                    <input
+                      type="date"
+                      class="form-control"
+                      name="tanggal_lahir"
+                      id="tanggal_lahir"
+                      value=""
+                      required
+                    />
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label class="inputdata-label">Jenis Kelamin</label>
+                    <select
+                      class="form-control"
+                      id="jenis_kelamin"
+                      name="jenis_kelamin"
+                    >
+                      <option value="">--- pilih jenis kelamin ---</option>
+                      <option value="Perempuan">1. Perempuan</option>
+                      <option value="Laki-Laki">2. Laki-laki</option>
+                    </select>
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label class="inputdata-label">Status Perkawinan</label>
+                    <select
+                      class="form-control"
+                      id="status_perkawinan"
+                      name="status_perkawinan"
+                    >
+                      <option value="">--- pilih status perkawinan ---</option>
+                      <option value="Belum kawin">1. Belum Kawin</option>
+                      <option value="Kawin / nikah">2. Kawin/Nikah</option>
+                      <option value="Cerai hidup">3. Cerai hidup</option>
+                      <option value="Cerai mati">4. Cerai mati</option>
+                    </select>
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label class="inputdata-label"
+                      >Kepemilikan akta/buku nikah atau akta cerai</label
+                    >
+                    <select
+                      class="form-control"
+                      id="akta_nikah"
+                      name="akta_nikah"
+                    >
+                      <option value="">
+                        --- pilih kepemilikan akta/buku nikah ---
+                      </option>
+                      <option value="Tidak">1. Tidak</option>
+                      <option value="Ya, dapat ditunjukkan">
+                        2. Ya, dapat menunjukan
+                      </option>
+                      <option value="Ya, tidak dapat ditunjukkan">
+                        3. Ya, tidak dapat menunjukan
+                      </option>
+                    </select>
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label class="inputdata-label"
+                      >Tercantum dalam kartu/keluarga</label
+                    >
+                    <select
+                      class="form-control"
+                      id="tercantum_kk"
+                      name="tercantum_kk"
+                    >
+                      <option value="">
+                        --- apakah tercantum dalam kartu/keluarga ---
+                      </option>
+                      <option value="Ya">1. Ya</option>
+                      <option value="Tidak">2. Tidak</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group col-md-4">
+                    <label class="inputdata-label">Status kehamilan</label>
+                    <select
+                      class="form-control"
+                      id="status_kehamilan"
+                      name="status_kehamilan"
+                    >
+                      <option value="">--- pilih status kehamilan ---</option>
+                      <option value="Ya">1. Ya</option>
+                      <option value="Tidak">2. Tidak</option>
+                    </select>
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label class="inputdata-label">Tanggal kehamilan</label>
+                    <div class="d-flex">
+                      <input
+                        type="date"
+                        class="form-control"
+                        name="tgl_kehamilan"
+                        id="tgl_kehamilan"
+                        value=""
+                      />
+                    </div>
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label class="inputdata-label">Jenis Disabilitas</label>
+                    <select
+                      class="form-control"
+                      id="jenis_disabilitas"
+                      name="jenis_disabilitas"
+                    >
+                      <option value="">--- pilih jenis disabilitas ---</option>
+                      <option value="Tidak disabilitas">
+                        0. Tidak disabilitas
+                      </option>
+                      <option value="Disabilitas fisik">1. Fisik</option>
+                      <option value="Disabilitas Netra / Buta">2. Netra</option>
+                      <option value="Disabilitas rungu">3. Rungu</option>
+                      <option value="Disabilitas wicara">4. Wicara</option>
+                      <option value="Disabilitas wicara dan rungu">
+                        5. Rungu & Wicara
+                      </option>
+                      <option value="Disabilitas netra dan disabilitas fisik">
+                        6. Netra & Fisik
+                      </option>
+                      <option value="Disabilitas Netra, Rungu dan Wicara">
+                        7. Netra, Rungu & Wicara
+                      </option>
+                      <option value="Disabilitas Rungu, Wicara, Fisik">
+                        8. Rungu, Wicara, & Fisik
+                      </option>
+                      <option value="Disabilitas Rungu, Wicara, Netra, Fisik">
+                        9. Rungu, Wicara, Netra & Fisik
+                      </option>
+                      <option value="Disabilitas Intelektual">
+                        10. Mental Retardasi
+                      </option>
+                      <option value="Disabilitas mental ( Gangguan Jiwa )">
+                        11. Mental Penderita Gangguan Jiwa
+                      </option>
+                      <option
+                        value="Disabilitas Fisik dan mental ( gangguan jiwa )"
+                      >
+                        12. Fisik & Mental
+                      </option>
+                      <option value="Mantan Penderita gangguan jiwa">
+                        13. Mantan Penderita Gangguan Jiwa
+                      </option>
+                      <option
+                        value="Disabilitas mental ( Gangguan Jiwa ) dan Intelektual"
+                      >
+                        14. Mental & Intelektual
+                      </option>
+                      <option
+                        value="Disabilitas Fisik dan mental ( gangguan jiwa ) dan Intelektual"
+                      >
+                        15. Fisik, Mental & Intelektual
+                      </option>
+                    </select>
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label class="inputdata-label"
+                      >Penyakit Kronis/menahun</label
+                    >
+                    <select class="form-control" id="penyakit" name="penyakit">
+                      <option value="">
+                        --- pilih penyakit kronis/menahun ---
+                      </option>
+                      <option value="Tidak ada">0. Tidak Ada</option>
+                      <option value="Hipertensi ( Tekanan darah tinggi )">
+                        1. Hipertensi
+                      </option>
+                      <option value="Rematik">2. Rematik</option>
+                      <option value="Asma">3. Asma</option>
+                      <option value="Masalah jantung">
+                        4. Masalah jantung
+                      </option>
+                      <option value="Diabetes ( Kencing manis )">
+                        5. Diabetes
+                      </option>
+                      <option value="Tuberculosis ( TBC )">6. TBC</option>
+                      <option value="Stroke">7. Stroke</option>
+                      <option value="Kanker atau Tumor Ganas">
+                        8. Kanker atau Tumor ganas
+                      </option>
+                      <option
+                        value="Lainnya ( Gagal ginjal, paru - paru, flek dan sejenisnya )"
+                      >
+                        9. Lainnya (Gagal ginjal, paru-paru flek, dan
+                        sejenisnya)
+                      </option>
+                    </select>
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label class="inputdata-label">Partipasi Sekolah</label>
+                    <select class="form-control" id="sekolah" name="sekolah">
+                      <option value="">
+                        --- pilih partisipasi sekolah ---
+                      </option>
+                      <option value="Tidak / belum sekolah">
+                        0. Tidak/belum sekolah
+                      </option>
+                      <option value="Masih sekolah">1. Masih Sekolah</option>
+                      <option value="Tidak sekolah lagi">
+                        2. Tidak bersekolah lagi
+                      </option>
+                    </select>
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label class="inputdata-label"
+                      >Jenjang pendidikan yang pernah/sedang diduduki</label
+                    >
+                    <select
+                      class="form-control"
+                      id="jenjang_pendidikan"
+                      name="jenjang_pendidikan"
+                    >
+                      <option value="">--- pilih jenjang pendidikan ---</option>
+                      <option value="Tidak sekolah">0. Tidak Sekolah</option>
+                      <option value="SD / SDLB">1. SD/SDLB</option>
+                      <option value="Paket A">2. Paket A</option>
+                      <option value="M. Ibtidiyah">3. M. Ibtidiyah</option>
+                      <option value="ULA ( Pesantren setara SD )">
+                        4. Ula (pesantren setara SD)
+                      </option>
+                      <option value="SMP / SMPLB">5. SMP/SMPLB</option>
+                      <option value="Paket B">6. Paket B</option>
+                      <option value="M. Tsanawiyah">7. M. Tsanawiyah</option>
+                      <option value="Wustha ( Pesantren setara SMP )">
+                        8. Wustha (Pesantren setara SMP)
+                      </option>
+                      <option value="SMA / SMK / SMALB">
+                        9. SMA/SMK/SMALB
+                      </option>
+                      <option value="Paket C">10. Paket C</option>
+                      <option value="M. Aliyah">11. M. Aliyah</option>
+                      <option value="Ulya ( Pesantren setra SMA )">
+                        12. Ulya (Pesantren setara SMA)
+                      </option>
+                      <option value="Perguruan Tinggi">
+                        13. Perguruan Tinggi
+                      </option>
+                    </select>
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label class="inputdata-label"
+                      >Kelas tertinggi yang pernah atau sedang diduduki</label
+                    >
+                    <select
+                      class="form-control"
+                      id="kelas_tertinggi"
+                      name="kelas_tertinggi"
+                    >
+                      <option value="">--- pilih kelas tertinggi ---</option>
+                      <option value="Tidak sekolah">0. Tidak Sekolah</option>
+                      <option value="Kelas 1">1. Kelas 1 SD</option>
+                      <option value="Kelas 2">2. Kelas 2 SD</option>
+                      <option value="Kelas 3">3. Kelas 3 SD</option>
+                      <option value="Kelas 4">4. Kelas 4 SD</option>
+                      <option value="Kelas 5">5. Kelas 5 SD</option>
+                      <option value="Kelas 6">6. Kelas 6 SD</option>
+                      <option value="SMP Kelas 1">7. Kelas 1 SMP</option>
+                      <option value="SMP Kelas 2">8. Kelas 2 SMP</option>
+                      <option value="SMP Kelas 3">9. Kelas 3 SMP</option>
+                      <option value="SMA Kelas 1">10. Kelas 1 SMA</option>
+                      <option value="SMA Kelas 2">11. Kelas 2 SMA</option>
+                      <option value="SMA Kelas 3">12. Kelas 3 SMA</option>
+                      <option value="Semester 1">13. Semester 1</option>
+                      <option value="Semester 2">14. Semester 2</option>
+                      <option value="Semester 3">15. Semester 3</option>
+                      <option value="Semester 4">16. Semester 4</option>
+                      <option value="Semester 5">17. Semester 5</option>
+                      <option value="Semester 6">18. Semester 6</option>
+                      <option value="Semester 7">19. Semester 7</option>
+                      <option value="Semester 8">20. Semester 8</option>
+                      <option value="> Semester 8">21. > Semester 8</option>
+                    </select>
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label class="inputdata-label"
+                      >Ijazah tertingi yang pernah dimiliki</label
+                    >
+                    <select
+                      class="form-control"
+                      id="ijazah_tertinggi"
+                      name="ijazah_tertinggi"
+                    >
+                      <option value="">--- pilih ijazah tertinggi ---</option>
+                      <option value="Tidak punya ijazah">
+                        0. Tidak Punya Ijazah
+                      </option>
+                      <option value="SD / Sederajat">1. SD/Sederajat</option>
+                      <option value="SMP / Sederajat">2. SMP/Sederajat</option>
+                      <option value="SMA / Sederajat">3. SMA/Sederajat</option>
+                      <option value="D1, D2, D3">4. D1/D2/D3</option>
+                      <option value="D4 / S1">5. D4/S1</option>
+                      <option value="S2 / S3">6. S2/S3</option>
+                    </select>
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label class="inputdata-label">Status bekerja</label>
+                    <select
+                      class="form-control"
+                      id="status_bekerja"
+                      name="status_bekerja"
+                    >
+                      <option value="">--- pilih status bekerja ---</option>
+                      <option value="Bekerja">1. Bekerja</option>
+                      <option value="Tidak Bekerja">2. Tidak Bekerja</option>
+                    </select>
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label class="inputdata-label"
+                      >Lapangan usaha dari pekerjaan utama</label
+                    >
+                    <select
+                      class="form-control"
+                      id="lapangan_usaha"
+                      name="lapangan_usaha"
+                    >
+                      <option value="">--- pilih lapangan usaha ---</option>
+                      <option value="Tidak bekerja">0. Tidak Bekerja</option>
+                      <option value="Pertanian tanaman padi dan palawija">
+                        1. Pertanian Tanaman padi dan palawijaya
+                      </option>
+                      <option value="Hortikultura">2. Holtikultura</option>
+                      <option value="Perkebunan">3. Perkebunan</option>
+                      <option value="Perikanan tangkap">
+                        4. Perikanan Tangkap
+                      </option>
+                      <option value="Perikanan Budidaya">
+                        5. Perikanan Budidaya
+                      </option>
+                      <option value="Peternakan">6. Peternakan</option>
+                      <option value="Kehutanan dan Pertanian Lainnya">
+                        7. Kehutanan & Pertanian Lainnya
+                      </option>
+                      <option value="Pertambangan /Penggalian">
+                        8. Pertambangan / penggalian
+                      </option>
+                      <option value="Industri Pengolahan">
+                        9. Industri Pengolahan
+                      </option>
+                      <option value="Listrik dan gas">10. Listrik & Gas</option>
+                      <option value="Bangunan / Konstruksi">
+                        11. Bangunan/konstruksi
+                      </option>
+                      <option value="Informasi dan komunikasi">
+                        12. Informasi & Komunikasi
+                      </option>
+                      <option value="Keuangan dan asuransi">
+                        13. Keuangan & Asuransi
+                      </option>
+                      <option value="Jasa Pendidikan">
+                        14. Jasa Pendidikan
+                      </option>
+                      <option value="Jasa Kesehatan">15. Jasa Kesehatan</option>
+                      <option
+                        value="Jasa Kemasyarakatan, Pemerintahan dan Perorangan"
+                      >
+                        16. Jasa Kemasyarakatan, Pemerintahan, dan Perorangan
+                      </option>
+                      <option value="Pemulung">17. Pemulung</option>
+                      <option value="Transportasi dan pergudangan">
+                        18. Transportasi dan pergudangan
+                      </option>
+                      <option value="Hotel dan Rumah makan">
+                        19. Hotel dan Rumah makan
+                      </option>
+                      <option value="Lainnya">20. Lainnya</option>
+                    </select>
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label class="inputdata-label"
+                      >Status kedudukan dalam pekerjaan utama</label
+                    >
+                    <select
+                      class="form-control"
+                      id="status_kedudukan_kerja"
+                      name="status_kedudukan_kerja"
+                    >
+                      <option value="">
+                        --- pilih status kedudukan dalam pekerjaan utama ---
+                      </option>
+                      <option value="Tidak bekerja">0. Tidak Bekerja</option>
+                      <option value="Berusaha sendiri">
+                        1. Berusaha Sendiri
+                      </option>
+                      <option
+                        value="Berusaha dibantu buruh tidak tetap / tidak dibayar"
+                      >
+                        2. Berusaha dibantu buruh tidak tetap/tidak dibayar
+                      </option>
+                      <option value="Berusaha dibantu buruh tetap / dibayar">
+                        3. Berusaha dibantu buruh tetap/dibayar
+                      </option>
+                      <option value="Buruh / Karyawan / Pegawai swasta">
+                        4. Buruh/Karyawan/Pegawai Swasta
+                      </option>
+                      <option
+                        value="PNS / TNI / POLRI / BUMN / BUMD / Anggota Legislatif"
+                      >
+                        5. PNS/TNI/Polri/BUMN/BUMD/Anggota Legislatif
+                      </option>
+                      <option value="Pekerja bebas pertanian">
+                        6. Pekerja bebas pertanian
+                      </option>
+                      <option value="Pekerja bebas Non Pertanian">
+                        7. Pekerja bebas non pertanian
+                      </option>
+                      <option value="Pekerja keluarga / tidak dibayar">
+                        8. Pekerja keluarga/tidak dibayar
+                      </option>
+                    </select>
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label class="inputdata-label"
+                      >Jenis ketrampilan yang dibutuhkan</label
+                    >
+                    <select
+                      class="form-control"
+                      id="jenis_ketrampilan"
+                      name="jenis_ketrampilan"
+                    >
+                      <option value="">
+                        --- pilih jenis ketrampilan yang dibutuhkan ---
+                      </option>
+                      <option value="Tidak Ada">0. Tidak Ada</option>
+                      <option value="Pelatihan Pertukangan Kayu">
+                        1. Pertukangan Kayu
+                      </option>
+                      <option value="Pelatihan Perbengkelan">
+                        2. Perbengkelan
+                      </option>
+                      <option value="Pelatihan Las">3. Las</option>
+                      <option value="Pelatihan Elektronika">
+                        4. Elektronika
+                      </option>
+                      <option value="Pelatihan Tata Boga">5. Tata Boga</option>
+                      <option value="Pelatihan Tata Busana">
+                        6. Tata Busana
+                      </option>
+                      <option value="Pelatihan Komputer">7. Komputer</option>
+                      <option value="Pelatihan Digital Marketing">
+                        8. Digital Marketing
+                      </option>
+                      <option value="Pelatihan Perhotelan">
+                        9. Perhotelan
+                      </option>
+                      <option value="Pelatihan Pertukangan Bangunan">
+                        10. Pertukangan Bangunan
+                      </option>
+                      <option value="Pelatihan Bahasa">11. Bahasa</option>
+                      <option value="Pelatihan Pertanian">12. Pertanian</option>
+                      <option value="Pelatihan Peternakan/Perikanan">
+                        13. Perternakan/Perikanan
+                      </option>
+                      <option value="Pelatihan Pengolahan Hasil Pertanian">
+                        14. Pengolahan hasil pertanian
+                      </option>
+                      <option value="Pelatihan Tangkap Ikan Dengan Kapal">
+                        15. Tangkap ikan dengan kapal
+                      </option>
+                      <option value="Pelatihan Kewirausahaan">
+                        16. Kewirausahaan
+                      </option>
+                      <option value="Pelatihan Kerajinan Kreatif">
+                        17. Kerajinan Kreatif
+                      </option>
+                    </select>
+                  </div>
+                  {% comment %}
+                  <div class="form-group col-md-4">
+                    <label class="inputdata-label">Bansos Pusat</label>
+                    <div class="form-group">
+                      <div class="form-check form-check-inline">
+                        <label class="form-check-label">
+                          <input
+                            type="hidden"
+                            name="bansos_provinsi_rtlh"
+                            value=""
+                          />
+                          <input
+                            type="checkbox"
+                            class="form-check-input"
+                            id="bansos_provinsi_rtlh"
+                            name="bansos_provinsi_rtlh"
+                            value="RTLH"
+                          />1. Program Sembako</label
+                        >
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <label class="form-check-label">
+                          <input
+                            type="hidden"
+                            name="bansos_provinsi_air"
+                            value=""
+                          />
+                          <input
+                            type="checkbox"
+                            class="form-check-input"
+                            id="bansos_provinsi_air"
+                            name="bansos_provinsi_air"
+                            value="Air Bersih"
+                          />2. KIP (Kartu Indonesia Pintar)</label
+                        >
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <label class="form-check-label">
+                          <input
+                            type="hidden"
+                            name="bansos_provinsi_listrik"
+                            value=""
+                          />
+                          <input
+                            type="checkbox"
+                            class="form-check-input"
+                            id="bansos_provinsi_listrik"
+                            name="bansos_provinsi_listrik"
+                            value="Listrik"
+                          />3. KJS (Kartu Indonesia Sehat)</label
+                        >
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <label class="form-check-label">
+                          <input
+                            type="hidden"
+                            name="bansos_provinsi_jamban"
+                            value=""
+                          />
+                          <input
+                            type="checkbox"
+                            class="form-check-input"
+                            id="bansos_provinsi_jamban"
+                            name="bansos_provinsi_jamban"
+                            value="Jamban"
+                          />4. PKH (Program Keluarga Harapan)</label
+                        >
+                      </div>
+                    </div>
+                  </div>
+                  {% endcomment %}
+                  <div class="form-group col-md-4">
+                    <label class="inputdata-label">Bansos Provinsi</label>
+                    <input
+                      name="bansos_provinsi"
+                      id="bansos_provinsi"
+                      value=""
+                      type="hidden"
+                    />
+                    <div class="form-group">
+                      <div class="form-check form-check-inline">
+                        <label class="form-check-label">
+                          <input
+                            type="checkbox"
+                            class="form-check-input bansos_prov"
+                            id="KJS"
+                            name="bansos_prov"
+                            value='"KJS"'
+                          />1. KJS (Kartu Jateng Sejahtera)</label
+                        >
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <label class="form-check-label">
+                          <input
+                            type="checkbox"
+                            class="form-check-input bansos_prov"
+                            id="KUBE"
+                            name="bansos_prov"
+                            value='"KUBE"'
+                          />2. KUBE (Kelompok Usaha Bersama)</label
+                        >
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <label class="form-check-label">
+                          <input
+                            type="checkbox"
+                            class="form-check-input bansos_prov"
+                            id="PBI-prov"
+                            name="bansos_prov"
+                            value='"PBI Pemda Provinsi"'
+                          />3. PBI Provinsi</label
+                        >
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label class="inputdata-label">Bansos Kab/Kota</label>
+                    <input
+                      type="hidden"
+                      name="bansos_kabupaten"
+                      id="bansos_kabupaten"
+                      value=""
+                    />
+                    <div class="form-group">
+                      <div class="form-check form-check-inline">
+                        <label class="form-check-label">
+                          <input
+                            type="checkbox"
+                            class="form-check-input"
+                            id="PBI-kab"
+                            name="bansos_kab"
+                            value='"PBI Kab Kota"'
+                          />1. PBI Kab/Kota</label
+                        >
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <label class="form-check-label">
+                          <input
+                            type="checkbox"
+                            class="form-check-input"
+                            id="lainnya-kab"
+                            name="bansos_kab"
+                            value='"Lainnya"'
+                          />2. Lainnya</label
+                        >
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label class="inputdata-label">Bansos Desa</label>
+                    <input
+                      type="hidden"
+                      name="bansos_desa"
+                      id="bansos_desa"
+                      value=""
+                    />
+                    <div class="form-group">
+                      <div class="form-check form-check-inline">
+                        <label class="form-check-label">
+                          <input
+                            type="checkbox"
+                            class="form-check-input"
+                            id="danadesa"
+                            name="bansos_des"
+                            value='"Dana Desa"'
+                          />1. Dana Desa</label
+                        >
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <label class="form-check-label">
+                          <input
+                            type="checkbox"
+                            class="form-check-input"
+                            id="lainnya-desa"
+                            name="bansos_des"
+                            value='"Lainnya"'
+                          />2. Lainnya</label
+                        >
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label class="inputdata-label">Bansos Lainnya</label>
+                    <input
+                      type="hidden"
+                      name="bansos_lainnya"
+                      id="bansos_lainnya"
+                      value=""
+                    />
+                    <div class="form-group">
+                      <div class="form-check form-check-inline">
+                        <label class="form-check-label">
+                          <input
+                            type="checkbox"
+                            class="form-check-input"
+                            id="KUR"
+                            name="bansos_lain"
+                            value='"KUR"'
+                          />1. KUR (Kredit Usaha Rakyat)</label
+                        >
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <label class="form-check-label">
+                          <input
+                            type="checkbox"
+                            class="form-check-input"
+                            id="BPJS-mandiri"
+                            name="bansos_lain"
+                            value='"BPJS Mandiri"'
+                          />2. BPJS Mandiri</label
+                        >
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <label class="form-check-label">
+                          <input
+                            type="checkbox"
+                            class="form-check-input"
+                            id="asuransi-kesehatan"
+                            name="bansos_lain"
+                            value='"Asuransi kesehatan"'
+                          />3. Asuransi Kesehatan</label
+                        >
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <label class="form-check-label">
+                          <input
+                            type="checkbox"
+                            class="form-check-input"
+                            id="BPJS-ketenagakerjaan"
+                            name="bansos_lain"
+                            value='"BPJS Ketenagakerjaan"'
+                          />4. BPJS Ketenagakerjaan</label
+                        >
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <label class="form-check-label">
+                          <input
+                            type="checkbox"
+                            class="form-check-input"
+                            id="BPJS-PPU"
+                            name="bansos_lain"
+                            value='"BPJS PPU"'
+                          />5. BPJS PPU (Pekerja Penerima Upah)</label
+                        >
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <label class="form-check-label">
+                          <input
+                            type="checkbox"
+                            class="form-check-input"
+                            id="lainnya-lain"
+                            name="bansos_lain"
+                            value='"Lainnya"'
+                          />6. Lainnya</label
+                        >
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-12">
+                    <label class="inputdata-label"
+                      >Kepemilikan kartu identifikasi</label
+                    >
+                    <input
+                      type="hidden"
+                      name="kepemilikan_kartu"
+                      id="kepemilikan_kartu"
+                      value=""
+                    />
+                    <div class="form-group">
+                      <div class="form-check form-check-inline col-6">
+                        <label class="form-check-label">
+                          <input
+                            type="checkbox"
+                            class="form-check-input"
+                            id="tidak_punya"
+                            name="punya_kartu"
+                            value='"Tidak Memiliki"'
+                          />1. Tidak memiliki</label
+                        >
+                      </div>
+                      <div class="form-check form-check-inline col-6">
+                        <label class="form-check-label">
+                          <input
+                            type="checkbox"
+                            class="form-check-input"
+                            id="akta"
+                            name="punya_kartu"
+                            value='"Akta Kelahiran"'
+                          />2. Akta kelahiran</label
+                        >
+                      </div>
+                      <div class="form-check form-check-inline col-6">
+                        <label class="form-check-label">
+                          <input
+                            type="checkbox"
+                            class="form-check-input"
+                            id="kartu_pelajar"
+                            name="punya_kartu"
+                            value='"Kartu Pelajar"'
+                          />3. Kartu Pelajar</label
+                        >
+                      </div>
+                      <div class="form-check form-check-inline col-6">
+                        <label class="form-check-label">
+                          <input
+                            type="checkbox"
+                            class="form-check-input"
+                            id="ktp"
+                            name="punya_kartu"
+                            value='"KTP"'
+                          />4. KTP</label
+                        >
+                      </div>
+                      <div class="form-check form-check-inline col-6">
+                        <label class="form-check-label">
+                          <input
+                            type="checkbox"
+                            class="form-check-input"
+                            id="sim"
+                            name="punya_kartu"
+                            value='"SIM"'
+                          />5. SIM</label
+                        >
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <button type="submit" class="btn btn-primary float-right">
+                  {{button_submit}}
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- #/ container -->
+</div>
+{% endblock body %} {% block footer %}
+<script>
+  $("#formTambahAnggota").validate({
+
+    submitHandler: function(form) {
+      form.submit();
+    }
+   });
+</script>
+
+<script>
+  {% if data_anggota %}
+    var kepemilikan_kartu = "{{data_anggota.kepemilikan_kartu}}";
+    var bansos_provinsi = "{{data_anggota.bansos_provinsi}}";
+    var bansos_kabupaten = "{{data_anggota.bansos_kota}}";
+    var bansos_desa = "{{data_anggota.bansos_desa}}";
+    var bansos_lainnya = "{{data_anggota.bansos_lainnya}}";
+      $('#idjtg_art').val("{{data_anggota.IDJTG_ART}}");
+      $('#nama_art').val("{{data_anggota.nama_art}}");
+      $('#nik').val("{{data_anggota.nik}}");
+      $('#no_kk').val("{{data_anggota.no_kk}}");
+      $('#ibu_kandung').val("{{data_anggota.ibu_kandung}}");
+      $('#hubungan_krt').val($.trim("{{data_anggota.hubungan_krt}}"));
+      $('#hubungan_kk').val($.trim("{{data_anggota.hubungan_kk}}"));
+      $('#tempat_lahir').val("{{data_anggota.tempat_lahir}}");
+      $('#tanggal_lahir').val("{{tanggal_lahir}}");
+      $('#jenis_kelamin').val("{{data_anggota.jenis_kelamin}}");
+      $('#status_perkawinan').val("{{data_anggota.status_perkawinan}}");
+      $('#akta_nikah').val("{{data_anggota.akta_nikah}}");
+      $('#tercantum_kk').val("{{data_anggota.tercantum_kk}}");
+      $('#kepemilikan_kartu').val(kepemilikan_kartu.replace(/&quot;/g, '"'));
+      $('#status_kehamilan').val("{{data_anggota.status_kehamilan}}");
+      $('#tgl_kehamilan').val("{{data_anggota.tgl_kehamilan}}");
+      $('#jenis_disabilitas').val("{{data_anggota.jenis_disabilitas}}");
+      $('#penyakit').val("{{data_anggota.penyakit}}");
+      $('#sekolah').val("{{data_anggota.sekolah}}");
+      {% if data_anggota.jenjang_pendidikan == None %}
+        $('#jenjang_pendidikan').val("Tidak sekolah")
+      {% else %}
+        $('#jenjang_pendidikan').val("{{data_anggota.jenjang_pendidikan}}");
+      {% endif %}
+      {% if data_anggota.kelas_tertinggi == None %}
+        $('#kelas_tertinggi').val("Tidak sekolah");
+      {% else %}
+        $('#kelas_tertinggi').val("{{data_anggota.kelas_tertinggi}}");
+      {% endif %}
+      {% if data_anggota.ijazah_tertinggi == None %}
+        $('#ijazah_tertinggi').val("Tidak punya ijazah");
+      {% else %}
+        $('#ijazah_tertinggi').val("{{data_anggota.ijazah_tertinggi}}");
+      {% endif %}
+      $('#status_bekerja').val("{{data_anggota.status_bekerja}}");
+      {% if data_anggota.lapangan_usaha == None %}
+        $('#lapangan_usaha').val("Tidak bekerja");
+      {% else %}
+        $('#lapangan_usaha').val("{{data_anggota.lapangan_usaha}}");
+      {% endif %}
+      $('#status_kedudukan_kerja').val("{{data_anggota.status_kedudukan_kerja}}");
+      {% if data_anggota.jenis_ketrampilan == '0' %}
+        $('#jenis_ketrampilan').val("Tidak Ada");
+      {% else %}
+        $('#jenis_ketrampilan').val("{{data_anggota.jenis_ketrampilan}}");
+      {% endif %}
+      $('#bansos_provinsi').val(bansos_provinsi.replace(/&quot;/g, '"'));
+      $('#bansos_kabupaten').val(bansos_kabupaten.replace(/&quot;/g, '"'));
+      $('#bansos_desa').val(bansos_desa.replace(/&quot;/g, '"'));
+      $('#bansos_lainnya').val(bansos_lainnya.replace(/&quot;/g, '"'));
+      if (kepemilikan_kartu.indexOf("Tidak Memiliki") >= 0){
+        $('#tidak_punya').prop('checked',true);
+      }
+      if (kepemilikan_kartu.indexOf("Akta Kelahiran") >= 0){
+        $('#akta').prop('checked',true);
+      }
+      if (kepemilikan_kartu.indexOf("Kartu Pelajar") >= 0){
+        $('#kartu_pelajar').prop('checked',true);
+      }
+      if (kepemilikan_kartu.indexOf("KTP") >= 0){
+        $('#ktp').prop('checked',true);
+      }
+      if (kepemilikan_kartu.indexOf("SIM") >= 0){
+        $('#sim').prop('checked',true);
+      }
+      if (bansos_provinsi.indexOf("KJS") >= 0){
+        $('#KJS').prop('checked',true);
+      }
+      if (bansos_provinsi.indexOf("KUBE") >= 0){
+        $('#KUBE').prop('checked',true);
+      }
+      if (bansos_provinsi.indexOf("PBI Pemda Provinsi") >= 0){
+        $('#PBI-prov').prop('checked',true);
+      }
+      if (bansos_kabupaten.indexOf("PBI Kab Kota") >= 0){
+        $('#PBI-kab').prop('checked',true);
+      }
+      if (bansos_kabupaten.indexOf("Lainnya") >= 0){
+        $('#lainnya-kab').prop('checked',true);
+      }
+      if (bansos_desa.indexOf("Dana Desa") >= 0){
+        $('#danadesa').prop('checked',true);
+      }
+      if (bansos_desa.indexOf("Lainnya") >= 0){
+        $('#lainnya-desa').prop('checked',true);
+      }
+      if (bansos_lainnya.indexOf("KUR") >= 0){
+        $('#KUR').prop('checked',true);
+      }
+      if (bansos_lainnya.indexOf("BPJS Mandiri") >= 0){
+        $('#BPJS-mandiri').prop('checked',true);
+      }
+      if (bansos_lainnya.indexOf("Asuransi Kesehatan") >= 0){
+        $('#asuransi-kesehatan').prop('checked',true);
+      }
+      if (bansos_lainnya.indexOf("BPJS Ketenagakerjaan") >= 0){
+        $('#BPJS-ketenagakerjaan').prop('checked',true);
+      }
+      if (bansos_lainnya.indexOf("BPJS PPU") >= 0){
+        $('#BPJS-PPU').prop('checked',true);
+      }
+        if (bansos_lainnya.indexOf("Lainnya") >= 0){
+          $('#lainnya-lain').prop('checked',true);
+        }
+      {% endif %}
+    $(document).ready(function() {
+
+   $("input[type=text]").keyup(function(){
+              $(this).val( $(this).val().toUpperCase() );
+            });
+
+      $("input[name='bansos_prov']").click(function(){
+          var arr = [];
+          $.each($("input[name='bansos_prov']:checked"), function(){
+              arr.push($(this).val());
+          });
+          $("#bansos_provinsi").val('['+arr.join(', ')+']');
+      });
+      $("input[name='bansos_prov']").click(function(){
+        var arr = [];
+        $.each($("input[name='bansos_prov']:checked"), function(){
+            arr.push($(this).val());
+        });
+        $("#bansos_provinsi").val('['+arr.join(', ')+']');
+    });
+    $("input[name='bansos_kab']").click(function(){
+      var arr = [];
+      $.each($("input[name='bansos_kab']:checked"), function(){
+          arr.push($(this).val());
+      });
+      $("#bansos_kabupaten").val('['+arr.join(', ')+']');
+  });
+  $("input[name='bansos_des']").click(function(){
+    var arr = [];
+    $.each($("input[name='bansos_des']:checked"), function(){
+        arr.push($(this).val());
+    });
+    $("#bansos_desa").val('['+arr.join(', ')+']');
+  });
+  $("input[name='bansos_lain']").click(function(){
+    var arr = [];
+    $.each($("input[name='bansos_lain']:checked"), function(){
+        arr.push($(this).val());
+    });
+    $("#bansos_lainnya").val('['+arr.join(', ')+']');
+  });
+  $("input[name='punya_kartu']").click(function(){
+    var arr = [];
+    $.each($("input[name='punya_kartu']:checked"), function(){
+        arr.push($(this).val());
+    });
+    $("#kepemilikan_kartu").val('['+arr.join(', ')+']');
+  });
+  });
+</script>
+{% endblock footer %}

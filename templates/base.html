@@ -1,0 +1,360 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>{{title}}</title>
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'img/logo_pbg.png' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" type="type/css" href="{% static 'admin/vendor/bootstrap/bootstrap.66css' %}">
+    {% comment %} <link rel="stylesheet" type="type/css" href="{% static 'admin/css/style.css' %}"> {% endcomment %}
+    <!-- Favicon icon -->
+    <link href="{% static "admin/plugins/jquery-steps/css/jquery.steps.css" %}" rel="stylesheet">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'home/images/logo_pbg.png' %}">
+    <link href="{%static 'admin/plugins/sweetalert/css/sweetalert.css' %}" rel="stylesheet">
+    <!-- Pignose Calender -->
+    <link href="{% static 'admin/plugins/pg-calendar/css/pignose.calendar.min.css' %}" rel="stylesheet">
+    <!-- Chartist -->
+    <link rel="stylesheet" href="{% static 'admin/plugins/chartist/css/chartist.min.css' %}">
+    <link rel="stylesheet" href="{% static 'admin/plugins/chartist-plugin-tooltips/css/chartist-plugin-tooltip.css' %}">
+    <!-- Custom Stylesheet -->
+    <link href="{% static 'admin/css/style.css' %}" rel="stylesheet">
+    <link href="{% static 'admin/css/custom.css' %}" rel="stylesheet">
+    <!-- Chartist -->
+    <!-- Custom Stylesheet -->
+
+    <link rel="stylesheet" href="{% static 'admin/plugins/owl.carousel/dist/css/owl.carousel.min.css' %}"/>
+    <link rel="stylesheet" href="{% static 'admin/plugins/owl.carousel/dist/css/owl.theme.default.min.css' %}"/>
+    <!--Leaflet-->
+    <link rel="stylesheet" href="{% static "mapping/leaflet/leaflet.css" %}"/>
+    <script src="{% static "mapping/leaflet/leaflet.js" %}"></script>
+    <script src="{% static "admin/plugins/jquery/jquery.min.js" %}"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <style>
+        #map { height: 570px; width: 750px; }
+        .container-fluid{color:black;}
+    </style>
+    {% block head %}
+    
+    {% endblock head %}
+</head>
+<body>
+<!--*******************
+        Preloader start
+    ********************-->
+    <div id="preloader">
+        <div class="loader">
+            <svg class="circular" viewBox="25 25 50 50">
+                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="3" stroke-miterlimit="10" />
+            </svg>
+        </div>
+    </div>
+    <!--*******************
+        Preloader end
+    ********************-->
+
+
+    <!--**********************************
+        Main wrapper start
+    ***********************************-->
+    <div id="main-wrapper">
+
+        <!--**********************************
+            Nav header start
+        ***********************************-->
+        <div class="nav-header">
+            <div class="brand-logo">
+                <a href="{% url 'dashboard' %}">
+                    <b class="logo-abbr"><img src="{% static 'img/logo_pbg.png' %}" alt=""> </b>
+                    <span class="logo-compact"><img src="{% static 'img/logo-text-pbg.png' %}" alt=""></span>
+                    <span class="brand-title">
+                        <img width="160px" src="{% static 'img/logo_text.png' %}" alt="">
+                    </span>
+                    <hr style="border: white solid;">
+                </a>
+            </div>
+        </div>
+        <!--**********************************
+            Nav header end
+        ***********************************-->
+
+        <!--**********************************
+            Header start
+        ***********************************-->
+        <div class="header">
+            <div class="header-content clearfix">
+                <div class="nav-control">
+                    <div class="hamburger">
+                        <span class="toggle-icon"><i class="icon-menu"></i></span>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <ul class="clearfix">
+                        <li class="icons dropdown">
+                            <div class="user-img c-pointer position-relative" data-toggle="dropdown">
+                                <span class="activity active"></span>
+                                <img src="{% static 'admin/images/user/form-user.png' %}" height="40" width="40" alt="">
+                            </div>
+                            <div class="drop-down dropdown-profile animated fadeIn dropdown-menu">
+                                <div class="dropdown-content-body">
+                                    <ul>
+                                        <li><h4>{{user.username}}</h4></li>
+                                        <li>
+                                            <a href="{% url 'account:profile' id=user.id %}"><i class="icon-user"></i>
+                                                <span>Profile</span></a>
+                                        </li>
+                                        <hr class="my-2">
+                                        <li><a href="#" data-toggle="modal" data-target="#exampleModal"><i class="icon-key"></i> <span>Logout</span></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!--**********************************
+            Header end ti-comment-alt
+        ***********************************-->
+    <!--**********************************
+                Sidebar start
+            ***********************************-->
+    <div class="nk-sidebar">
+        <div class="nk-nav-scroll">
+            <ul class="metismenu" id="menu" style="margin-top: 20px;">
+                <li class="mega-menu mega-menu-sm">
+                    <a href="{% url 'dashboard' %}" aria-expanded="false">
+                        <i class="icon-speedometer menu-icon" style="color:white;"></i><span class="nav-text">Dashboard</span>
+                    </a>
+                </li>
+                <li class="mega-menu mega-menu-sm clustering">
+                    <a class="has-arrow" href="#" aria-expanded="false">
+                        <i class="ti-clipboard menu-icon" style="color:white;"></i><span class="nav-text">DTKS</span>
+                    </a>
+                    <ul aria-expanded="false" class="collapse clustering">
+                        <li><a href="{% url 'dtks:index' %}">Rumah Tangga</a></li>
+                        <li><a href="{% url 'dtks:anggota' %}">Anggota Rumah Tangga</a></li>
+                    </ul>
+                </li>
+                <li class="mega-menu mega-menu-sm clustering">
+                    <a class="has-arrow" href="#" aria-expanded="false">
+                        <i class="ti-vector menu-icon" style="color:white;"></i><span class="nav-text">Clustering</span>
+                    </a>
+                    <ul aria-expanded="false" class="collapse clustering">
+                        <li><a href="{% url 'clustering:index' %}">Analisis Data</a></li>
+                        <li><a href="{% url 'clustering:proses' %}">Proses Clustering</a></li>
+                        <li><a href="{% url 'clustering:analisis_cluster' %}">Analisis Jumlah K</a></li>
+                        <li><a href="{% url 'clustering:hasil' %}">Hasil Cluster</a></li>
+                    </ul>
+                </li>
+                <li>
+                    {% now "Y" as current_year %}
+                    <a class="has-arrow" href="#" aria-expanded="false">
+                        <i class="icon-badge menu-icon" style="color:white;"></i><span class="nav-text">Perankingan</span>
+                    </a> 
+                    <ul aria-expanded="false" class="collapse">
+                        {% for bansos in bansos %}
+                        <li><a href="{% url 'ranking:index' slug=bansos.slug tahun=current_year %}">{{bansos.nama_bansos}}</a></li>
+                        {% endfor %}
+                    </ul>   
+                </li>
+                <li>
+                    {% now "Y" as current_year %}
+                    <a class="has-arrow" href="#" aria-expanded="false">
+                        <i class="ti-check menu-icon" style="color:white;"></i><span class="nav-text">Verifikasi Data</span>
+                    </a> 
+                    <ul aria-expanded="false" class="collapse">
+                        {% for bansos in bansos %}
+                        <li><a href="{% url 'penerima:ranking' slug=bansos.slug tahun=current_year %}">{{bansos.nama_bansos}}</a></li>
+                        {% endfor %}
+                    </ul>   
+                </li>
+                <li class="mega-menu mega-menu-sm">
+                    <a class="has-arrow" href="#" aria-expanded="false">
+                        <i class="icon-menu menu-icon" style="color:white;"></i><span class="nav-text">Penerima Bansos</span>
+                    </a>
+                    <ul aria-expanded="false" class="collapse">
+                        {% for bansos in bansos %}
+                        <li><a href="{% url 'penerima:index' bansos.slug %}">{{bansos.nama_bansos}}</a></li>
+                        {% endfor %}
+                    </ul>
+                </li>
+                <li>
+                    <a href="{% url 'mapping:index' %}" aria-expanded="false">
+                        <i class="ti-location-pin menu-icon" style="color:white;"></i><span class="nav-text">Pemetaan Bansos</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'exportdata:index' %}" aria-expanded="false">
+                        <i class="ti-export menu-icon" style="color:white;"></i><span class="nav-text">Export Data</span>
+                    </a>
+                </li>
+                <li class="mega-menu mega-menu-sm">
+                    <a class="has-arrow" href="#" aria-expanded="false">
+                        <i class="ti-files menu-icon" style="color:white;"></i><span class="nav-text">Master data</span>
+                    </a>
+                    <ul aria-expanded="false" class="collapse">
+                        {% if user.groups.all.0.name == 'Superadmin' %}
+                        <li><a href="{% url 'account:user' %}">User</a></li>
+                        {% endif %}
+                        <li><a href="{% url 'mapping:bansos' %}">Bansos</a></li>
+                        <li><a href="{% url 'mapping:kecamatan' %}">Kecamatan</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+        <!--**********************************
+        Sidebar end
+        ***********************************-->
+
+        {% block body %}
+
+        {% endblock body %}
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Konfirmasi Logout</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body text-center">
+                    <p style="color:black;" >Apakah Anda Yakin untuk Logout? <br>Anda akan diarahkan ke halaman Login.</p> 
+                    </div> 
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                        <a href="{% url 'account:logout' %}" type="submit" class="btn btn-danger">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+
+    <!--**********************************
+            Footer start
+        ***********************************-->
+        <div class="footer">
+  <div class="copyright">
+      <p>Copyright &copy; Designed & Developed by <a href="">shingibanggi</a> 2023</p>
+  </div>
+</div>
+<!--**********************************
+      Footer end
+  ***********************************-->
+</div>
+
+</body>
+
+
+<!--**********************************
+  Scripts
+***********************************-->
+
+<script src="{% static 'admin/plugins/common/common.min.js' %}"></script>
+<script src="{% static 'admin/js/custom.min.js' %}"></script>
+<script src="{% static 'admin/js/settings.js' %}"></script>
+<script src="{% static 'admin/js/gleek.js' %}"></script>
+<script src="{% static 'admin/js/styleSwitcher.js' %}"></script>
+<script src="{% static "admin/plugins/jquery-steps/build/jquery.steps.min.js" %}"></script>
+<script src="{% static "admin/plugins/jquery-validation/jquery.validate.min.js" %}"></script>
+<script src="{% static "admin/js/plugins-init/jquery-steps-init.js" %}"></script>
+
+<script src="{% static 'admin/plugins/chart.js/Chart.bundle.min.js' %}"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<!-- Chartjs -->
+<script src="{% static 'admin/plugins/chart.js/Chart.bundle.min.js' %}"></script>
+<!-- Circle progress -->
+<script src="{% static 'admin/plugins/circle-progress/circle-progress.min.js' %}"></script>
+<!-- Datamap -->
+<script src="{% static 'admin/plugins/d3v3/index.js' %}"></script>
+<script src="{% static 'admin/plugins/topojson/topojson.min.js' %}"></script>
+<script src="{% static 'admin/plugins/datamaps/datamaps.world.min.js' %}"></script>
+<!-- Morrisjs -->
+<script src="{% static 'admin/plugins/raphael/raphael.min.js' %}"></script>
+<script src="{% static 'admin/plugins/morris/morris.min.js' %}"></script>
+<!-- Pignose Calender -->
+<script src="{% static 'admin/plugins/moment/moment.min.js' %}"></script>
+<script src="{% static 'admin/plugins/pg-calendar/js/pignose.calendar.min.js' %}"></script>
+<!-- ChartistJS -->
+<script src="{% static 'admin/plugins/chartist/js/chartist.min.js' %}"></script>
+<script src="{% static 'admin/plugins/chartist-plugin-tooltips/js/chartist-plugin-tooltip.min.js' %}"></script>
+<!--  flot-chart js -->
+<script src="{% static 'admin/plugins/flot/js/jquery.flot.min.js' %}"></script>
+<script src="{% static 'admin/plugins/flot/js/jquery.flot.pie.js' %}"></script>
+<script src="{% static 'admin/plugins/flot/js/jquery.flot.resize.js' %}"></script>
+<script src="{% static 'admin/plugins/flot/js/jquery.flot.spline.js' %}"></script>
+<script src="{% static 'admin/plugins/flot/js/jquery.flot.init.js' %}"></script>
+<script src="{% static 'admin/plugins/sweetalert/js/sweetalert2.all.min.js' %}"></script>
+<script src="{% static 'admin/' %}plugins/owl.carousel/dist/js/owl.carousel.min.js"></script>
+
+
+    <script src="{% static "admin/js/dashboard/dashboard-1.js" %}"></script>
+
+    {% comment %} <script>
+      var photoImg = '<img src="{% static "mapping/leaflet/images/bansos.jpg" %}" height="150px""/>';
+      var locations = [
+          ["<b>Elon</b><br> Menerima sebanyak 3 kali<br> Tanggal terakhir menerima : 27 Oktober 2022<br> "+photoImg, -7.385735, 109.36043],
+          ["<b>Ariana</b><br> Menerima sebanyak 2 kali<br> Tanggal terakhir menerima : 27 Oktober 2022<br> "+photoImg, -7.3110, 109.3486],
+          ["<b>Justin</b><br> Menerima sebanyak 1 kali<br> Tanggal terakhir menerima : 27 Oktober 2022<br> "+photoImg, -7.2986, 109.3637],
+          ["<b>Mendes</b><br> Menerima sebanyak 2 kali<br> Tanggal terakhir menerima : 27 Oktober 2022<br> "+photoImg, -7.3053, 109.3571],
+          ["<b>Camilla</b><br> Menerima sebanyak 1 kali<br> Tanggal terakhir menerima : 27 Oktober 2022<br> "+photoImg, -7.3277, 109.3585],
+          ["<b>Bruno</b><br> Menerima sebanyak 1 kali<br> Tanggal terakhir menerima : 27 Oktober 2022<br> "+photoImg, -7.4277, 109.3369],
+          ["<b>Nicki</b><br> Menerima sebanyak 3 kali<br> Tanggal terakhir menerima : 27 Oktober 2022<br> "+photoImg, -7.4058, 109.3413],
+          ];
+      var map = L.map('map').setView([-7.3653, 109.3707], 12);
+
+      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      }).addTo(map);
+
+      
+      for (var i = 0; i < locations.length; i++) {
+          marker = new L.marker([locations[i][1], locations[i][2]])
+            .bindPopup(locations[i][0])
+            .addTo(map);
+      }
+    </script> {% endcomment %}
+    <script type="text/javascript">
+      $('.show_confirm').click(function(event) {
+        var form =  $(this).closest("form");
+        var name = $(this).data("name");
+        event.preventDefault();
+       Swal.fire({
+          title: 'Apakah anda yakin menghapus data ini?',
+          text: "Data yang sudah dihapus tidak dapat dikembalikan",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#d33',
+          cancelButtonColor: '#3085d6',
+          confirmButtonText: 'Ya, hapus data!'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            Swal.fire(
+              'Terhapus!',
+              'Data sudah terhapus.',
+              'success'
+              )
+              form.submit();
+          }
+        })    
+      });    
+      $('#tabel-dtks').DataTable();
+
+    if(document.URL.indexOf("/c/") >= 0){ 
+        $('.clustering').addClass("in active");
+    }
+    </script>
+  {% block footer %}
+  
+  {% endblock footer %}
+</html>

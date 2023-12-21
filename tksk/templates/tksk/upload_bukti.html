@@ -1,0 +1,97 @@
+{% extends 'base_tksk.html' %}
+{% load static %}
+{% block head %}
+
+{% endblock head %}
+
+
+
+{% block body %}
+<style>
+
+    .dropzone{
+       width:100%;
+       height:100%;
+       border:2px dashed #ccc;
+       color:#ccc;
+       line-height:300px;
+       text-align:center;
+    
+     }
+    .dropzone.dragover{
+        border-color:#000;
+        color:#000;
+     }
+</style>
+
+<div class="content-body">
+
+    <div class="container-fluid mt-3">
+        
+        <div class="row">
+            <div class="col-xl-6 col-lg-12 col-sm-12 col-xxl-12">
+                {% if messages %}
+                    {% for message in messages %}
+                        {% if message.tags == 'success' %}
+                            <div class="alert alert-success alert-dismissible fade show">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span>
+                            </button>{{message}}</div>
+                        {% elif message.tags == 'error' %}
+                            <div class="alert alert-danger alert-dismissible fade show">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span>
+                            </button>{{message}}</div>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title mb-4" style="color:#063970; font-weight:bold;">Upload Bukti Penerimaan Bantuan Sosial</h4>
+                        <div class="basic-form">
+                            <form method="POST" class="" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <div class="form-row">
+                                    <div class="form-group col-md-5">
+                                        <select class="form-control" id="id" name="id"  style="border-color: #063970;border-radius: 10px;color: #063970" required>
+                                            <option>--Pilih Penerima--</option>
+                                            {% for i in penerima %}
+                                            <option value="{{i.id}}">{{i.anggota.nama_art}} -- {{i.bansos.nama_bansos}}</option>
+                                            {% endfor %} 
+                                        </select>
+                                    </div>
+                                    {% comment %} <div class="form-group col-md-3">
+                                        <select class="form-control" id="bansosddl"  style="border-color: #063970;border-radius: 10px;color: #063970">
+                                            <option>-------</option>
+                                            {% for x in penerima %}
+                                            <option value="{{x.bansos.id}}">{{x.bansos.nama_bansos}}</option>
+                                            {% endfor %} 
+                                        </select>
+                                    </div> {% endcomment %}
+                                    
+                                </div>
+                                <div class="form-row " >
+                                    <div class="form-group col-md-12">
+                                        <input type="file" class="" id="bukti" name="bukti" required>
+                                    </div>
+                                </div>
+                                <div class="form-row " >
+                                    <div class="form-group col-md-12">
+                                        <button class="btn btn-dark" type="submit" style="border-color:#063970;border-radius:10px;background-color:#063970;">Submit</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        
+                    </div>        
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- #/ container -->
+</div>
+{% endblock body %}
+
+{% block footer %}
+{% endblock footer %}
+
+
+

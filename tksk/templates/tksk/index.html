@@ -1,0 +1,221 @@
+{% extends 'base_tksk.html' %}
+{% load static %}
+{% block head %}
+
+{% endblock head %}
+
+
+{% block body %}
+<!--**********************************
+            Content body start
+        ***********************************-->
+        <div class="content-body">
+
+            <div class="container-fluid mt-3">
+                <div class="row">
+                    {% if messages %}
+                        {% for message in messages %}
+                        <div class="col-12 mb-5">
+                            <div class="alert alert-{{ message.tags }} alert-dismissible fade show mt-3" style="margin-bottom:-20px;">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span>
+                            </button>{{message}}</div>
+                        </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                <div class="row carousel-row">
+                    <div class="owl-carousel owl-theme col-12" id="owl-carousel">
+                      <div class="item">
+                        <div class="card">
+                            <div class="card-body p-3">
+                                <div class="row">
+                                    <div class="col-9">
+                                        <p class="text-sm mb-1 text-capitalize">Jumlah PMKS</p>
+                                        <h4 class="text-black font-weight-bold">{{count_pmks}}</h4>
+                                    </div>
+                                    <div class="col-3">
+                                    <i class="display-7 material-icons float-right blue-logo">escalator_warning</i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                      </div>
+                      <div class="item">
+                        <div class="card">
+                            <div class="card-body p-3">
+                                <div class="row">
+                                    <div class="col-9">
+                                        <p class="text-sm mb-1 text-capitalize">Bansos Disabilitas</p>
+                                        <h4 class="text-black font-weight-bold">{{count_disabilitas_diterima}}<span class="ml-1" style="font-size:12px;color:darkred;">(ditolak)</span></h4>
+                                    </div>
+                                    <div class="col-3">
+                                    <i class="display-7 material-icons float-right blue-logo">accessible</i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                      </div>
+                      <div class="item">
+                        <div class="card">
+                            <div class="card-body p-3">
+                                <div class="row">
+                                    <div class="col-9">
+                                        <p class="text-sm mb-1 text-capitalize">Bansos Disabilitas</p>
+                                        <h4 class="text-black font-weight-bold">{{count_disabilitas_diterima}}<span class="ml-1" style="font-size:12px;color:darkgreen;">(diterima)</span></h4>
+                                    </div>
+                                    <div class="col-3">
+                                    <i class="display-7 material-icons float-right blue-logo">accessible</i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                      </div>
+                      <div class="item">
+                        <div class="card">
+                            <div class="card-body p-3">
+                                <div class="row">
+                                    <div class="col-9">
+                                        <p class="text-sm mb-1 text-capitalize">Bansos Lansia</p>
+                                        <h4 class="text-black font-weight-bold">{{count_lansia_ditolak}}<span class="ml-1" style="font-size:12px;color:darkred;">(ditolak)</span></h4>
+                                    </div>
+                                    <div class="col-3">
+                                    <i class="display-7 material-icons float-right blue-logo">elderly</i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                      </div>
+                      <div class="item">
+                        <div class="card">
+                            <div class="card-body p-3">
+                                <div class="row">
+                                    <div class="col-9">
+                                        <p class="text-sm mb-1 text-capitalize">Bansos Lansia</p>
+                                        <h4 class="text-black font-weight-bold">{{count_lansia_diterima}}<span class="ml-1" style="font-size:12px;color:darkgreen;">(diterima)</span></h4>
+                                    </div>
+                                    <div class="col-3">
+                                    <i class="display-7 material-icons float-right blue-logo">elderly</i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                      </div>
+                      <div class="item">
+                        <div class="card">
+                            <div class="card-body p-3">
+                                <div class="row">
+                                    <div class="col-9">
+                                        <p class="text-sm mb-1 text-capitalize">Alat Bantu Disabilitas</p>
+                                        <h4 class="text-black font-weight-bold">{{count_alat_bantu_ditolak}}<span class="ml-1" style="font-size:12px;color:darkred;">(ditolak)</span></h4>
+                                    </div>
+                                    <div class="col-3">
+                                    <i class="display-7 material-icons float-right blue-logo">wheelchair_pickup</i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                      </div>
+                      <div class="item">
+                        <div class="card">
+                            <div class="card-body p-3">
+                                <div class="row">
+                                    <div class="col-9">
+                                        <p class="text-sm mb-1 text-capitalize">Alat Bantu Disabilitas</p>
+                                        <h4 class="text-black font-weight-bold">{{count_alat_bantu_diterima}}<span class="ml-1" style="font-size:12px;color:darkgreen;">(diterima)</span></h4>
+                                    </div>
+                                    <div class="col-3">
+                                    <i class="display-7 material-icons float-right blue-logo">wheelchair_pickup</i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+
+
+
+                <div class="row">
+                <div class="col-xl-6 col-lg-12 col-sm-12 col-xxl-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title text-blue">Grafik PMKS dan Penerima Bansos Kecamatan {{user.location}}</h4>
+                            {% comment %} <div id="flotArea2" class="flot-chart"></div> {% endcomment %}
+                            <canvas id="chart" width="500" height="150"></canvas>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        <!-- container -->
+    </div>
+    <!--**********************************
+            Content body end
+        ***********************************-->
+
+{% endblock body %}
+
+{% block footer %}
+<script>
+    $(document).ready(function () {
+      var owl = $("#owl-carousel");
+      owl.owlCarousel({
+        margin: 25,
+        loop: false,
+        autoplay: false,
+        nav: true,
+        autoplayTimeout: false,
+        dots:false,
+        responsive: {
+          0: {
+            items: 1,
+          },
+          600: {
+            items: 1,
+          },
+          1000: {
+            items: 4,
+          },
+        },
+      });
+    });
+  </script>
+<script>
+let ctx = document.getElementById("chart").getContext("2d");
+
+let chart = new Chart(ctx, {
+  type: "bar",
+  data: {
+     labels: [{%for tahun in tahun%}'{{tahun}}',{%endfor%}],
+     datasets: [
+        {
+          label: "PMKS",
+          backgroundColor: "#f7e70e",
+          hoverBackgroundColor: "#f5e61d",
+          borderColor: "#f5e61d",
+          data: [{%for pmks in pmks%}'{{pmks}}',{%endfor%}]
+        },
+        {
+            label: "Penerima",
+            backgroundColor: "rgba(0, 97, 242, 1)",
+            hoverBackgroundColor: "rgba(0, 97, 242, 0.9)",
+            borderColor: "#4e73df",
+            data: [{%for penerima in penerima%}'{{penerima}}',{%endfor%}]
+        },
+     ]
+  },
+  options: {
+     scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true,
+            min: 0
+          }    
+        }]
+      }
+  }
+});
+</script>
+
+{% endblock footer %}
